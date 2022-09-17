@@ -1,0 +1,44 @@
+version: "3.1"
+services:
+  www:
+    build: .
+    environment:
+      - APACHE_RUN_USER=agility
+      - APACHE_RUN_GROUP=agility
+    ports:
+      - "${PORT:-443}:443"
+    volumes:
+      - ./agility:/var/www/html/agility
+      - ${CONFIG_DIR:-./config}:/var/www/html/config
+      - ${LOGS_DIR:-./logs}:/var/www/html/logs
+    links:
+      - db
+    networks:
+      - default
+  db:
+    image: mysql:5
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: agility
+      MYSQL_USER: agility_operator
+      MYSQL_PASSWORD: operator@cachorrera
+      MYSQL_ROOT_PASSWORD: admin@cachorrera
+    volumes:
+      - ./extras/agility.sql:/docker-entrypoint-initdb.d/agility.sql
+      - ./extras/users.sql:/docker-entrypoint-initdb.d/users.sql
+      - ./extras/mysql.cnf:/etc/mysql/conf.d/my.cnf
+      - persistent:/var/lib/mysql
+    networks:
+      - default
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - db:db
+    ports:
+      - 8000:80
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: admin@cachorrera
+      MYSQL_ROOT_PASSWORD: admin@cachorrera
+volumes:
+  persistent:

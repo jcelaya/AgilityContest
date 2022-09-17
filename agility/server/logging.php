@@ -98,7 +98,9 @@ ini_set('display_errors', 'On');
 ini_set('html_errors', 0);
 // track erros and write to own log file
 ini_set("log_errors","On");
-ini_set("error_log",__DIR__."/../../logs/trace.log");
+if (getenv('CONTAINER') !== 'true') {
+	ini_set("error_log",__DIR__."/../../logs/trace.log");
+}
 // on MAC-OSX tmpdir is set to login user tmp directory.
 // As xampp runs as user 'daemon', write permission to this 'tmp' directory fails.
 // so make sure to set a valid tmp directory for everyone. A bit risky, but works
