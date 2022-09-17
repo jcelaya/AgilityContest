@@ -561,7 +561,7 @@ function list_isMember($item,$list="BEGIN,END") {
 // also used as tcp ping test
 function isNetworkAlive(){
     $starttime = microtime(true);
-    $file      = @fsockopen ("185.129.248.76" /* www.agilitycontest.es */, 80, $errno, $errstr, 10);
+    $file      = @fsockopen ("www.google.es", 80, $errno, $errstr, 10);
     $stoptime  = microtime(true);
     if (!$file) return -1;  // Site is down
     fclose($file);
@@ -871,6 +871,7 @@ function createNumberedBall($color,$bgcolor,$number) {
  * @param {object} $logger Logger object
  */
 function inMasterServer($config,$logger=null) {
+    if ($config->getEnv('master_server') === '') return false;
     // first of all, check internet conectivity
     if (isNetworkAlive()<0) return false;
     // compare IP's as reverse lookup may fail in some servers
