@@ -33,7 +33,7 @@ require_once(__DIR__."/dialogs/dlg_newInscripcion.inc");
 require_once(__DIR__."/dialogs/dlg_editInscripcion.inc");
 $config =Config::getInstance();
 ?>
-<div  style="width:100%;height:550px">
+<div  style="width:100%;height:100%">
 
 	<!-- PANEL INFORMATIVO SOBRE LA PRUEBA Y JORNADAS ASOCIADAS -->
 <div id="inscripciones-infolayout" class="easyui-layout" data-options="fit:true,border:true" style="padding:10px;">

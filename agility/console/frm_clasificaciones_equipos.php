@@ -24,7 +24,7 @@ include_once(__DIR__ . "/../console/templates/scores_mail.inc.php");
 ?>
 
 <!-- CLASIFICACIONES DE PRUEBA/JORNADA/RONDA -->
-<div id="resultados-info" style="width:100%;height:550px">
+<div id="resultados-info" style="width:100%;height:100%">
 	<div id="resultados-infolayout" class="easyui-layout" data-options="fit:true,border:true" style="padding:10px;">
 
         <!-- PANEL IZQUIERDO: DATOS DE LA PRUEBA -->

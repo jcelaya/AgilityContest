@@ -22,7 +22,7 @@ $config =Config::getInstance();
 ?>
  
 <!-- TABLA DE jquery-easyui para listar y editar la BBDD DE GUIAS -->
-<div style="width:975px;height:550px;padding:5px">
+<div style="width:100%;height:100%;padding:5px">
     <!-- DECLARACION DE LA TABLA -->
     <table id="guias-datagrid">  </table>
 </div>

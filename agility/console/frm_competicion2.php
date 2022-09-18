@@ -68,7 +68,7 @@ switch(http_request("tipo","s","std")) {
 ?>
  	
 <!-- PANEL INFORMATIVO SOBRE LA MANGAS DE ESTA JORNADA -->
-<div id="competicion_info" style="width:100%">
+<div id="competicion_info" style="width:100%;height:100%">
 
     <header style="width:100%">
         <span id="competicion_info_title" style="font-weight:bold;text-align:left;display:inline-block;width:50%">Titulo</span>
@@ -126,7 +126,7 @@ switch(http_request("tipo","s","std")) {
         </span>
     </header>
 	<!-- paneles de lista de mangas y datos de cada manga -->
-	<div id="competicion_infolayout" class="easyui-layout" style="height:450px">
+	<div id="competicion_infolayout" class="easyui-layout" style="height:100%">
 		<div data-options="region:'west',title:'<?php _e('Journey rounds');?>',split:true,collapsed:false" style="width:20%">
 			<!-- Tabla que contiene la lista de Mangas de la jornada -->
 			<table id="competicion-listamangas" style="padding:20px"></table>

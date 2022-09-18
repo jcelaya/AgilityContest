@@ -23,7 +23,7 @@ require_once(__DIR__."/../server/auth/Config.php");
 require_once(__DIR__."/../server/tools.php");
 $config =Config::getInstance();
 ?>
-<div style="width:100%;height:550px;">
+<div style="width:100%;height:100%;">
     <!-- DECLARACION DE LA TABLA -->
     <table id="countries-datagrid"></table>
 </div>

@@ -22,7 +22,7 @@ $config =Config::getInstance();
 ?>
 
 <!-- TABLA DE jquery-easyui para listar y editar la BBDD DE PERROS -->
-<div style="width:100%;height:550px;">
+<div style="width:100%;height:100%;">
     <!-- DECLARACION DE LA TABLA -->
     <table id="perros-datagrid"></table>
 </div>    
