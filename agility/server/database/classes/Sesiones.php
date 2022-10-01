@@ -52,7 +52,7 @@ class FileSessionHandler {
     private $savePath;
 
     function open($savePath, $sessionName)  {
-        $this->savePath = $savePath;
+        $this->savePath = $savePath == "" ? "/tmp" : $savePath;
         if (!is_dir($this->savePath)) {
             mkdir($this->savePath, 0777);
         }
