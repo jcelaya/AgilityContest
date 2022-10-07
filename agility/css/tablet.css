@@ -69,6 +69,8 @@ input.tablet_info {
 .tablet_button:active {
 	-webkit-filter: brightness(60%);
 	filter: brightness(60%);
+	margin-top: 2px;
+	margin-left: 2px;
 }
 
 .tb_fnkey {
