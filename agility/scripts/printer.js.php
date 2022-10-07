@@ -627,7 +627,7 @@ function print_commonDesarrollo(def,cb) {
  * Imprime Podium (1) o clasificacion General (0)
  *
  */
-function clasificaciones_printGlobal(podium,merge) {
+function clasificaciones_printGlobal(podium,merge,onlyMaster) {
 	var ronda=$('#resultados-info-ronda').combogrid('grid').datagrid('getSelected');
 	var url='../ajax/pdf/print_podium.php';
 	var msgtag=(podium==0)?"( Global )":"( Podium )";
@@ -653,7 +653,8 @@ function clasificaciones_printGlobal(podium,merge) {
                 Manga8:ronda.Manga8,
 				Rondas: ronda.Rondas,
                 Podium: podium,
-                Merge: merge
+                Merge: merge,
+                CatGuia: onlyMaster?'A':''
 			},
 	        preparingMessageHtml:msgtag+' <?php _e("We are preparing your report, please wait"); ?> ...',
 	        failMessageHtml:msgtag+' <?php _e("There was a problem generating your report, please try again."); ?>'
@@ -777,7 +778,7 @@ function clasificaciones_printHallOfFame(jornadas) {
  * @param {int} force 0..1  On team-3 force print of individual scores
  * @return false
  */
-function clasificaciones_printClasificacion(stats,children,force) {
+function clasificaciones_printClasificacion(stats,children,force,onlyMaster) {
 	var ronda=$('#resultados-info-ronda').combogrid('grid').datagrid('getSelected');
 	var url='../ajax/pdf/print_clasificacion.php';
     if (isJornadaEqMejores() && (force===0)) url='../ajax/pdf/print_clasificacion_equipos.php';
@@ -808,7 +809,8 @@ function clasificaciones_printClasificacion(stats,children,force) {
 				Rondas: ronda.Rondas,
 				Mode: mode,
                 Stats: stats,
-                Children: children
+                Children: children,
+                CatGuia: onlyMaster?'A':''
 			},
 	        preparingMessageHtml: '(scores) <?php _e("We are preparing your report, please wait"); ?> ...',
 	        failMessageHtml:'(scores) <?php _e("There was a problem generating your report, please try again."); ?>'
@@ -868,6 +870,7 @@ function clasificaciones_doPrint() {
     var children=$('#r_children').prop('checked');
     var global=$('#r_global').prop('checked');
     var merge=$('#r_mergecats').combobox('getValue');
+    var onlyMaster=$('#r_onlygrad').prop('checked');
     var jornadas=$('#r_journeys').combogrid('getValues').join(",");
 	$('#resultados-printDialog').dialog('close');
     var mode=$('#resultados-selectCategoria').combobox('getValue');
@@ -876,13 +879,13 @@ function clasificaciones_doPrint() {
         return false; // no way to know which ronda is selected
     }
 	switch(parseInt(r)) {
-		case 0: /* podium */ clasificaciones_printGlobal(1,merge); break;
+		case 0: /* podium */ clasificaciones_printGlobal(1,merge,onlyMaster); break;
 		case 1: /* csv */ clasificaciones_printEtiquetas(0,line,'',false,global); break; // csv
         case 3: /* excel */ clasificaciones_printCanina(); break;
         case 6: /* mejores prueba */ clasificaciones_printHallOfFame(jornadas); break;
-        case 7: /* individual on team3 */  clasificaciones_printClasificacion((prstats)?1:0,(children)?1:0,1); break;
-        case 8: /* Global del grado */ clasificaciones_printGlobal(0,merge); break;
-		case 4: /* pdf */ clasificaciones_printClasificacion((prstats)?1:0,(children)?1:0,0); break;
+        case 7: /* individual on team3 */  clasificaciones_printClasificacion((prstats)?1:0,(children)?1:0,1,onlyMaster); break;
+        case 8: /* Global del grado */ clasificaciones_printGlobal(0,merge,onlyMaster); break;
+		case 4: /* pdf */ clasificaciones_printClasificacion((prstats)?1:0,(children)?1:0,0,onlyMaster); break;
 		case 5: /* forms cneac */ clasificaciones_printEtiquetas(2,line,list,discriminate,global); break;
         case 2: /* labels rsce */ clasificaciones_printEtiquetas(1,line,list,discriminate,global); break;
         case 9: /* labels rfec */ clasificaciones_printEtiquetas(3,line,list,discriminate,global); break;

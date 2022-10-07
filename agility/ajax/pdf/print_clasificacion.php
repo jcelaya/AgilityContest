@@ -47,8 +47,10 @@ try {
 	$mode=http_request("Mode","i","0");
     $stats=http_request("Stats","i","0");
     $children=http_request("Children","i","0");
+    $catGuia=http_request("CatGuia","s",""); // filtrar por categoria del guia
+
 	$c= Competitions::getClasificacionesInstance("print_clasificacion_pdf",$jornada);
-	$result=$c->clasificacionFinal($rondas,$mangas,$mode);
+	$result=$c->clasificacionFinal($rondas,$mangas,$mode,$catGuia);
 	// en caso de manga junior y children true separamos infantil de juvenil
     $split= ( ($children!==0) && ($rondas&16384)!==0 )?1:0;
 	// Creamos generador de documento

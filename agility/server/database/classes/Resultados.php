@@ -713,13 +713,16 @@ class Resultados extends DBObject {
 	 *@param {integer} $mode 0:L 1:M 2:S 3:MS 4:LMS 5:T 6:L+M 7:S+T 8:L+M+S+T 9:X 10:X+L 11:M+S+T 12:X+L+M+S+T
 	 *@return {array} requested data or error
 	 */
-	function getResultadosIndividual($mode) {
+	function getResultadosIndividual($mode, $catGuia = "") {
 		$this->myLogger->enter();
 		$idmanga=$this->IDManga;
 		
 		// FASE 0: en funcion del tipo de recorrido y modo pedido
 		// ajustamos el criterio de busqueda de la tabla de resultados
 		$where="(Manga=$idmanga) AND (Pendiente=0) AND (perroguiaclub.ID=resultados.Perro) ";
+        if ($catGuia != "") {
+            $where .= "AND (perroguiaclub.CatGuia='$catGuia') ";
+        }
 		$cat="";
 		// mode 12 is XLMST
         $heights=$this->mangaInfo->Competition->getRoundHeights($this->mangaInfo->Manga->ID);

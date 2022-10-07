@@ -106,10 +106,10 @@ include_once(__DIR__ . "/../console/templates/scores_mail.inc.php");
         <span style="float:left">
             <input type="radio" name="r_prformat" value="8" onclick="r_selectOption(8);"/><?php _e('Global Scores'); ?> (PDF)<br />
         </span>
-        <span style="float:right" id="r_mergecats_span"style="display:none"> <!-- changed in runtime -->
-            <label id="r_mergecatsLbl" for="r_mergecats"><?php _e('Combine sub-categories'); ?></label>
-            <select id="r_mergecats" style="width:125px" name="r_mergecats" class="easyui-combobox"></select>
-        </span>
+		<span style="float:right" id="r_mergecats_span" style="display:none"> <!-- changed in runtime -->
+			<label id="r_mergecatsLbl" for="r_mergecats"><?php _e('Combine sub-categories'); ?></label>
+			<select id="r_mergecats" style="width:125px" name="r_mergecats" class="easyui-combobox"></select>
+		</span>
     </span>
     <span  style="display:inline-block;width:100%">
 		<span style="float:left">
@@ -124,6 +124,11 @@ include_once(__DIR__ . "/../console/templates/scores_mail.inc.php");
                 <label id="r_childrenlbl" for="r_children"><?php _e('Split Children/Junior'); ?></label>
                 <input id="r_children" style="width:78px" name="r_children" class="easyui-checkbox" type="checkbox" value="1" checked="checked"/>
             </span>
+            <br/>
+			<span id="r_onlygrad_span">
+				<label id="r_onlygradLbl" for="r_onlygrad">Mostrar solo master</label>
+                <input id="r_onlygrad" style="width:78px" name="r_onlygrad" class="easyui-checkbox" type="checkbox" value="1" checked="checked"/>
+			</span>
         </span>
 	</span>
     <br />&nbsp;<hr /><br/>

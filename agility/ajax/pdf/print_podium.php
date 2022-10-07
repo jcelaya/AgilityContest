@@ -67,6 +67,7 @@ try {
     $podium=http_request("Podium","i",0); // 0:general-completa 1:Podium-3primeros
     // usado en cinco alturas cuando se quiere sacar listados mezclando alturas pero conservando el TRS de cada una
     $merge=http_request("Merge","i",0); // 0:separado 1:dos_grupos 3:tres_grupos 2:conjunto ( Recorrido )
+    $catGuia=http_request("CatGuia","s",""); // filtrar por categoria del guia
 	
 	// buscamos los recorridos asociados a la manga
     $mangasInfo=Mangas::getMangaInfo($mangas[0]);
@@ -76,24 +77,24 @@ try {
 	$heights=$mangasInfo->Competition->getRoundHeights($mangas[0]); // same heights for every round
 	switch($mangasInfo->Manga->Recorrido) {
 		case 0: // recorridos separados xlarge large medium small toy
-			$l=$c->clasificacionFinal($rondas,$mangas,0);
-			$m=$c->clasificacionFinal($rondas,$mangas,1);
-			$s=$c->clasificacionFinal($rondas,$mangas,2);
+			$l=$c->clasificacionFinal($rondas,$mangas,0,$catGuia);
+			$m=$c->clasificacionFinal($rondas,$mangas,1,$catGuia);
+			$s=$c->clasificacionFinal($rondas,$mangas,2,$catGuia);
             if ($heights==3) {
                 $result[] = pp_getArray(0,$l);
                 $result[] = pp_getArray(1,$m);
                 $result[] = pp_getArray(2,$s);
             }
             if ($heights==4) {
-                $t=$c->clasificacionFinal($rondas,$mangas,5);
+                $t=$c->clasificacionFinal($rondas,$mangas,5,$catGuia);
                 $result[] = pp_getArray(0,$l);
                 $result[] = pp_getArray(1,$m);
                 $result[] = pp_getArray(2,$s);
                 $result[] = pp_getArray(5,$t);
             }
             if ($heights==5) {
-                $t=$c->clasificacionFinal($rondas,$mangas,5);
-                $x = $c->clasificacionFinal($rondas, $mangas, 9);
+                $t=$c->clasificacionFinal($rondas,$mangas,5,$catGuia);
+                $x = $c->clasificacionFinal($rondas, $mangas, 9,$catGuia);
                 $result[] = pp_getArray(9,$x);
                 $result[] = pp_getArray(0,$l);
                 $result[] = pp_getArray(1,$m);
@@ -110,42 +111,42 @@ try {
 			break;
         case 1: // dos grupos: (l+ms) (lm+st) (xl+mst)
 			if ($heights==3) {
-				$l=$c->clasificacionFinal($rondas,$mangas,0);
-				$ms=$c->clasificacionFinal($rondas,$mangas,3);
+				$l=$c->clasificacionFinal($rondas,$mangas,0,$catGuia);
+				$ms=$c->clasificacionFinal($rondas,$mangas,3,$catGuia);
                 $result[] = pp_getArray(0,$l);
                 $result[] = pp_getArray(3,$ms);
 			}
 			if ($heights==4) {
-				$lm=$c->clasificacionFinal($rondas,$mangas,6);
-				$st=$c->clasificacionFinal($rondas,$mangas,7);
+				$lm=$c->clasificacionFinal($rondas,$mangas,6,$catGuia);
+				$st=$c->clasificacionFinal($rondas,$mangas,7,$catGuia);
                 $result[] = pp_getArray(6,$lm);
                 $result[] = pp_getArray(7,$st);
 			}
 			if ($heights==5) {
-                $xl=$c->clasificacionFinal($rondas,$mangas,10);
-                $mst=$c->clasificacionFinal($rondas,$mangas,11);
+                $xl=$c->clasificacionFinal($rondas,$mangas,10,$catGuia);
+                $mst=$c->clasificacionFinal($rondas,$mangas,11,$catGuia);
                 $result[] = pp_getArray(10,$xl);
                 $result[] = pp_getArray(11,$mst);
             }
 			break;
 		case 2: // recorrido conjunto xlarge-large+medium+small+toy
 			if ($heights==3) {
-				$lms=$c->clasificacionFinal($rondas,$mangas,4);
+				$lms=$c->clasificacionFinal($rondas,$mangas,4,$catGuia);
                 $result[] = pp_getArray(4,$lms);
 			}
 			if ($heights==4){
-				$lmst=$c->clasificacionFinal($rondas,$mangas,8);
+				$lmst=$c->clasificacionFinal($rondas,$mangas,8,$catGuia);
                 $result[] = pp_getArray(8,$lmst);
 			}
 			if ($heights==5) {
-                $xlmst=$c->clasificacionFinal($rondas,$mangas,12);
+                $xlmst=$c->clasificacionFinal($rondas,$mangas,12,$catGuia);
                 $result[] = pp_getArray(12,$xlmst);
             }
 			break;
         case 3: // tres grupos. Xlarge-Large Medium Small-Toy implica $heights==5
-            $xl=$c->clasificacionFinal($rondas,$mangas,10);
-            $m=$c->clasificacionFinal($rondas,$mangas,1);
-            $st=$c->clasificacionFinal($rondas,$mangas,7);
+            $xl=$c->clasificacionFinal($rondas,$mangas,10,$catGuia);
+            $m=$c->clasificacionFinal($rondas,$mangas,1,$catGuia);
+            $st=$c->clasificacionFinal($rondas,$mangas,7,$catGuia);
             $result[] = pp_getArray(10,$xl);
             $result[] = pp_getArray(1,$m);
             $result[] = pp_getArray(7,$st);

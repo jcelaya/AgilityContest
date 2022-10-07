@@ -622,9 +622,10 @@ class Clasificaciones extends DBObject {
 	 * @param {integer} $rondas bitfield Jornadas::$tipo_ronda
 	 * @param {array[{integer}]} $idmangas array con los ID's de las mangas a evaluar
 	 * @param {integer} $mode Modo 0:L 1:M 2:S 3:M+S 4:L+M+S 5:T 6:L+M 7:S+T 8:L+M+S+T 9:X 10:X+L 11:M+S+T 12:X+L+M+S+T
+     * @param {string} $catGuia filtrar por categoria del guia
      * @return {array} final clasification data
 	 */
-	function clasificacionFinal($rondas,$idmangas,$mode) {
+	function clasificacionFinal($rondas,$idmangas,$mode,$catGuia = "") {
 
         $c8=null;$c7=null;$c6=null;$c5=null;$c4=null;$c3=null;$c2=null;$c1=null;
 		// vamos a ver que tipo de clasificacion nos estan pidiendo
@@ -658,8 +659,8 @@ class Clasificaciones extends DBObject {
             case 0x20000: // 131072- ParaAgility
 				$r1=Competitions::getResultadosInstance("Clasificaciones Ronda:$rondas manga:{$idmangas[0]}",$idmangas[0]); // Agility
 				$r2=Competitions::getResultadosInstance("Clasificaciones Ronda:$rondas manga:{$idmangas[1]}",$idmangas[1]); // Jumping
-				$c1=$r1->getResultadosIndividual($mode);
-				$c2=$r2->getResultadosIndividual($mode);
+				$c1=$r1->getResultadosIndividual($mode,$catGuia);
+				$c2=$r2->getResultadosIndividual($mode,$catGuia);
                 return $this->evalFinal($idmangas,$c1,$c2,$c3,$c4,$c5,$c6,$c7,$c8);
 				break;
 			case 0x0018: // 24- Conjunta GII - GIII
