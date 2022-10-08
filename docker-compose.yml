@@ -8,9 +8,9 @@ services:
     ports:
       - "${PORT:-443}:443"
     volumes:
-      - ./agility:/var/www/html/agility
-      - ${CONFIG_DIR:-./config}:/var/www/html/config
-      - ${LOGS_DIR:-./logs}:/var/www/html/logs
+      - ./agility:/var/www/html/agility:z
+      - ${CONFIG_DIR:-./config}:/var/www/html/config:z
+      - ${LOGS_DIR:-./logs}:/var/www/html/logs:z
     links:
       - db
     networks:
@@ -24,9 +24,9 @@ services:
       MYSQL_PASSWORD: operator@cachorrera
       MYSQL_ROOT_PASSWORD: admin@cachorrera
     volumes:
-      - ./extras/agility.sql:/docker-entrypoint-initdb.d/agility.sql
-      - ./extras/users.sql:/docker-entrypoint-initdb.d/users.sql
-      - ./extras/mysql.cnf:/etc/mysql/conf.d/my.cnf
+      - ./extras/agility.sql:/docker-entrypoint-initdb.d/agility.sql:z
+      - ./extras/users.sql:/docker-entrypoint-initdb.d/users.sql:z
+      - ./extras/mysql.cnf:/etc/mysql/conf.d/my.cnf:z
       - persistent:/var/lib/mysql
     networks:
       - default
