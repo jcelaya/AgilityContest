@@ -163,7 +163,7 @@ function acceptLogin() {
                     height: 'auto',
                     fn: function() {
                         // if configured try to load latest news from agilitycontest.es
-                        if (ac_config.console_news) {
+                        if (ac_config.console_news != "0") {
                             loadContents('../console/frm_news.php','<?php _e('Latest news');?>');
                         }
                     },
