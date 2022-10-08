@@ -16,7 +16,7 @@ services:
     networks:
       - default
   db:
-    image: mysql:5
+    image: mariadb:10.3
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_DATABASE: agility
