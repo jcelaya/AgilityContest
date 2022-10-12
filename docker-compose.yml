@@ -24,7 +24,7 @@ services:
       MYSQL_PASSWORD: operator@cachorrera
       MYSQL_ROOT_PASSWORD: admin@cachorrera
     volumes:
-      - ./extras/agility.sql:/docker-entrypoint-initdb.d/agility.sql:z
+      - ./extras/bare_bones.sql:/docker-entrypoint-initdb.d/bare_bones.sql:z
       - ./extras/users.sql:/docker-entrypoint-initdb.d/users.sql:z
       - ./extras/mysql.cnf:/etc/mysql/conf.d/my.cnf:z
       - persistent:/var/lib/mysql
