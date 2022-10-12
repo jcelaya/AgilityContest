@@ -12,6 +12,8 @@
 ;--- ANSI encoded is marked as "deprecated" so use this to avoid warns on compiler
 Unicode True
 
+!addplugindir Plugins/i386-unicode
+
 ;--------------------------------
 ;Include Modern UI
     !include "MUI2.nsh"
