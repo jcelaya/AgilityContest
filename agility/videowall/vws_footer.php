@@ -40,13 +40,13 @@ if ($file) {
         <tr><td colspan="3">&nbsp;</td></tr>
         <tr>
             <td style="text-align:center">
-                <a id="url_g0" target="sponsor" href=""> <img id="img_g0" src="../images/logos/null.png" alt="" height="40"/> </a>
+                <a id="url_g0" target="sponsor" href=""> <img id="img_g0" src="../images/logos/null.png" alt="" height="60"/> </a>
             </td>
             <td style="text-align:center">
-                <a id="url_g1" target="sponsor" href=""> <img id="img_g1" src="../images/logos/null.png" alt="" height="40"/> </a>
+                <a id="url_g1" target="sponsor" href=""> <img id="img_g1" src="../images/logos/null.png" alt="" height="60"/> </a>
             </td>
             <td style="text-align:center">
-                <a id="url_g2" target="sponsor" href=""> <img id="img_g2" src="../images/logos/null.png" alt="" height="40"/> </a>
+                <a id="url_g2" target="sponsor" href=""> <img id="img_g2" src="../images/logos/null.png" alt="" height="60"/> </a>
             </td>
         </tr>
         <!-- ignore bronze sponsors -->

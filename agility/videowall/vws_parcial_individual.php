@@ -226,10 +226,10 @@ if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth F
 
     // llamada a pista
     for (var n=0;n<8;n++) {
-        doLayout(layout,"#vws_call_Orden_"+n,   1,37+9*n,10,9);
-        doLayout(layout,"#vws_call_Logo_"+n,    11,37+9*n,8,9);
-        doLayout(layout,"#vws_call_Dorsal_"+n,  19,37+9*n,13,9);
-        doLayout(layout,"#vws_call_Nombre_"+n,  32,37+9*n,18,9);
+        doLayout(layout,"#vws_call_Orden_"+n,   1,37+9*n,6,9);
+        doLayout(layout,"#vws_call_Logo_"+n,    7,37+9*n,8,9);
+        doLayout(layout,"#vws_call_Dorsal_"+n,  15,37+9*n,9,9);
+        doLayout(layout,"#vws_call_Nombre_"+n,  24,37+9*n,26,9);
         doLayout(layout,"#vws_call_NombreGuia_"+n,50,37+9*n,42,9);
     }
     
