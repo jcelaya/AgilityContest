@@ -1,3 +1,6 @@
 .*
 target
 extra_pkg
+*.cw.dat
+*.cw127.php
+*.mtx.php
