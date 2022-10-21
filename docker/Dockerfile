@@ -15,8 +15,8 @@ RUN apt-get update && apt-get install -y sendmail libpng-dev libzip-dev zlib1g-d
 RUN a2enmod rewrite \
     && a2enmod ssl
 
-COPY extras/AgilityContest_docker.conf /etc/apache2/conf-enabled/
-COPY extras/entrypoint.sh /entrypoint.sh
+COPY AgilityContest.conf /etc/apache2/conf-enabled/
+COPY entrypoint.sh /entrypoint.sh
 COPY ChangeLog /var/www/html/
 COPY .htaccess /var/www/html/
 RUN sed -i -E 's;__AC_WEBNAME__(.?)/;;' /var/www/html/.htaccess

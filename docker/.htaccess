@@ -1,0 +1,78 @@
+# presuponemos que en el fichero de configuracion httpd.conf tenemos
+# AllowOverride All
+AddDefaultCharset UTF-8
+Options -Indexes +SymLinksIfOwnerMatch +Includes +ExecCGI
+DirectoryIndex index.php index.html
+
+# control de acceso. En principio se deja entrar desde cualquier IP
+# en www.agilitycontest.es hay que meter filtros de bots y similares
+<IfModule authz_core_module>
+		# Apache 2.4
+		Require all granted
+</IfModule>
+# obsoleto, pero se deja por compatibilidad
+<IfModule !authz_core_module>
+		# Apache 2.2
+		Order allow,deny
+		Allow from all
+</IfModule>
+
+# Uncomment on master server
+#<IfModule ssl_module>
+#        SSLVerifyClient optional
+#        SSLVerifyDepth 3
+#        # export certificate data to php files
+#        <FilesMatch "\.php$">
+#            SSLOptions +StdEnvVars +ExportCertData
+#        </FilesMatch>
+#</IfModule>
+
+# Configuracion de php5
+<IfModule php5_module>
+		AddType application/x-httpd-php .php
+		php_flag magic_quotes_gpc Off
+		php_flag track_vars On
+		php_flag register_globals Off
+		# php_admin_flag allow_url_fopen Off
+		php_value include_path .
+</IfModule>
+
+# reglas de re-escritura y control de acceso a la aplicacion
+<IfModule rewrite_module>
+    RewriteEngine On
+
+    # Redirect http to https:
+    RewriteCond %{HTTPS} off
+    RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # to maintain compatibility with 3.7.3 server requests
+    # need to rewrite "server/database/updater" to "ajax"
+    RewriteCond %{REQUEST_URI} /server/database/updater/updateRequest.php
+    RewriteRule ^(.*)$ /ajax/serverRequest.php [R=307,L]
+
+    # IMPORTANT:
+    # in master server install, remove chrono related lines
+    # and add "server" to list of forbidden directories
+
+    # let the Galican Chrono work using old URL
+    # Current chrono firmware does not handle redirect, so need to patch a fake url
+    # until chrono firmware gets properly updated
+    RewriteCond %{REQUEST_URI} /server/database/eventFunctions.php
+    RewriteRule ^(.*)$ - [L]
+    RewriteCond %{REQUEST_URI} /server/database/sessionFunctions.php
+    RewriteRule ^(.*)$ - [L]
+
+    # block access to critical directories and web directory
+    # "server" should also be blocked, but due to above rule cannot.
+    # This is a security risk to be fixed asap
+    RewriteCond %{REQUEST_URI} /(config|applications|build|extras|logs|xampp)/
+    RewriteRule ^(.*) - [F,L]
+
+    # block access to critical files:
+    RewriteCond %{REQUEST_URI} \.(htaccess|ini|info|log|conf|sql|pem)$
+    RewriteRule (.*)$ - [F,L]
+
+    # Redirect base to base/agility, unless already specified
+    RewriteCond %{REQUEST_URI} !^/__AC_WEBNAME__\/agility/
+    RewriteRule ^(.*)$ /__AC_WEBNAME__/agility/$1 [R=307,L]
+</IfModule>

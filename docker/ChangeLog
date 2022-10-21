@@ -1,0 +1,465 @@
+Version 4.6.3 20220131_1030
+    - Add support for RFEC Season 2022
+    - Fixes from previous version. replace obsolete php functions
+Version 4.6.2 20220127_2100
+    - Fix tandas categories in Selectivas RSCE
+    - Fix zipfile name on upgrade process to properly handle releases download from github
+    - Support for AccessControlList on competition modules
+    - Add support for RSCE Seaseon 2022
+    - Fixes from 4.6.1 (default hidden value for Grado I "/Agility/Jumping/Oder", error on group categories on print )
+    - Fixes for php-7/8
+Version 4.6.1 20211226_1200
+    - Add support for WAO 5-heights
+    - Reworked print inscriptions / catalogue to allow omit license/grade when federation does not require them
+    - Fixes on OrdenSalida and Assistant sheets. Now "not presented" indexing/splitting are properly handled
+Version 4.6.0 20211104_2300
+    - Multiple fixes in teams competitions
+    - OrdenSalida,Asistente PDF's: skip teams with "NotPresented" marked. Usefull for RFEC Teams
+    - Fixes on multilicense handling. Now Ctrl+Activate deletes selected licence
+    - Add Combo to change journey directly from competition window
+    - Multiple improvements in public and livestream dialogs
+Version 4.5.5 20211013_1845
+    - Fixes on printouts with some Team contests due to 5-height issues
+    - Fix several warnings in upgrade process
+    - Allow tablet/console in master server, but restrict by certificate
+    - Several layout and elements enable/disable related issues
+    - Fix LC_NUMERIC to be en_US.UTF-8 in linux/mac to properly handle floats
+    - Fix several javascript errors in videowall/public dialogs
+    - New file to handle "special rounds" and single round team finals in public access
+Version 4.5.4 20210927_1050
+    - Fixes on inscriptions ( let inscription/rounds work for special cases )
+    - Database updates
+    - Some fixes for 5-heights VideoWall
+Version 4.5.3 20210908_2030
+    - Livestream "perroenpista" enhancements
+    - Update database
+    - Fix multiple issues and copypasge bugs with Children/Junior/Senior rounds
+    - Fix warnings in excel import and upgrade code
+    - Fix missing Agility/Jumping flag in observaciones in Children/senior/Pa rounds
+Version 4.5.2 20210719_1900
+    - Multilicense handling support
+    - New "livestream" webapp "perroenpista"
+    - Typos and strings fixes
+Version 4.5.1 20210712_1930
+    - Fix: messager.password behavior ( do not fire onchange when focus lost )
+    - Fix: updater should handle new naming convention from github
+    - Change: new text for RSCE competitions to clarify modules (¿?)
+    - New: show version and release on top right of screen
+    - New: ctrl-upgrade to force release upgrade regardless version
+Version 4.5.0 20210707_1745
+    - Fix: Bugs in OrdenSalida,Results, and Training excel imports
+Version 4.5.0 20210706_1920
+    - Fix: Solve some problems in non-utf8 excel imports
+    - Fix: Support for 5-heights in team rounds
+    - Fix: Proper round names in RFEC
+    - Fix: check already inscribed dogs on journey changes
+    - Fix: RSCE statistics PDF with junior/senior/etc handlers
+    - Fix: Global result printouts when no TRS in some heights
+    - Fix: Replace grade with word "Open" in open round labels
+    - Change: Many logos and database updates
+    - Change: Fixed several duplicates ID in DOM
+    - Change: Force select options values from comboboxes
+    - Change: Hall of Fame: allow journey selection
+    - Change: Uniformize accept/cancel button positions across dialogs
+    - Change: Ask to save on changes in round data handling
+    - Change: Auto close news dialog when no new news
+    - Change: Optimized eval calification in partial scores
+    - Change: (configurable option) print only labels with "excelent"
+    - Change: Blog updates
+    - New: Dog importer now supports inscriptions and starting order generated PDF's
+    - New: Enable children, senior, and para-agility rounds.
+    - New: Add handler's category support ( listings, importers, dialogs, and so )
+    - New: Add multiple warnings on invalid round data
+    - New: Include chronometer software into distribution
+    - New: Labels for RFEC
+    - New: Replace json errors in startup with more clear and descriptive text
+    - New: Allow Jump from inscriptions to competition by selecting journey
+    - New: Check for running mysql/mariadb before allow starting
+    - New: downlad updates from releases Github page instead of "master" branch
+    - New: On license expired, show a button with renovation instructions
+Version 4.4.1 20210324_1800
+    - Extend json hidden data to every inscription pdf
+    - Fix warn when non-existent competitor in Team listing
+Version 4.4.1 20210308_1150
+    - printHallOfFame: fixes for 5 heights
+    - printCatalogo: add json hidden field for pdf parsing
+    - update database and logos
+    - Fix reverse XLMST in preagility RFEC
+    - Warn user on invalid recorrido in GII/GIII RSCE rounds
+Version 4.4.0 20210125_1500
+    - Module updates for season 2021
+    - In RFEC 'Toy' now jumps at 20cmts
+    - New webapp "qrcode"
+    - New app "cronometer.ino"
+    - Tablet changed to take care on QRCode starting order reader
+Version 4.3.2 20201122_1800
+    - Fix several logos
+    - Fix some issues with excel import and php 7.4
+    - Add autopdf.bat
+    - Replace "-" with "*" on starting order pdf when dog has already run
+    - Make judge name visible inside labels
+    - Fix several issues when runnin inside virtual machine
+    - More and more Federation logo issues
+Version 4.3.2 20200906_1050
+    - Fix (more) problems printing G1 labels for 3-series rounds
+Version 4.3.2 20200824_1212
+    - Fix several issues on printing GI labels for 3-series rounds
+    - Fix handling of isFederationLogoAllowed() in modules
+    - Several i18n fixes and updates
+Version 4.3.2 20200820_1717
+    - Grade 1 rounds let user select Agility or Jumping
+    - Update printouts to reflect grade 1 rounds type
+Version 4.3.1 20200815_1800
+    - Fix default values for team3 and team4 in jornadas database
+    - Fix error when logo is not found
+    - Set dog list height to "auto" in tablet
+    - Fix several redundancies in event API implementation
+    - Remove "127.0.0.1" from ip list
+    - Fixes warns and module configurationfor php-7.3
+Version 4.3.0 20200309_1140
+    - Fix printing 3-round labels when "do not print double eliminated" is active
+    - OrdenSalida: properly handle of category "-" ( preagility and so )
+Version 4.3.0 20200304_0942
+    - Minor changes for better event handling and Canometer compatibility
+Version 4.3.0 20200221_1718
+    - Allow merge categories preserveing TRS on partial/global/podium PDF printouts
+    - Warn on admin/register frame when no user is logged in
+    - show journey type as tooltip in selectJornada dialog
+    - Add "links" menu entry
+    - Configuration option for "show news"
+    - Remove all jsonp calls, as already use https and new chrome versions disables it
+    - Fixes for MacOS Catalina installer
+    - New frame getNews to retrieve latest new from master server on login success
+    - Several bug fixes
+Version 4.2.1 20200206_2213
+    - Get re-open journey work again
+    - warn on anonymous session in Admin/register menus
+    - fixes on Fedora deployment
+Version 4.2.1 20200203_2121
+    - Fix (more) issues in Grade 1
+    - Do not sow default Clasification. Force user to select
+    - Preliminary works on mergecats
+    - More pdf rendering fixes
+Version 4.2.1 20200123_2323
+    - Fix Several issues in Grade 1 - 3 rounds
+    - Allow multiple selection drag&drop in tandas
+    - GetLicense.php fix infinite loop due to failed fopen
+    - Builder: add cache for documentation
+Version 4.2.1 20200115_2000
+    - Several typo fixes
+    - Add box for judge signing in partial scores pdf
+Version 4.2.1 20200115_0900
+    - Clasificaciones: Fix lost toolbar on grade change
+    - Estadisticas: add XL to L and XS to S in 3/4-heights
+    - Videowall: fix variable only present in console
+Version 4.2.1 20200114_1300
+    - Print RSCE labels in RSCE Grade 1 3-rounds
+    - Fix eval trs in RFEC when in 5 heights
+    - Add TeamGrouped listing button options in 3heights contests
+    - Fixes for old databases upgrades
+    - More logos
+    - Fix Pre-Agility OrdenSalida
+    - Fix cat/grad cell size in global clasifications PDF
+    - Fix formater number-of-rounds for Grade-1
+Version 4.2.0 20200110_1444
+    - Support for teams with any XofY combination
+    - Fixes for Selectiva WAO ( fix data in Biathlon/Games TRS )
+    - Enable set height to be round dependent in same contest/journey (i.e. for Selectivas)
+    - Usability fixes, quick access buttons. stay on top toolbars
+    - Enable install in other directory than c:\AgilityContest
+    - Videowall redesign to adapt for 5-heights
+    - ... And so many bugfixes :-(
+Version 4.1.2 20191202_2345
+    - Fix generation/decrypt of blacklists
+    - Fix some logo sizes
+    - Clone TRS data on from L to XL and from S to XS in 3-heights rounds
+Version 4.1.1 20191122_1920
+    - Fixes on Pre-Agility 5 heights
+    - Add podium, parcial and global listings to WAO modules
+    - Allow one-sheet printing on pre-Agility and <15 dogs
+      contests on assistant sheets
+    - Add Dog height in assistant sheets
+Version 4.1.0 20191115_2200
+    - Fixes on videowall for 5 heights
+    - Add module: Selectiva EO 2020
+    - Fix global clasification PDF printout
+Version 4.1.0 20191114_1444
+    - Support for 5 heihgts in RSCE
+    - Modules "Temporada_RSCE_2020" and "Selectiva_RSCE_2020"
+    - Allow to print all heights together in listings ( parcial,final,labels )
+    - Now doc finally works
+    - Include docs in installer
+    - Allow on-line documentation updates
+    - Allow login on license faillure
+    - Add handler category in printings
+    - New "Clear Journey" button in Contest dialogs
+    - New Duplicate dogs/handlers dialog
+    - Allow handle duplicate dogs from inscription menu
+    - Use logo from license file
+    - Make labels thinner to allow page missalignment
+    - add option to multiple-select deletion on handlers and dogs
+    - Now heights is round dependend ( journey / contest in turn when not declared )
+    - Replace cipher and rework license generation
+    - Button to create judges from infomanga dialog
+Version 4.0.1 20191008_1234
+    - Last time fixes for Balear league (again)
+    - Fix printing judge score table for 5 heights
+    - Fix real-test bugs found
+    - Fix stupid bug on compare version history
+    - Fix podium on 5-heights
+    - Add Global scores printing ( every heights of same Class )
+    - More 5-heights fixes
+Version 4.0.0 20190929_2050
+    - Fixes on installer
+    - Fixes on TRS evaluation for Balear League
+    - Fixes on database update up to version 4.0.0
+Version 4.0.0 20190928_0224
+    - New windows installer for alternate update/reinstall option
+    - Multiple 5-heights bug-fixes
+    - Add category / grade sorting in dog datagrids
+    - Update database
+Version 4.0.0 20190923_1123
+    - Support for 5-heights on RFEC Federation
+    - RFEC Balear league support
+    - Allow individual listings team-best rounds
+    - Do not scroll round selection box on partial results dialog
+    - New license handling by mean of remote activation key
+    - Children/Joung competitor supports in RFEC
+    - Fixes on Excel Export to ease handling of resulting files
+    - So many bug fixes and enhancements
+    - Database update
+Version 3.9.2 20190710_1100
+    - Fix xxx.js.php header to mark as javascript
+    - Fix so many dialogs to remove topright "close" button and force use Cancel
+    - Fix cneac label printing policy and layout
+    - Fix messages on some dialogs to clarify meaning
+    - Fix toBeFirst() evaluation when no round has been finished
+Version 3.9.1 20190604_1200
+    - Use bcmath to avoid trunc problems on data representation
+    - SQL injection fixes
+    - Check for duplicates on clubs/contests/journeys
+    - Fix edit handler button behaviour from edit dog dialog
+    - content/type fixes for xxxx.js.php javascript files
+    - usability fixes on round data handling dialog
+    - database updates
+Version 3.9.1 20190426_0930
+    - several bugfixes and usability issues
+    - update database
+    - SuTurno-2.0 ( big display )
+Version 3.9.1 20190413_0954
+    - Add web interface for "SuTurno"
+    - fix refresh after delete inscription
+    - minor progressbar dialog fixes
+Version 3.9.1 20190405_1130
+    - Dont allow inscription if no round available
+    - Canometro is back
+    - Add web console access in session control
+    - Update database
+    - Disable curl on ipv6
+    - minor fixes in 5-height team contests
+Version 3.9.0 20190327_1207
+    - Preliminary support for new fields on event API
+    - So many bugfixes about 5Heights and pre-Agility
+    - remove "close" icon on several dialogs, to force "accept/cancel" key
+    - new feature: print stick labels on inscription data
+    - Fix Windows update 1809 that prevented open navigator dialog
+Version 3.9.0 20190216_1700
+    - Notice in console any 'connect' command from event bus
+    - Fix serious error in tandas handling that prevented showing pre-agility
+Version 3.9.0 20190204_1210
+    - Support for 5Height contests
+    - New Module: RSCE temporada 2019
+    - New Module: Selectiva AWC and European Open 2019
+    - Add result statistics
+    - Add CNEAC Qualification forms
+    - Several bugs fixed:
+      * games entry data form,
+      * "not present" in starting order,
+      * round cleaning,
+      * club's logo handling
+      * update handling of system.ini and .htaccess
+    - Direct access to edit dog from "new inscriptions"
+    - Allow search for category / grade
+    - New gadget "Su turno" to see wich dog is running now
+    - Database updates
+Version 3.8.3 20181214_1214
+    - Show "Not present" in starting order for second round
+    - Fix StartingOrder import bugfixes
+    - Fix Snooker/Gambler competition data dialogs
+    - New Module: Liga RFEC Aragon
+    - (First try) remove federation logos in non-homologated contests
+    - New feature: "Hall Of Fame" pdf with best dogs in the contest
+Version 3.8.2 20181128_1333
+    - Eliminated due "out of TRM" goes first
+    - Added new application: Raspberry_NowRunning (Su turno)
+    - Fix minor error in Snooker/Gambler data entry dialogs
+Version 3.8.2 20181025_1245
+    - Allow clone team journeys into normal ones
+    - Add support for printing individual scores for x-best team journeys ( by mean of clone and subordinate )
+    - Fix (again) progressbar freeze issues
+Version 3.8.2 20181019_1730
+    - Let team contests work with more than 4 dogs for team
+    - Fix zip generation for team contest
+    - Fix several related progressbar issues (implement Promises)
+    - Allow wysiwyg printing ( sort/search ) on team inscription dialog
+    - Update database with CE_RFEC_2018 data
+    - New modules: RFEC Open, RFEC LigaNorte, RFEC Liga Dos Castillas, National 3-Heights, and National 4-Heights
+Version 3.8.1 20180928_1800
+    - Update database
+    - Let generated PDF's open in a new browser window (some browsers only)
+Version 3.8.1 20180919_1212
+    - Optimize speed by block loading not-yet-needed combos and datagrids
+    - rewrite README for ubuntu install
+Version 3.8.1 20180913_1040
+    - Fix handling of black lists
+    - Server: return 0 Db updates when version is less than 3.8.1
+    - Inscripciones: fix buttons layout
+    - Competición: add buttons to direct jump to another dialog
+    - "Accept" buttons: disable while working to avoid concurrency issues
+    - Rework starting order combo and button to ease use
+    - Uniformize "Reorder" button position
+Version 3.8.0 20180830_1200
+    - Tablet: detect loss of connection
+    - Fixes in videowall dog names
+    - Better approaches for handlers with more than one dog
+    - New table "user_info" to handle users in server mode
+    - Fix upgradeVersion.php, to properly update database on sw update
+Version 3.8.0 20180626_1100
+    - Request confirmation on user selected installdb
+    - Add "Baja" to dog fields
+    - rewrite installers and builders for latest XAMPP versions
+    - fixes for newer browsers and xampp servers
+Version 3.8.0 20180519_2222
+    - Nueva estructura de directorios para permitir uso en webhosting
+      * apache2.conf no es necesario salvo para declarar un aliasdir
+      * my.cnf y php.ini no necesitan ya modificaciones
+      * fichero .htaccess para control de acceso
+      * bloqueo de ficheros y carpetas para que no puedan ser accedidos desde web
+      * carpeta para ficheros de configuracion fuera del acceso web
+      * Script de first install para web hosting ( unzip + open en navegador )
+    - Orden de salida preconfigurado TSML para pruebas de caza
+    - Corregido problema de importación de bases de datos pre 3.7.3
+    - Actualizacion a xampp 5.6.36
+    - Generacion de certificados autofirmados compatibles con nuevos Chrome y Safari
+    - Detección y corrección de errores con el servidor
+    - Corrección del VersionHistory para mejor control de actualizaciones desde servidor
+    - Antes de autoupdatedb pregunta al usuario
+    - Detecta si "usePreferredBrowserLanguage" esta soportado
+    - Eliminacion de ficheros .bat de seleccion de idioma en instalador windows
+    - Soporte de tecla "Meta" en mac
+    - Uso de funciones nativas php para gestion de redondeo
+    - Reemplazo del logo federativo por el de agilitycontest al crear un club
+    - Combos: no comenzar filtrado hasta que hay al menos tres caracteres
+    - Aviso antes de reordenar dorsales
+    - No pre-seleccionar RSCE en dialogo de login
+    - Diversas mejoras en gestion de licencias bloqueadas
+    - Posibilidad de usar bases de datos alternativas a "agility"
+    - Revertir auto-update flag tras backup
+    - Conversion de base de datos a "lowercase", para evitar modificar de mycnf.ini
+    - Diversas optimizaciones en acceso a BBDD __delete()
+    - Excel: manejo de variables de pagina (pe: inscripciones::club/pais)
+    - BBDD: manejo de bases de datos cifradas por defecto
+    - Buscar actualizaciones de la aplicación en el Changelog
+    - Actualizacion de diversos PDF
+    - Excel import: permitir wildcard "-" en categoria/grado/genero para preservar valor actual
+Version 3.7.3 20180315_0934
+    - Temporada 2018
+    ( historico perdido, es hora de retomarlo, para poder usarlo como control de actualizaciones )
+Version 3.0.2 10-Jan-2017
+    - Nueva arquitectura de modulos, para permitir nuevas modalidades de competición
+    - Gestión de rondas de hasta 8 mangas
+    - Posibilidad de declarar Jornadas Subordinadas, en las que los resultados se clonan de la jornada principal, pero que tienen su propias inscripciones (subconjunto de la principal), TRS y modalidad de competición
+    - Adaptación a las nuevas temporadas de Caza y RSCE.
+    - La velocidad se presenta ahora con dos decimales
+    - Preparado para las nuevas pruebas selectivas de RSCE tanto en individual como por equipos
+    - Soporte de la competición de Selectiva y Copa del Pastor Belga
+    - Soporte de una, dos o tres mangas en Promoción-RFEC, así como mangas simples/dobles en GradoI-RSCE
+    - Importación y Exportación de perros e inscripciones desde/hacia ficheros Excel
+    - Visualización y limpieza de registro de errores y actividad del sistema
+    - Posibilidad de borrar todas las inscripciones de una jornada
+    - Posibilidad de inscribir en una jornada a todos los registrados en una prueba
+    - Posibilidad de clonar, tanto en competiciones individuales como por equipos las inscripciones, datos de TRS y resultados de una jornada en otra
+    - Los listados del asistente de pista ahora salen de 15 en 15 en lugar de 10 en 10. Se mantienen las opciones de 1 y 5 perros/hoja
+    - Posibilidad de seleccionar una categoría determinada en las ventanas del gestión de la prueba, en lugar de tener que ver todas las categorías a la vez
+    - Los ordenes de salida, y entradas de datos respetan el orden de categorías definidos en el programa de la jornada, tanto en consola como en listados
+    - Para alterar el orden de salida, a la opción de arrastrar y soltar, se añade la de marcar y mover, para permitir desplazamientos "fuera de la pantalla"
+    - Si no se selecciona una categoría concreta, en los listados de ordenes de salida las categorías aparecen seguidos en lugar de usar hojas separadas por cada categoría
+    - Diversas modalidades de competiciones por equipos (2,3,4 participantes, modalidad conjunta o x mejores de y)
+    - Los guías que participan con más de un perro aparecen marcados en la consola, para permitir fácil identificación
+    - Mejoras en la impresión de PDF's: ajustes de tamaño de los campos, eliminación configurable del grado en pruebas open/internacionales
+    - Posibilidad de unir dos perros en uno, para la revisión y eliminación de duplicados en la base de datos
+    - Generación de plantillas Excel genéricas y específicas para cada club con lo que poder luego realizar las inscripciones en una prueba de manera automática
+    - Diversas mejoras en la exportación/importación de bases de datos
+    - Mejoras en el instalador, para evitar demoras en el primer arranque
+    - Diversas opciones de configuración adicionales.
+    - Rediseño del tablet para permitir un más fácil acceso a un perro cuando no se respeta el orden de salida
+    - Mejoras en la integración con el Canómetro Electrónico
+    - Revisión general del código con muchas correcciones, tanto de textos como de funcionalidad
+    - Base de datos (bastante) actualizada, incluyendo las últimas pruebas de Diciembre.
+    - Posibilidad de borrar todos los resultados de una manga
+    - Posibilidad de intercambiar los resultados de una manga con su complementaria (pe: cambiar agility por jumping)
+    - Posibilidad de asignar manualmente un dorsal
+    - La información de licencia muestra las opciones habilitadas para dicha licencia
+    - Nueva ventana para definir jornadas de entrenamiento, con horarios y rings por club
+    - Funciones para guardar y recuperar la configuración de la aplicación
+Version 2.3.2 17-Nov-2016
+    General:
+        - Split federation modules in Federations and Competitions
+        - Handle subordinate Journeys
+        - Tons of bugfixes
+    chrono:
+        - Add "chrono_ready" event
+Version 2.3.1 31-Jul-2016
+    PDF:
+        - On team results print in grey rounds that don't qualify
+    GENERAL:
+        - Add Hungarian language support. Thanks to  Krisztián Henrik Papp
+    VIDEOWALL:
+        - Quick access to VideoWall screens by mean of http request parameters
+    Excel:
+        - !Finally! excel import in blind (no user interaction) mode
+
+Version 2.3.0 28-Jul-2016
+    General:
+        - New Team Contest handling
+            * Rewritten result evaluation and presentation code
+            * New team modalities ( 2/3, 3/4, 2/2, 3/3 4/4 )
+        - New Common interface to show Videowall/Livestream/PublicWeb pages
+        - So many improvements, bugfixes and i18n issues
+    Console:
+        - Ability to choose category to operate with in starting order, data introduction and printing
+        - Showing of results and scores use new common interface
+        - Search boxes clears "-- Search --" text in mouse enter/leave
+        - User configuration can be saved and restored
+    Tablet:
+        - Improved interaction with electronic chronometer
+        - Reorganize icons and buttons
+        - Fixed and added new key bindinds
+        - Add "Test dog" option
+        - Bigger direct access table for easy dog selection
+    LiveStream:
+        - Now timeData and round information have configurable location
+        - Add Dog order to OSD information
+        - Minimize OSD occuppied space
+        - Allow show/hide mean clicking 'space' key
+    VideoWall:
+        - Integrated with new common results user interface
+        - New simplified Screens with separate configuration, intended to be used in
+          big stadium videowalls
+    PublicWeb:
+        - Added a new user interface, intended to watch a single contest, with direct access
+        to every items
+    Chronometer:
+        - Improved interaction with tablet/event handler
+        - Sample reference code (python) for raspberry-pi based chronometer
+        - Sample reference code (nodejs) for event protocol
+        - Preliminary code for direct attached (USB) chronometer
+    ExcelImport:
+        - ( not yet finished ) Now an excel file can be uploaded and checked for consistency.
+        Still pending user interface for excel entries validation
+    Documentation:
+        - English manual (already outdated :-( )
+        - Deployment manual
+        - Event handler/chrono protocol API
+    And many, many more...
+    Enjoy
