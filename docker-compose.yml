@@ -5,8 +5,12 @@ services:
     environment:
       - APACHE_RUN_USER=agility
       - APACHE_RUN_GROUP=agility
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_ROOT_PASSWORD
     ports:
-      - "${PORT:-443}:443"
+      - ${PORT:-443}:443
     volumes:
       - ./agility:/var/www/html/agility:z
       - ${CONFIG_DIR:-./config}:/var/www/html/config:z
@@ -19,13 +23,12 @@ services:
     image: mariadb:10.3
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_DATABASE: agility
-      MYSQL_USER: agility_operator
-      MYSQL_PASSWORD: operator@cachorrera
-      MYSQL_ROOT_PASSWORD: admin@cachorrera
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_ROOT_PASSWORD
     volumes:
       - ./extras/bare_bones.sql:/docker-entrypoint-initdb.d/bare_bones.sql:z
-      - ./extras/users.sql:/docker-entrypoint-initdb.d/users.sql:z
       - ./extras/mysql.cnf:/etc/mysql/conf.d/my.cnf:z
       - persistent:/var/lib/mysql
     networks:
@@ -33,12 +36,8 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     links:
-      - db:db
+      - db
     ports:
-      - 8000:80
-    environment:
-      MYSQL_USER: root
-      MYSQL_PASSWORD: admin@cachorrera
-      MYSQL_ROOT_PASSWORD: admin@cachorrera
+      - ${ADMIN_PORT:-8000}:80
 volumes:
   persistent:

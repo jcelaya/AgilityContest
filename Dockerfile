@@ -16,6 +16,7 @@ RUN a2enmod rewrite \
     && a2enmod ssl
 
 COPY extras/AgilityContest_docker.conf /etc/apache2/conf-enabled/
+COPY extras/entrypoint.sh /entrypoint.sh
 COPY ChangeLog /var/www/html/
 COPY .htaccess /var/www/html/
 RUN sed -i -E 's;__AC_WEBNAME__(.?)/;;' /var/www/html/.htaccess
@@ -24,3 +25,5 @@ RUN adduser --uid 1000 --gecos 'My Apache User' --disabled-password agility \
     && chown -R agility:agility /var/lock/apache2 /var/run/apache2 /var/www/html
 
 ENV CONTAINER=true
+ENTRYPOINT [ "/entrypoint.sh" ]
+CMD [ "apache2-foreground" ]
