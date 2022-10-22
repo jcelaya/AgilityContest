@@ -99,7 +99,7 @@ En cualquier caso, timeout a los 30 segundos.
 
      # wait for dhclient to complete
     -sleep 5
-	+for i in $(seq 1 30); do
+    +for i in $(seq 1 30); do
     +    if grep -q "wlan0 inet dhcp" /etc/network/interfaces; then
     +       if ip addr show dev wlan0 | grep -q "inet "; then break; fi
     +    else

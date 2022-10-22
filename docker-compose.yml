@@ -37,7 +37,5 @@ services:
     image: phpmyadmin/phpmyadmin
     links:
       - db
-    ports:
-      - ${ADMIN_PORT:-8000}:80
 volumes:
   persistent:
