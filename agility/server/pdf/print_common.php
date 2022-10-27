@@ -228,7 +228,9 @@ class PrintCommon extends FPDF {
 		}
 		// try to extract logo from license
 		$data=$this->authManager->getLicenseLogo();
-		if ($data!=null) {
+		if (isset($this->club) && $this->club != null) {
+			$this->icon = getIconPath($fedName,$this->club->Logo);
+		} elseif ($data!=null) {
 			// base 64 decode file
 			$logo=base64_decode($data);
 			// use memory stream to store_it
@@ -236,9 +238,8 @@ class PrintCommon extends FPDF {
 			$GLOBALS[$v] = $logo;
 			// and setup logo name
 			$this->icon="var://{$v}";
-		}
-		// on no image from license or privileged licenses select logo in "old style"
-		if ( ($data==null) || ($serial==="00000001") ) {
+		} elseif ( ($data==null) || ($serial==="00000001") ) {
+			// on no image from license or privileged licenses select logo in "old style"
 			$this->icon=getIconPath($fedName,$fedobj->get('OrganizerLogo')); // default: organizer logo
 			// si la prueba no es internacional se usa el logo del club
 			if ( (!$fedobj->isInternational()) && isset($this->club) ) {

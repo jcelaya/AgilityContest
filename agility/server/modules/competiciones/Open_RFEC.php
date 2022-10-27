@@ -13,6 +13,7 @@ class Open_RFEC extends Competitions {
         $this->competitionID=1;
         $this->moduleVersion="1.0.0";
         $this->moduleRevision="20181018_1114";
+        $this->federationLogoAllowed=true;
     }
 
     function useLongNames() { return false; }
