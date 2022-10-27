@@ -222,6 +222,7 @@ Class Config {
 		'training_time'		=> array(	'i',	false,	AC_TRAINING_TIME),
         'training_type'		=> array(	'i',	false,	AC_TRAINING_TYPE),
         'training_grace'	=> array(	'i',	false,	AC_TRAINING_GRACE),
+		'default_federation'	=> array(	'i',	false,	-1),
 
 		// variables del sistema.
 		// here comes default values. real ones should be extracted from system.ini file

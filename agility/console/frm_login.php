@@ -157,8 +157,9 @@ $('#login-Federation').combogrid({
 	]],
     onLoadSuccess: function(data) {
 	    let cg= $('#login-Federation');
-        cg.combogrid('setValue',-1);
-        cg.combogrid('setText','-- <?php _e("Select Federation");?> --');
+		let federation = <?php echo $config->getEnv('default_federation'); ?>;
+        cg.combogrid('setValue',federation);
+        if (federation < 0) cg.combogrid('setText','-- <?php _e("Select Federation");?> --');
     },
 	onChange:function(value){ if (parseInt(value)>=0) setFederation(value); }
 });
