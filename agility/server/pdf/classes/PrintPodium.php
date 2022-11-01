@@ -56,6 +56,16 @@ class PrintPodium extends PrintClasificacionGeneral {
         $this->print_commonHeader(_("Podium") . " $grado");
     }
 
+    function skipNonDoubleExcelents($row) {
+        // check config for non-double excelents
+        if ($this->config->getEnv('pdf_skipnex') !== "0") {
+            if (!is_null($this->manga1) && ($row['P1']>=6)) return true;
+            if (!is_null($this->manga2) && ($row['P2']>=6)) return true;
+            if (!is_null($this->manga3) && ($row['P3']>=6)) return true;
+        }
+        return false;
+    }
+
 	function composeTable() {
 		$this->myLogger->enter();
         $len=(($this->manga3)!==null)?115+(59*3+42)*0.75:115+59*2+42; // lenght of closing line
@@ -69,14 +79,11 @@ class PrintPodium extends PrintClasificacionGeneral {
 				if($rowcount==0) $this->writeTableHeader($strcats);
 				if($rowcount>2) break; // only print 3 first results
 				$this->ac_SetDrawColor($this->config->getEnv('pdf_linecolor')); // line color
-                // check config for non-double excelents
-                $skip=true;
-				if ($this->config->getEnv('pdf_skipnex') !== 0) {
-                    if (!is_null($this->manga1) && ($row['P1']>=6)) $skip=false;
-                    if (!is_null($this->manga2) && ($row['P2']>=6)) $skip=false;
-                    if (!is_null($this->manga3) && ($row['P3']>=6)) $skip=false;
-                } else $skip=false;
-                if ($skip) $this->writeCell( $rowcount,$row); else $this->writeEmptyCell($rowcount,$row);
+                if ($this->skipNonDoubleExcelents($row)) {
+                    $this->writeEmptyCell($rowcount,$row);
+                } else {
+                    $this->writeCell($rowcount,$row);
+                }
 				$rowcount++;
 			}
 			// pintamos linea de cierre final
@@ -121,7 +128,13 @@ class PrintPodium extends PrintClasificacionGeneral {
             foreach($result as $row) {
                 if($rowcount==0) $this->writeTableHeader(implode(" + ",$names));
                 if($rowcount>2) break; // only print 3 first results
-                $this->writeCell($rowcount++,$row);
+				$this->ac_SetDrawColor($this->config->getEnv('pdf_linecolor')); // line color
+                if ($this->skipNonDoubleExcelents($row)) {
+                    $this->writeEmptyCell($rowcount,$row);
+                } else {
+                    $this->writeCell($rowcount,$row);
+                }
+				$rowcount++;
             }
             $this->Cell(274,0,'','T'); // linea de cierre
             $this->Ln(7);

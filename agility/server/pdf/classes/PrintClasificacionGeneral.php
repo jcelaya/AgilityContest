@@ -538,33 +538,45 @@ class PrintClasificacionGeneral extends PrintCommon {
         $this->myLogger->enter();
         $len=(($this->manga3)!==null)?115+(59*3+42)*0.75:115+59*2+42; // lenght of closing line
 
-       // iteramos sobre cada grupo de alturas disponible en la manga
+		// en las siguientes hojas pintamos los resultados
+        $this->AddPage();
+        $this->print_InfoJornada();
         foreach ($mergecats as $indexes) {
             // mezclamos los resultados
             $result=$this->mergeResults($indexes);
             if (count($result)==0) continue; // no data, skip to next group
-
-            $this->AddPage();
+		    // si el comienzo de la categoria esta cerca del final de la pagina
+            // salta a la pagina siguiente
+            if ($this->GetY()>(185 - 24*count($indexes))) {
+		        $this->AddPage();
+		        $this->print_InfoJornada(); // nombre de la jornada y fecha
+            }
+            $rowcount=0; // just an index to display background on cells
             $names=array();
             // imprimimos los datos de trs de cada una de las alturas a mezclar
             for ($n=0;$n<count($indexes);$n++) {
                 $this->print_datosMangas($this->resultados[$indexes[$n]],($n==0)?true:false);
                 $names[]=Mangas::getMangaMode($this->resultados[$indexes[$n]]['Mode'],0,$this->federation);
             }
-            // componemos el nombre de la manga en base a los indices
-            // imprimimos el resultado mezclado iterando sobre ellos
-            $this->writeTableHeader(implode(" + ",$names));
             foreach($result as $row) {
-                $rowcount=0; // just an index to display background on cells
-                if ($this->GetY()>185) {
-                    $this->Cell(274,0,'','T'); // linea de cierre
+			    if ($this->GetY()>185) {
                     $this->AddPage();
-                    $this->writeTableHeader(implode(" + ",$names));
+                    $this->print_InfoJornada(); // nombre de la jornada y fecha
+                    $rowcount=0;
                 }
+				if($rowcount==0) {
+                    // componemos el nombre de la manga en base a los indices
+                    // imprimimos el resultado mezclado iterando sobre ellos
+				    $this->writeTableHeader(implode(" + ",$names));
+                } // cabecera de la tabla de resultados
+				$this->ac_SetDrawColor($this->config->getEnv('pdf_linecolor')); // line color
                 $this->writeCell($rowcount++,$row);
             }
-            $this->Cell(274,0,'','T'); // linea de cierre
-            $this->Ln(7);
+			// pintamos linea de cierre final
+			$this->setX(10);
+			$this->ac_SetDrawColor($this->config->getEnv('pdf_linecolor')); // line color
+			$this->cell($len,0,'','T'); // celda sin altura y con raya
+			$this->Ln(5); // 3 mmts to next box
         }
         $this->myLogger->leave();
     }
