@@ -393,6 +393,7 @@ function print_parcial(mode) {
             '<select id="pp_mergecats" style="width:125px" name="pp_mergecats" class="easyui-combobox"'+
             ' data-options="panelHeight:\'auto\'" >'+
             '<option value="0" selected="selected"><?php _e('Separate listings');?></option>'+
+            '<option value="4"><?php _e('XL / L / M / S+XS');?></option>'+
             '<option value="3"><?php _e('XL+L / M / S+XS');?></option>'+
             '<option value="1"><?php _e('XL+L / M+S+XS');?></option>'+
             '<option value="2"><?php _e('Single listing');?></option>'+

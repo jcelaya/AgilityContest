@@ -171,6 +171,7 @@ $('#r_mergecats').combobox({
     textField: 'text',
     data:[
         {value:0,text:"<?php _e('Separate listings');?>",selected:true }, // default is 0
+        {value:4,text:"<?php _e('XL / L / M / S+XS');?>"},
         {value:3,text:"<?php _e('XL+L / M / S+XS');?>"},
         {value:1,text:"<?php _e('XL+L / M+S+XS');?>"},
         {value:2,text:"<?php _e('Single listing');?>"}
