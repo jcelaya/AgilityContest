@@ -166,4 +166,5 @@ $('#login-Federation').combogrid({
 
 addTooltip($('#login-okBtn').linkbutton(),'<?php _e("Start session with provided user privileges"); ?>');
 addTooltip($('#login-cancelBtn').linkbutton(),'<?php _e("Start session as <em>guest</em> user. Close window"); ?>');
+$('#login-Username').textbox('textbox').focus();
 </script>
