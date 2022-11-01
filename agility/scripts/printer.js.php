@@ -871,7 +871,7 @@ function clasificaciones_doPrint() {
     var children=$('#r_children').prop('checked');
     var global=$('#r_global').prop('checked');
     var merge=$('#r_mergecats').combobox('getValue');
-    var onlyMaster=$('#r_onlygrad').prop('checked');
+    var onlyMaster=$('#r_onlygrad').prop('checked') && $('#r_onlygrad').is(":visible");
     var jornadas=$('#r_journeys').combogrid('getValues').join(",");
 	$('#resultados-printDialog').dialog('close');
     var mode=$('#resultados-selectCategoria').combobox('getValue');

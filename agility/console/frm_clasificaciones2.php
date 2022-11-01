@@ -124,10 +124,9 @@ include_once(__DIR__ . "/../console/templates/scores_mail.inc.php");
                 <label id="r_childrenlbl" for="r_children"><?php _e('Split Children/Junior'); ?></label>
                 <input id="r_children" style="width:78px" name="r_children" class="easyui-checkbox" type="checkbox" value="1" checked="checked"/>
             </span>
-            <br/>
-			<span id="r_onlygrad_span">
+			<span id="r_onlygrad_span"> <!-- to hide when not in open/grad2 rounds -->
 				<label id="r_onlygradLbl" for="r_onlygrad">Mostrar solo master</label>
-                <input id="r_onlygrad" style="width:78px" name="r_onlygrad" class="easyui-checkbox" type="checkbox" value="1" checked="checked"/>
+                <input id="r_onlygrad" style="width:78px" name="r_onlygrad" class="easyui-checkbox" type="checkbox"/>
 			</span>
         </span>
 	</span>
@@ -221,6 +220,8 @@ $('#resultados-printDialog').dialog({
         var ronda=$('#resultados-info-ronda').combogrid('grid').datagrid('getSelected');
         var ch= ((ronda.Rondas & 16384)!==0) && hasChildren(workingData.federation);
         $('#r_junior').css('display',(ch)?'inherit':'none');
+        var master = (ronda.Rondas & 8) !== 0 || (ronda.Rondas & 32) !== 0;
+        $('#r_onlygrad_span').css('display',(master)?'inherit':'none');
         $('#r_prformat4').prop('checked',true); // default is print category scores, not global ones
         $('#r_mergecats_span').css('display','none');
         return true;
