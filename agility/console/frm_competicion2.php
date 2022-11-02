@@ -28,26 +28,14 @@ require_once("dialogs/dlg_jueces.inc");
 switch(http_request("tipo","s","std")) {
     case "eq3":
     case "eq4":
-        if ( ! $am->allowed(ENABLE_TEAMS)) {
-            require_once("unregistered.html");
-            return 0;
-        }
         require_once("dialogs/dlg_competicion.inc");
         require_once("dialogs/dlg_resultados_equipos.inc");
         break;
     case "ko":
-        if ( ! $am->allowed(ENABLE_KO)) {
-            require_once("unregistered.html");
-            return 0;
-        }
         require_once("dialogs/dlg_competicion.inc");
         require_once("dialogs/dlg_resultados_ko.inc");
         break;
     case "games":
-        if ( ! $am->allowed(ENABLE_SPECIAL)) {
-            require_once("unregistered.html");
-            return 0;
-        }
         $t=http_request('mode',"i",0);
         if ($t!==3)  { // agility,jumping,speedstakes
             require_once("dialogs/dlg_competicion.inc");

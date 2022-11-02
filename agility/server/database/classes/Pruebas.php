@@ -242,7 +242,6 @@ class Pruebas extends DBObject {
 		$this->myLogger->enter();
         // retrieve number of inscriptions for this contest
         if ($am==null) $am=AuthManager::getInstance("Pruebas::enumerate");
-        $limit=$am->getUserLimit();
         $inscritos=$this->__select("Prueba, count(*) AS Inscritos","inscripciones","1 GROUP BY Prueba","","");
 
 		// evaluate search criteria for query
@@ -256,7 +255,7 @@ class Pruebas extends DBObject {
 							pruebas.Ubicacion AS Ubicacion, pruebas.Triptico AS Triptico, pruebas.Cartel AS Cartel, 
 							pruebas.RSCE AS RSCE, pruebas.Selectiva AS Selectiva, pruebas.Cerrada AS Cerrada,
 							pruebas.OpeningReg AS OpeningReg, pruebas.ClosingReg AS ClosingReg,
-							pruebas.Observaciones AS Observaciones, $limit as UserLimit",
+							pruebas.Observaciones AS Observaciones",
 				/* FROM */ "pruebas,clubes",
 				/* WHERE */ $where,
 				/* ORDER BY */ "ID DESC",

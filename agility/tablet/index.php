@@ -299,28 +299,13 @@ $('#seltablet-Prueba').combogrid({
 		{field:'NombreClub',	title:'<?php _e('Club');?>',		width:'30%',	align:'right'},
 		{field:'RSCE',			title:'<?php _e('Fed');?>',			width:'10%',	align:'center', formatter:formatFederation},
 		{field:'Observaciones',	hidden:true},
-        {field:'Inscritos',		hidden:true},
-        {field:'UserLimit',		hidden:true}
+        {field:'Inscritos',		hidden:true}
 	]],
 	onChange:function(value){
 		var pru=$('#seltablet-Prueba').combogrid('grid');
 		var p=pru.datagrid('getSelected');
 		var j=$('#seltablet-Jornada');
 		if (p===null) return; // no selection
-        if (parseInt(p.Inscritos) > parseInt(p.UserLimit)) {
-            var message='<img src="../images/sad_dog.png" width="100" alt="sad dog" style="float:right;"/>'+
-                '<p style="font-weight:bold;"><?php _e('Current license permissions'); ?><br/> ' +
-				'<?php _e('does not allow handling of contests'); ?></br><?php _e('with more than'); ?> '+p.UserLimit+' <?php _e('inscriptions'); ?></p>';
-            $.messager.alert({
-                title: 'Access denied',
-                msg: message,
-                icon: 'error',
-                width: 450
-            });
-            p.datagrid('clearSelections');
-            j.combogrid('grid').datagrid('clearSelections');
-            return; // forbidden selection
-        }
 		setPrueba(p); // retorna jornada, o 0 si la prueba ha cambiado
 		j.combogrid('clear');
 		j.combogrid('grid').datagrid('load',{Prueba:p.ID});

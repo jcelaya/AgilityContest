@@ -6,9 +6,6 @@ require_once(__DIR__."/../server/tools.php");
 require_once(__DIR__."/../server/auth/Config.php");
 require_once(__DIR__."/../server/auth/AuthManager.php");
 $config =Config::getInstance();
-$am = AuthManager::getInstance("Chrono");
-if ( ! $am->allowed(ENABLE_CHRONO)) { include_once("unregistered.html"); return 0;}
-$linfo=$am->getRegistrationInfo();
 ?>
 <!--
 chrono.inc
@@ -81,9 +78,6 @@ if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth F
 	<div id="chrono-copyright" style="width:100%;display:none">
 		<span style="float:left;padding:5px;">
 			<em>AgilityContest-<?php echo $config->getEnv('version_name'); ?>. &copy; 2015 by JAMC</em>
-		</span>
-		<span style="float:right;padding:5px;">
-			<em><?php _e('Copy licensed to club');?>: <?php echo $linfo['Club']; ?></em>
 		</span>
 	</div>
 	<div id="chrono-buttons" style="width:100%;display:inline-block">

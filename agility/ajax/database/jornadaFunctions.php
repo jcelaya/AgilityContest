@@ -63,7 +63,6 @@ require_once(__DIR__ . "/../../server/database/classes/Admin.php");
             case "getAvailableParents": $result=$jornadas->getAvailableParents($jornadaid); break;
 			case "enumerateMangasByJornada": $result=Jornadas::enumerateMangasByJornada($jornadaid); break;
             case "enumerateRondasByJornada": $result=Jornadas::enumerateRondasByJornada($jornadaid); break;
-            case "access": $result=$jornadas->checkAccess($am,$jornadaid,$perms); break;
 			default: throw new Exception("jornadaFunctions:: invalid operation: $operation provided");
 		}
 		if ($result===null) 

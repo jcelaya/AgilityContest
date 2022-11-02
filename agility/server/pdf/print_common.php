@@ -44,7 +44,6 @@ class PrintCommon extends FPDF {
 	protected $comments; // comentario adicional en la cabecera de pagina
 	protected $fileName; // name of file to be printed
     protected $authManager;
-	protected $regInfo; // registration info from current license
 	protected $timeResolution; // number of decimal numbers to show in time results
 	protected $angle; // current text rotation angle ( for FPDF::Rotate() function )
 	protected $myStats; // pointer to statistics composer class
@@ -79,18 +78,6 @@ class PrintCommon extends FPDF {
 	}
 
 	function _endpage()	{
-		if ( ($this->regInfo===null) || ($this->regInfo['Serial']==="00000000") ) {
-			$img=getIconPath(0,'unregistered.png');
-			$mx=190;$my=270;
-			if ($this->DefOrientation=='L') {$mx=270;$my=190;}
-			for($x=10;$x<$mx;$x+=30) {
-				for ($y=20;$y<$my;$y+=30) {
-					$this->Rotate(60,$x,$y);
-					$this->Image($img,$x,$y,32,20);
-					$this->Rotate(0);
-				}
-			}
-		}
 		if($this->angle!=0)	{
 			$this->angle=0;
 			$this->_out('Q');
@@ -218,33 +205,10 @@ class PrintCommon extends FPDF {
 	 */
 	function handleLogos($fedobj,$jobj) {
 		$fedName=$fedobj->get('Name');
-		$serial=$this->regInfo['Serial'];
-		// no valid or null license: use defaults
-		if ( ($this->regInfo===null) || ($serial==="00000000") ) {
-			$fedName=$this->federation->get('Name');
-			$this->icon=getIconPath($fedName,"agilitycontest.png");
-			$this->icon2=getIconPath($fedName,"null.png");
-			return;
-		}
-		// try to extract logo from license
-		$data=$this->authManager->getLicenseLogo();
-		if (isset($this->club) && $this->club != null) {
+		if (isset($this->club)) {
 			$this->icon = getIconPath($fedName,$this->club->Logo);
-		} elseif ($data!=null) {
-			// base 64 decode file
-			$logo=base64_decode($data);
-			// use memory stream to store_it
-			$v = "img_{$serial}-".md5($logo).".png"; // add md5 sum to name to handle caching
-			$GLOBALS[$v] = $logo;
-			// and setup logo name
-			$this->icon="var://{$v}";
-		} elseif ( ($data==null) || ($serial==="00000001") ) {
-			// on no image from license or privileged licenses select logo in "old style"
+		} else {
 			$this->icon=getIconPath($fedName,$fedobj->get('OrganizerLogo')); // default: organizer logo
-			// si la prueba no es internacional se usa el logo del club
-			if ( (!$fedobj->isInternational()) && isset($this->club) ) {
-				$this->icon=getIconPath($fedName,$this->club->Logo);
-			}
 		}
 
 		// phase 3: federation logo
@@ -318,7 +282,6 @@ class PrintCommon extends FPDF {
 			$this->useLongNames=$this->competition->useLongNames();
 		}
 		$this->authManager=AuthManager::getInstance("print_common");
-		$this->regInfo=$this->authManager->getRegistrationInfo();
 		$this->handleLogos($this->federation,$this->jornada);
 		// evaluate number of decimals to show when printing timestamps
 		$this->timeResolution=($this->config->getEnv('crono_milliseconds')=="0")?2:3;
@@ -421,10 +384,6 @@ class PrintCommon extends FPDF {
 		$this->Cell(40,10,_('Date').': '.date("Y/m/d H:i:s"),0,0,'C');
 		$this->SetFont($this->getFontName(),'IB',8);
 		$this->Cell(30,10,_('Page').' '.$this->PageNo().' / {nb}',0,0,'C');
-		// informacion de registro
-		$ri=$this->authManager->getRegistrationInfo();
-		$this->SetFont($this->getFontName(),'I',6);
-		$this->Cell(60,10,_("This copy is licensed to club").": {$ri['Club']}",0,0,'R');
 	}
 
 	// Identificacion de la Manga

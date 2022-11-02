@@ -241,10 +241,6 @@ function restoreDatabase(fromClient){
     if (!checkForAdmin(true)) return;
     if (!fromClient) { // requested restore from server
         if (checkForServer()) return;  // cannot remote download when running in server
-        if (ac_regInfo.Serial==='00000000'){ // need a valid license to allow remote download from server
-            $.messager.alert("Restore from server",'<?php _e("Need to be a registered user to download backup from server"); ?>',"error");
-            return;
-        }
     }
     var l1='<strong><?php _e("Notice"); ?>:</strong><br/>';
     var l2='<?php _e("This operation <strong>WILL ERASE <em>EVERY</em> CURRENT DATA</strong>. before trying restore<br/>"); ?>';
@@ -426,12 +422,6 @@ function removePruebas(){
 
 function askForUpgrade(msg,name,release){
     var l1='<?php _e("<strong>Notice:</strong><br/>"); ?>';
-    if (ac_regInfo.Serial==="00000000") {
-        $.messager.alert('<?php _e("Update AgilityContest"); ?>',
-            l1+msg+'<br/><?php _e("Auto-Update is not allowed for unregistered installs"); ?>',
-            "info").window('resize',{width:480});
-        return;
-    }
     var l2='<?php _e("Be aware of making a backup copy before continue<br/><br/>"); ?>';
     var l3='<?php _e("To proceed with AgilityContest update, enter administrator password and press <em>Accept</em>"); ?>';
     var suffix=getRandomString(8);
@@ -510,7 +500,6 @@ function askForUpgrade(msg,name,release){
 function checkForDatabaseUpdates() {
     $('#tools-syncdbLbl').html("");
     // check if configuration allows share data
-    if (ac_regInfo.Serial==="00000000") return; // no license
     if (parseInt(ac_config.search_updatedb)<=0) return; // no allowed in config
     if (!checkForAdmin(true)) return; // not admin user
     // call server
@@ -519,7 +508,6 @@ function checkForDatabaseUpdates() {
         dataType:'json',
         data: {
             Operation: 'checkForUpdates',
-            Serial: ac_regInfo.Serial,
             Suffix: "" // no suffix needed here, but arg do
         },
         success: function(data) {
@@ -547,9 +535,6 @@ function synchronizeDatabase(warnifnotallowed) {
     var msg="";
     if (parseInt(ac_config.search_updatedb)<=0)
         msg= '<?php _e("You need to enable sharing data in configuration menu"); ?>';
-    // check for valid license
-    if (ac_regInfo.Serial==="00000000")
-        msg= '<?php _e("This app is not registered. Please use a valid license"); ?>';
     // check for valid user
     if (!checkForAdmin(false))
         msg= '<?php _e("This operation requires admin privileges"); ?>';
@@ -571,7 +556,6 @@ function synchronizeDatabase(warnifnotallowed) {
         dataType:'json',
         data: {
             Operation: 'updateRequest',
-            Serial: ac_regInfo.Serial,
             Suffix: suffix
         },
         success: function(data) {
@@ -614,7 +598,6 @@ function synchronizeDatabase(warnifnotallowed) {
             dataType:'json',
             data: {
                 Operation: 'progress',
-                Serial: ac_regInfo.Serial,
                 Suffix: suffix
             },
             success: function(data) {

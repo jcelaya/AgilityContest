@@ -34,10 +34,6 @@ $runmode=intval($config->getEnv('running_mode'));
 if ( ($runmode & AC_RUNMODE_EVTSOURCE) === 0 ) {
     die("This AgilityContest install mode does not allow videowall operations");
 }
-$am=AuthManager::getInstance("VideoWall");
-if (!$am->allowed(ENABLE_VIDEOWALL)) {
-	die("Current license has no permissions to handle videowall related functions");
-}
 ?>
 
 <!DOCTYPE html>
@@ -378,27 +374,19 @@ function vw_accept() {
         ac_config.vwc_simplified=0;
 		break;
 	case 1: // sesion de entrenamientos
-		check_permissions(access_perms.ENABLE_TRAINING,function(res) {
-			if (res.errorMsg) {
-				$.messager.alert('License error','<?php _e("Current license has no permission to handle training sessions"); ?>',"error");
-				page=null;
-                $('#selvw-okBtn').linkbutton('enable');
-				return;
-			}
-			page="../videowall/vw_entrenamientos.php";
-			ac_config.vw_combined=0;
-			ac_config.vwc_simplified=0;
-			$('#selvw-dialog').dialog('close');
-			$('#vw_contenido').load(
-				page,
-				function(response,status,xhr){
-					if (status==='error') {
-					    $('#vw_contenido').load('../console/frm_notavailable.php');
-					    return false;
-                    }
+		page="../videowall/vw_entrenamientos.php";
+		ac_config.vw_combined=0;
+		ac_config.vwc_simplified=0;
+		$('#selvw-dialog').dialog('close');
+		$('#vw_contenido').load(
+			page,
+			function(response,status,xhr){
+				if (status==='error') {
+					$('#vw_contenido').load('../console/frm_notavailable.php');
+					return false;
 				}
-			);
-		});
+			}
+		);
 		return; // use return instead of break to avoid executin load twice
 	case 2: // Resultados Parciales
 		page="../videowall/vw_parciales.php";
@@ -421,27 +409,19 @@ function vw_accept() {
         ac_config.vwc_simplified=0;
         break;
     case 6: // entrenamientos simplificado
-		check_permissions(access_perms.ENABLE_TRAINING,function(res) {
-			if (res.errorMsg) {
-				$.messager.alert('License error','<?php _e("Current license has no permission to handle training sessions"); ?>',"error");
-				page=null;
-                $('#selvw-okBtn').linkbutton('enable');
-				return false;
-			}
-			page="../videowall/vws_entrenamientos.php";
-			ac_config.vw_combined=0;
-			ac_config.vwc_simplified=0;
-			$('#selvw-dialog').dialog('close');
-			$('#vw_contenido').load(
-				page,
-				function(response,status,xhr){
-					if (status==='error') {
-					    $('#vw_contenido').load('../console/frm_notavailable.php');
-					    return false;
-                    }
+		page="../videowall/vws_entrenamientos.php";
+		ac_config.vw_combined=0;
+		ac_config.vwc_simplified=0;
+		$('#selvw-dialog').dialog('close');
+		$('#vw_contenido').load(
+			page,
+			function(response,status,xhr){
+				if (status==='error') {
+					$('#vw_contenido').load('../console/frm_notavailable.php');
+					return false;
 				}
-			);
-		});
+			}
+		);
 		return; // use return instead of break to avoid executin load twice
 	case 7: // pantalla combinada ( Resultados parciales )
 		page="../videowall/vwc_parciales.php";

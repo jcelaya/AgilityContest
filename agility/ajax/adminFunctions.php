@@ -37,7 +37,6 @@ try {
 	$fed=http_request("Federation","i",-1); // default for erase is "All federations"
     $suffix=http_request("Suffix","s","");
     $version=http_request("Version","s","");
-    $serial=http_request("Serial","s","00000000");
     $directory=http_request("Directory","s",""); // where to store user backup or null to use defaults
 	if ($operation===null) throw new Exception("Call to adminFunctions without 'Operation' requested");
 	if ($operation==="progress") {
@@ -50,14 +49,8 @@ try {
 	$am= AuthManager::getInstance("adminFunctions");
     $adm= new Admin("adminFunctions",$am);
 	switch ($operation) {
-		case "searchClub":
-            $result=$am->searchClub(); break;
 		case "userlevel":
 			$am->access($perms); $result=array('success'=>true); break;
-		case "permissions":
-			$am->permissions($perms); $result=array('success'=>true); break;
-		case "capabilities":
-			$am->access(PERMS_NONE); $result=$am->getLicensePerms(); break;
         case "backup":
         	/* $am->access(PERMS_ADMIN); */ $result=$adm->backup();	break;
         case "autobackup":
@@ -77,17 +70,14 @@ try {
             $adm->setProgressHandler(1,$suffix); // 0:restore 1:upgrade
             $result=$adm->downloadUpgrades($version);
             break;
-		case "listLicenses":
-			$result=$am->listRegisteredLicenses(); break;
-		case "activateLicense":
-			$am->access(PERMS_ADMIN);
-			if ($mode==0) $result=$am->activateSelectedLicense($serial);
-			else $result=$am->removeSelectedLicense($serial);
+		case "reginfo":
+			$club = $am->searchClub();
+			$result = array(
+				'email' => $config->getEnv('email'),
+				'club' => $club['Nombre'],
+				'clubId' => $club['ID']
+			);
 			break;
-		case "reginfo": 
-			$result=$am->getRegistrationInfo(); if ($result==null) $adm->errormsg="Cannot retrieve license information"; break;
-		case "register":
-			$am->access(PERMS_ADMIN); $result=$am->registerApp(); if ($result==null) $adm->errormsg="Cannot import license data"; break;
 		case "loadConfig": // send configuration to browser
 			$result=$config->loadConfig();
 			break;

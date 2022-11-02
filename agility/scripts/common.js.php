@@ -164,22 +164,6 @@ function hexToRGB(hex) {
  */
 function setHeader(msg) { $('#Header_Operation').html('<p>'+msg+'</p>'); }
 
-// permisos de ejecucion
-const access_perms = {
-    ENABLE_IMPORT   :  1,  // permite importar datos desde Excel
-    ENABLE_TEAMS    :  2,  // permite gestionar pruebas de equipos
-    ENABLE_KO       :  4,  // permite gestionar pruebas K.O y Juegos
-    ENABLE_SPECIAL  :  8,  // permite gestionar pruebas de mangas multiples/subordinadas
-    ENABLE_VIDEOWALL:  16, // permite acceso desde videomarcador
-    ENABLE_PUBLIC   :  32, // permite acceso publico web
-    ENABLE_CHRONO   :  64, // permite gestion desde cronometro
-	ENABLE_ULIMIT   :  128,// permite numero de inscripciones ilimitadas
-	ENABLE_LIVESTREAM: 256,// permite funciones de live-streaming y chroma-key
-    ENABLE_TRAINING	:  512, // permite gestion de sesiones de entrenamiento
-    ENABLE_LEAGUES	: 1024, // permite gestion de ligas de competicion
-    ENABLE_SERCHRONO: 2048  // permite ejecucion de programa de cronometro serie
-};
-
 // permisos de acceso
 const access_level = {
 	PERMS_ROOT		:0,
@@ -525,7 +509,7 @@ function loadConfiguration(callback) {
 	});
 }
 
-var ac_regInfo={'clubInfo':{'ID':0,'Nombre':''}};
+var ac_regInfo = {'clubId': 0, 'club': '', 'email': ''};
 function getLicenseInfo() {
 	$.ajax({
 		type: "GET",
@@ -536,42 +520,13 @@ function getLicenseInfo() {
 		async: true,
 		cache: false,
 		dataType: 'json',
-		success: function(reginfo){
-			if ( typeof (reginfo.Serial) !== "undefined") {
-			    reginfo.clubInfo=ac_regInfo.clubInfo;
-				ac_regInfo=reginfo;
-			} else {
-				$.messager.alert('<?php _e("Error"); ?>','<?php _e("getLicenseInfo(): cannot retrieve License info from server"); ?>',"error")
-			}
+		success: function(reginfo) {
+			ac_regInfo = reginfo;
 		},
 		error: function(XMLHttpRequest,textStatus,errorThrown) {
 			alert("getLicenseInfo() error: "+XMLHttpRequest.status+" - "+XMLHttpRequest.responseText+" - "+textStatus + " "+ errorThrown );
 		}
 	});
-}
-
-function getLicensedClubInfo() {
-    $.ajax({
-        type: "GET",
-        url: "../ajax/adminFunctions.php",
-        data: {
-            Operation: 'searchClub'
-        },
-        async: true,
-        cache: false,
-        dataType: 'json',
-        success: function(data){
-            if ( typeof (data.ID) !== "undefined") {
-                ac_regInfo.clubInfo=data;
-            } else {
-                ac_regInfo.clubInfo={'ID':0,'Nombre':''};
-                console.log('<?php _e("getLicensedClubInfo(): cannot retrieve License info from server"); ?>');
-            }
-        },
-        error: function(XMLHttpRequest,textStatus,errorThrown) {
-            alert("getLicensedClubInfo() error: "+XMLHttpRequest.status+" - "+XMLHttpRequest.responseText+" - "+textStatus + " "+ errorThrown );
-        }
-    });
 }
 
 var ac_fedInfo={};

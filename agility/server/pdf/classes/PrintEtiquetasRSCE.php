@@ -37,7 +37,6 @@ class PrintEtiquetasRSCE extends PrintCommon {
 	
 	protected $mangasObj;
 	protected $juecesObj;
-	protected $serialno;
 	
 	 /** Constructor
 	 * @param {obj} $manga datos de la manga
@@ -56,10 +55,6 @@ class PrintEtiquetasRSCE extends PrintCommon {
 				$this->juecesObj[$n]= $dbobj->__selectAsArray("*",'jueces',"ID={$this->mangasObj[$n]->Juez1}");
 			}
 		}
-        // add version date and license serial to every label
-        $ser= substr( $this->regInfo['Serial'],4,4);
-        $ver= substr( $this->config->getEnv("version_date"),2,6) ;
-        $this->serialno="{$ver}-${ser}";
 	}
 	
 	// No tenemos cabecera: no cabe
@@ -142,10 +137,6 @@ class PrintEtiquetasRSCE extends PrintCommon {
 		//Fecha (45,y+5,38,5) left
 		$this->SetXY($left+36,$y8);
 		$this->Cell(38,5,$this->jornada->Fecha,0,0,'L',false);
-        // licencia
-        $this->SetFont($this->getFontName(),'',5); // font for licencia
-        $this->SetXY($left+36,$y11);
-        $this->Cell(38,5,$this->serialno,0,0,'L',false);
         $this->SetFont($this->getFontName(),'I',8); // font for prueba,name
 
 		//Perro (45,y+10,38,7) right

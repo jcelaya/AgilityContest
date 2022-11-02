@@ -57,12 +57,7 @@ $am=AuthManager::getInstance("Ligas");
 <div id="ligas-perro-buttons">
 </div>
 
-<div id="ligas-notallowed">
-    <p><strong><?php _e('Current license permissions<br/> do not allow league scoring operations');?></strong></p>
-    <img src="../images/sad_dog.png" alt="triste"/>
-</div>
-
-<div id="ligas-tab" style="padding:5px;display:<?php echo $am->allowed(ENABLE_LEAGUES)?'inherit':'none';?>">
+<div id="ligas-tab" style="padding:5px;display:inherit">
     <div title="<?php _e('Grade'); ?> 1" data-options="iconCls:'icon-huella'" style="padding:5px;border:solid 1px #000000">
         <div style="width:100%;height:500px">
             <table id="ligas-g1-datagrid"></table>
@@ -107,14 +102,6 @@ $am=AuthManager::getInstance("Ligas");
         iconCls:'icon-dog',
         closed: true,
         modal:true
-    });
-
-    $('#ligas-notallowed').dialog({
-     width:400,
-     height:300,
-     title:'<?php _e('Not allowed');?>',
-     iconCls:'forbidden',
-     closed: <?php echo $am->allowed(ENABLE_LEAGUES)?'true':'false'?>
     });
 
     $('#ligas-tab').tabs({

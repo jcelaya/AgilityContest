@@ -65,30 +65,8 @@ try {
                 $v = $adm->checkForUpgrades(false);
                 $result['NewVersion'] = "{$v['version_name']}-{$v['version_date']}";
             }
-            // if configured to do search for new database entries in master server
             $result['NewEntries']=0;
 		    $result['Warning']="";
-            if (intval($config->getEnv("search_updatedb"))!==0) {
-                // if not admin or license serial is zero, throw exception, but allow to continue
-                try{
-                    $am->access(PERMS_ADMIN);
-                    $up=new Uploader("CheckUpdateDBAtLogin");
-                    $res= $up->doCheckForUpdates($result['Serial']);
-                    // trap server response fail and set new entries to 0 on error
-                    if (!$res) {
-                        $result['NewEntries']=0;
-                        throw new Exception("CheckUpdateDBAtLogin(): server call failed");
-                    }
-                    if (array_key_exists('errorMsg',$res)){
-                        $result['NewEntries']=0;
-                        throw new Exception("CheckUpdateDBAtLogin(): {$res['errorMsg']}");
-                    }
-                    $result['NewEntries'] = $res['rows'][0]['NewEntries'];
-                } catch (Exception $e) {
-                    $result['Warning']=$e->getMessage();
-                    do_log("CheckUpdateDBAtLogin: ".$e->getMessage());
-                }
-            }
             break;
 		case "pwcheck": $result=$am->checkPassword($user,$pass); break; // just check pass, dont create session
         case "logout": $result=$am->logout(); break;

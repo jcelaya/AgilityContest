@@ -237,9 +237,9 @@ Class Config {
         'database_rpass'	=> array(	's',	true,	"dbrpass"),
 		'program_name'		=> array(	's',	true,	"Agilitycontest"),
 		'author'			=> array(	's',	true,	"Juan Antonio Martinez"),
-		'email'				=> array(	's',	true,	"juansgaviota@gmail.com"),
+		'club'				=> array(	's',	true,	""),
+		'email'				=> array(	's',	true,	""),
         'license'			=> array(	's',	true,	"GPL"),
-        'uniqueID'			=> array(   's',	true,	""),
         'master_server'		=> array(	's',	true,	"www.agilitycontest.es"),
         'master_baseurl'	=> array(	's',	true,	"agility"),
 
@@ -470,7 +470,6 @@ Class Config {
             'author'			=> $this->getEnv('author'),
             'email'				=> $this->getEnv('email'),
             'license'			=> $this->getEnv('license'),
-            'uniqueID'			=> $this->getEnv('uniqueID'), // base64 encoded
             'master_server'		=> $this->getEnv('master_server'),
             'master_baseurl'	=> $this->getEnv('master_baseurl'),
             'database_name'		=> $data['database_name'],
@@ -519,7 +518,7 @@ Class Config {
 			if ( array_key_exists($key,$sys)) $this->config[$key]=$sys[$key];
 		}
 
-		// al hacer una actualización, y para preservar el uniqueID, es preciso conservar
+		// al hacer una actualización, es preciso conservar
         // el system.ini. Por ello es necesario verificar que la versión quede actualizada
 		// nos aseguramos de que en el system.ini version name y date son correctos
 		$changelog = rtrim(fgets(fopen(AC_CHANGELOG, 'r')),"\r\n"); // auto-close
@@ -533,11 +532,6 @@ Class Config {
 		    $this->config['version_date']=$chng[2];
             $needToSave = true;
         }
-		// si el sistema no tiene uniqueID, lo creamos (32 bytes -> 256bits ) y guardamos
-		if (!array_key_exists('uniqueID',$this->config) || ($this->config['uniqueID']==="")) {
-			$this->config['uniqueID']=base64_encode(getRandomString(32));
-            $needToSave = true;
-		}
 		if ($needToSave===true) $this->writeAC_systemFile($sys);
 
 		// y ahora preparamos la internacionalizacion
@@ -636,7 +630,6 @@ Class Config {
         unset($data['running_mode']);
         unset($data['master_server']);
 		unset($data['master_baseurl']);
-		unset($data['uniqueID']);
 		return $data;
 	}
 	

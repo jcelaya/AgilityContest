@@ -112,20 +112,6 @@ class Jornadas extends DBObject {
         $tipo_competicion = http_request("Tipo_Competicion","i",0);
         $id= $jornadaid; // prepared statements cannot handle function parameters as bind variables
         $this->myLogger->info("ID: $id Prueba: $prueba Nombre: $nombre Fecha: $fecha Hora: $hora");
-        // check permissions
-        if ( ($slaveof!=0) && (! $am->allowed(ENABLE_SPECIAL)) ) {
-            $this->myLogger->notice("Jornada::update() Current license does not allow Subordinate journeys");
-            $slaveof=0; // ignore, but allow to continue as un-subordinate journey
-        }
-        if ( ($games!=0) && (! $am->allowed(ENABLE_SPECIAL)) ) {
-            return $this->error("Jornada::update() Current license does not allow Games/Wao journeys");
-        }
-        if ( ($ko!=0) && (! $am->allowed(ENABLE_KO)) ) {
-            return $this->error("Jornada::update() Current license does not allow K.O journeys");
-        }
-        if ( ( ($equipos3!=0) || ($equipos4!=0) )&& (! $am->allowed(ENABLE_TEAMS)) ) {
-            return $this->error("Jornada::update() Current license does not allow Team journeys");
-        }
 		// componemos un prepared statement
 		$sql ="UPDATE jornadas
 				SET Prueba=?, Nombre=?, Fecha=?, Hora=?, SlaveOf=?, Tipo_Competicion=?,Grado1=?, Grado2=?, Grado3=?, Junior=?,
@@ -388,29 +374,6 @@ class Jornadas extends DBObject {
 		}
 		return $this->jueces["$id"];
 	}
-
-    /**
-     * Check license for allow access to teams/KO events
-     * @param {AuthManager} $am authManager object
-     * @param {integer} $id jornada id
-     */
-    function checkAccess($am,$id,$perms=0) {
-        if ($id<=0) return $this->error("Jornada::checkAccess(): invalid Jornada ID");
-        $j=$this->__getObject("jornadas",$id);
-        if (intval($perms)!=0) $res=$am->allowed($perms); // check against user provided check access
-        // else check against jornada-dependent access permissions
-        else if (Jornadas::isJornadaEquipos($j)) $res=$am->allowed(ENABLE_TEAMS);
-        else if (intval($j->KO)!=0) $res=$am->allowed(ENABLE_KO);
-        else if (intval($j->Games)!=0) $res=$am->allowed(ENABLE_SPECIAL); // mangas multiples/games
-        else $res=true;
-        if (!$res) {
-            // notice the img path is relative to current web page "/agility/console", not php current path
-            $this->errormsg='<img src="../images/sad_dog.png" width="75" alt="sad dog" style="float:right;"/>
-                    <p style="font-weight:bold;">Requested feature is disabled due to current license registration permissions</p>';
-            return null;
-        }
-        return "";
-    }
 
 	/**
 	 * Devuelve una lista de las rondas de que consta esta jornada (GI,GII,GIII, PreAgility..)

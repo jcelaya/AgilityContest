@@ -1521,14 +1521,8 @@ function evalOrdenSalida(oper) {
 	if (workingData.jornada==0) return;
 	if (workingData.manga==0) return;
     if (oper==="excel") {
-        check_permissions(access_perms.ENABLE_IMPORT, function (res) {
-            if (res.errorMsg) {
-                $.messager.alert('License error','<?php _e("Current license has no Excel import function enabled"); ?>', "error");
-            } else {
-                $('#ordensalida-excel-dialog').dialog('open');
-            }
-            return false; // prevent default fireup of event trigger
-        });
+        $('#ordensalida-excel-dialog').dialog('open');
+        return false; // prevent default fireup of event trigger
     } else { // 'random', 'reverse', 'clone', 'results', 'alpha','dorsal'
         $.messager.confirm('<?php _e('Confirm'); ?>', '<?php _e('Every changes done till now will be lost<br />Continue?'); ?>', function(r){
             if (!r){
@@ -1691,17 +1685,11 @@ function competicionDialog(name) {
     cpgdlg.dialog('close'); // may not be declared (yet) as easyui dialog PENDING
     if (rsdlg && ! rsdlg.dialog('options').closed ) rsdlg.dialog('close');
     if (name==='entrenamientos') {
-        check_permissions(access_perms.ENABLE_TRAINING,function(res) {
-            if (res.errorMsg) {
-                $.messager.alert('License error','<?php _e("This license has no permission to handle training sessions"); ?>',"error");
-            } else {
-                // abrimos ventana de dialogo
-                $('#entrenamientos-dialog').dialog('open').dialog('setTitle',' <?php _e("Training sesion"); ?>'+": "+workingData.nombrePrueba);
-                // cargamos ventana de orden de salida
-                reloadEntrenamientos();
-            }
-            return false; // prevent default fireup of event trigger
-        });
+        // abrimos ventana de dialogo
+        $('#entrenamientos-dialog').dialog('open').dialog('setTitle',' <?php _e("Training sesion"); ?>'+": "+workingData.nombrePrueba);
+        // cargamos ventana de orden de salida
+        reloadEntrenamientos();
+        return false; // prevent default fireup of event trigger
     }
     if (name==='ordentandas') {
         // abrimos ventana de dialogo

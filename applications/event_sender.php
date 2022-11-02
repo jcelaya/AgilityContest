@@ -234,7 +234,6 @@ Class Config {
         'author'			=> array(	's',	true,	"Juan Antonio Martinez"),
         'email'				=> array(	's',	true,	"juansgaviota@gmail.com"),
         'license'			=> array(	's',	true,	"GPL"),
-        'uniqueID'			=> array(   's',	true,	""),
         'master_server'		=> array(	's',	true,	"www.agilitycontest.es"),
         'master_baseurl'	=> array(	's',	true,	"agility"),
 

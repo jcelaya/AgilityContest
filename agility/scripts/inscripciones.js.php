@@ -636,14 +636,8 @@ function importExportInscripciones() {
                     }
                 );
             } else { // import
-                check_permissions(access_perms.ENABLE_IMPORT, function (res) {
-                    if (res.errorMsg) {
-                        $.messager.alert('License error','<?php _e("Current license has no Excel import function enabled"); ?>', "error");
-                    } else {
-                        $('#importdialog').dialog('open');
-                    }
-                    return false; // prevent default fireup of event trigger
-                });
+                $('#importdialog').dialog('open');
+                return false; // prevent default fireup of event trigger
             }
 		}
 	).window('resize',{width:530});

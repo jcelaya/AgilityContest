@@ -30,10 +30,6 @@ if(!isset($config)) $config =Config::getInstance();
 if( ! function_exists('openssl_get_publickey')) {
     die("Invalid configuration: please uncomment line 'module=php_openssl.dll' in file '\\xampp\\php\\php.ini'");
 }
-$am=AuthManager::getInstance("Public");
-if (!$am->allowed(ENABLE_PUBLIC)) {
-    die("Current license has no permissions to handle public (web) access related functions");
-}
 require_once(__DIR__ . "/../server/web/PublicWeb.php");
 
 $pruebaID=http_request("Prueba","i",18);
@@ -325,10 +321,7 @@ if (($poster==null) || ($poster=="")) $poster="../default_poster.png";
                 }
             }
 
-            // si la licencia permite sesiones de entrenamiento las mostramos
-            if ( $am->allowed(ENABLE_TRAINING)) {
-                echon( '<dt><a class="easyui-linkbutton" href="javascript:pbmenu_loadTrainingSession('.$pruebaID.');">'._("Training session").'</a></dt><br/>');
-            }
+            echon( '<dt><a class="easyui-linkbutton" href="javascript:pbmenu_loadTrainingSession('.$pruebaID.');">'._("Training session").'</a></dt><br/>');
 
             // enumeramos jornadas
             foreach ($ptree['Jornadas'] as $jornada) {

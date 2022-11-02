@@ -37,7 +37,6 @@ class PrintEtiquetasRFEC extends PrintCommon {
 	
 	protected $mangasObj;
 	protected $juecesObj;
-	protected $serialno;
 	
 	 /** Constructor
 	 * @param {obj} $manga datos de la manga
@@ -56,10 +55,6 @@ class PrintEtiquetasRFEC extends PrintCommon {
 				$this->juecesObj[$n]= $dbobj->__selectAsArray("*",'jueces',"ID={$this->mangasObj[$n]->Juez1}");
 			}
 		}
-        // add version date and license serial to every label
-        $ser= substr( $this->regInfo['Serial'],4,4);
-        $ver= substr( $this->config->getEnv("version_date"),2,6) ;
-        $this->serialno="{$ver}-${ser}";
 	}
 	
 	// No tenemos cabecera: no cabe

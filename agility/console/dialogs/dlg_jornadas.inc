@@ -285,12 +285,6 @@ $config =Config::getInstance();
                 $('#jornadas-MangasEquipos').combobox('enable').combobox('setValue',val);
             }
 
-            if ( (parseInt(ac_regInfo.Options,2) & access_perms.ENABLE_TEAMS) === 0 ){
-                // si la licencia no tiene permisos para jornadas por equipos, desactivamos la opcion
-                $('#jornadas-EquiposChk').prop('disabled',true);
-                $('#jornadas-MangasEquipos').combobox('disable');
-            }
-
             // el resto de mangas son "normales" ( estan siempre presentes )
             $('#jornadas-Equipos3').prop('checked',( val&0xF0 !== 0) );
             $('#jornadas-Equipos4').prop('checked',( val&0x0F !== 0) );
@@ -298,12 +292,6 @@ $config =Config::getInstance();
 
             $('#jornadas-KO').prop('checked',(parseInt(data.KO) === 1));
             $('#jornadas-Games').prop('checked',(parseInt(data.Games) === 1));
-
-            if ( (parseInt(ac_regInfo.Options,2) & access_perms.ENABLE_KO) === 0 ){
-                // si la licencia no tiene permisos para jornadas KO o Games, desactivamos la opcion
-                $('#jornadas-Games').prop('disabled',true);
-                $('#jornadas-KO').prop('disabled',true);
-            }
 
             $('#jornadas-Especial').prop('checked',(parseInt(data.Especial) === 1));
         	$('#jornadas-Observaciones').textbox( (parseInt(data.Especial)===0)?'disable':'enable');
@@ -406,7 +394,6 @@ $config =Config::getInstance();
         method: 'get',
         mode: 'remote',
         required: true,
-        disabled: ( (parseInt(ac_regInfo.Options,2) & access_perms.ENABLE_SPECIAL) === 0 )?true:false,
         url:'../ajax/database/jornadaFunctions.php',
         onChange:function(newval,oldval) {
             $('#jornadas-SlaveOf').val(newval);

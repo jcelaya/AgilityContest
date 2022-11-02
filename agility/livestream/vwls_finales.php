@@ -6,8 +6,6 @@ require_once(__DIR__ . "/../server/tools.php");
 require_once(__DIR__ . "/../server/auth/Config.php");
 require_once(__DIR__ . "/../server/auth/AuthManager.php");
 $config =Config::getInstance();
-$am = AuthManager::getInstance("Videowall::finales");
-if ( ! $am->allowed(ENABLE_LIVESTREAM)) { include_once("unregistered.php"); return 0;}
 $combined=http_request("combined","i",0);
 ?>
 <!--

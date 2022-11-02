@@ -19,7 +19,6 @@ if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth F
 require_once(__DIR__ . "/../../server/tools.php");
 require_once(__DIR__ . "/../../server/auth/Config.php");
 require_once(__DIR__ . "/../../server/auth/AuthManager.php");
-$am=AuthManager::getInstance("Chrono");
 ?>
     <!-- ventana de control remoto para los cronos/videomarcadores/livestream definidos en una o varias sesiones -->
     <div id="remote-dialog" style="width:800px;height:480px;padding:5px;">
@@ -28,7 +27,7 @@ $am=AuthManager::getInstance("Chrono");
             <!--  control (seguimiento de tablets) -->
 
             <div title="<?php _e('Tablet deployment');?>" data-options="iconCls:'icon-clock'">
-                <div style="display:<?php echo $am->allowed(ENABLE_CHRONO)?'inherit':'none';?>">
+                <div style="display:inherit">
                     <span style="float:left;display:inline-block;width:55%;padding:5px">
                         <p><?php _e('List of currently active tablet commanders');?></p>
                       <table id="remote-tablet-datagrid" style="width:100%"></table>
@@ -66,7 +65,7 @@ $am=AuthManager::getInstance("Chrono");
             <!--  dialogo para control video marcadores -->
 
             <div title="<?php _e('Videowall Screens');?>" data-options="iconCls:'icon-video-tv'">
-                <div style="display:<?php echo $am->allowed(ENABLE_VIDEOWALL)?'inherit':'none';?>">
+                <div style="display:inherit">
                     <span style="float:left;display:inline-block;width:55%;padding:5px">
                         <p>
                             <?php _e('List of currently active Videowall displays');?><br/><br/>
@@ -153,16 +152,12 @@ $am=AuthManager::getInstance("Chrono");
                         </form>
                     </span>
                 </div>
-                <div style="display:<?php echo $am->allowed(ENABLE_VIDEOWALL)?'none':'inherit';?>">
-                    <p><?php _e('Current license permissions does not allow videowall operations');?></p>
-                    <img src="../../images/sad_dog.png" alt="triste"/>
-                </div>
             </div>
 
             <!--  dialogo para control de pantallas de streaming -->
 
             <div title="<?php _e('Live Streaming windows');?>" data-options="iconCls:'icon-live'">
-                <div style="display:<?php echo $am->allowed(ENABLE_LIVESTREAM)?'inherit':'none';?>">
+                <div style="display:inherit">
                     <span style="float:left;display:inline-block;width:55%;padding:5px">
                         <p>
                             <?php _e('List of currently active LiveStream windows');?><br/><br/>
@@ -220,17 +215,12 @@ $am=AuthManager::getInstance("Chrono");
                         </form>
                     </span>
                 </div>
-
-                <div style="display:<?php echo $am->allowed(ENABLE_LIVESTREAM)?'none':'inherit';?>">
-                    <p><?php _e('Current license permissions does not allow live stream operations');?></p>
-                    <img src="../../images/sad_dog.png" alt="triste"/>
-                </div>
             </div>
 
             <!--  dialogo para enviar comandos a (video)cronometro -->
 
             <div title="<?php _e('Chronometers');?>" data-options="iconCls:'icon-clock'">
-                <div style="display:<?php echo $am->allowed(ENABLE_CHRONO)?'inherit':'none';?>">
+                <div style="display:inherit">
                     <span style="float:left;display:inline-block;width:55%;padding:5px">
                         <p><?php _e('List of currently active chronometers scoreboards');?></p>
                       <table id="remote-chronometer-datagrid" style="width:100%"></table>
@@ -259,15 +249,11 @@ $am=AuthManager::getInstance("Chrono");
                                data-options="iconCls:'icon-web'" onclick="remoteOpenWebConsole('#remote-chronometer');"><?php _e('Web Console'); ?></a>
                     </span>
                 </div>
-                <div style="display:<?php echo $am->allowed(ENABLE_CHRONO)?'none':'inherit';?>">
-                    <p><?php _e('Current license permissions does not allow chronometer operations');?></p>
-                    <img src="../../images/sad_dog.png" alt="triste"/>
-                </div>
             </div>
 
             <!--  dialogo para enviar mensajes a los clientes por internet -->
             <div title="<?php _e('Internet access');?>" data-options="iconCls:'icon-web'">
-                <div style="display:<?php echo $am->allowed(ENABLE_PUBLIC)?'inherit':'none';?>">
+                <div style="display:inherit">
                     <span style="float:left;display:inline-block;width:55%;padding:5px">
                         <p><?php _e('Control panel for remote public access');?></p>
 
@@ -298,10 +284,6 @@ $am=AuthManager::getInstance("Chrono");
                                data-options="iconCls:'icon-mail'" onclick="remoteSendInternetNotification('#remote-internet')"><?php _e('Send'); ?></a>
                         </form>
                     </span>
-                </div>
-                <div style="display:<?php echo $am->allowed(ENABLE_PUBLIC)?'none':'inherit';?>">
-                    <p><?php _e('Current license permissions does not allow internet public access');?></p>
-                    <img src="../../images/sad_dog.png" alt="triste"/>
                 </div>
             </div>
         </div>

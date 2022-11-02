@@ -98,9 +98,8 @@ class MailManager {
         $myMailer->Realm = $this->myConfig->getEnv("email_realm");
         $myMailer->Workstation = $this->myConfig->getEnv("email_workstation");
         // retrieve data from current license and use it to initialize sender and replyTo info
-        $data=$this->myAuthManager->getRegistrationInfo();
-        $myMailer->setFrom($data['Email'], $data['Name']);
-        $myMailer->addReplyTo($data['Email'], $data['Name']);
+        $myMailer->setFrom($this->myConfig->getEnv("email"), $this->myConfig->getEnv("club"));
+        $myMailer->addReplyTo($this->myConfig->getEnv("email"), $this->myConfig->getEnv("club"));
         $myMailer->CharSet = "UTF-8";
         $myMailer->Encoding = "base64";
     }
@@ -148,9 +147,8 @@ class MailManager {
         $myMailer->Realm = $this->myData["email_realm"];
         $myMailer->Workstation = $this->myData["email_workstation"];
         // retrieve data from current license and use it to initialize sender and replyTo info
-        $data=$this->myAuthManager->getRegistrationInfo();
-        $myMailer->setFrom($data['Email'], $data['Name']);
-        $myMailer->addReplyTo($data['Email'], $data['Name']);
+        $myMailer->setFrom($this->myConfig->getEnv("email"), $this->myConfig->getEnv("club"));
+        $myMailer->addReplyTo($this->myConfig->getEnv("email"), $this->myConfig->getEnv("club"));
         // compose a dummy message to be sent to sender :-)
         //Set who the message is to be sent to
         $myMailer->addAddress($myMailer->From, $myMailer->FromName);
@@ -358,8 +356,7 @@ class MailManager {
         $myMailer->addAddress($this->myData['Email']);
         // add Bcc to sender if instructed to do
         if( $this->myData['SendToMe'] !=0 ) {
-            $d=$this->myAuthManager->getRegistrationInfo();
-            $myMailer->addBCC($d['Email']);
+            $myMailer->addBCC($this->myConfig->getEnv("email"));
         }
         //Set the subject line to Contest Name
         $myMailer->Subject = $this->pruebaObj->Nombre;
@@ -638,8 +635,7 @@ class MailManager {
         }
         // add Bcc to sender if instructed to do
         if( $this->myData['SendToMe'] != 0) {
-            $d=$this->myAuthManager->getRegistrationInfo();
-            $myMailer->addBCC($d['Email']);
+            $myMailer->addBCC($this->myConfig->getEnv("email"));
         }
         // prepare message body
         $d=date("Y/m/d H:i");

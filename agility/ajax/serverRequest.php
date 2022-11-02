@@ -98,13 +98,6 @@ try {
             $dl=new Downloader($timestamp,$serial,$revision);
             $result=$dl->retrieveBlackList(); // read an return blacklist file
             break;
-        case "retrieveLicense": // to be executed on master server: ask to send license
-            $email=http_request("Email","s","");
-            $uniqueID=http_request("UniqueID","s","");
-            $akey=http_request("ActivationKey","s","");
-            $dl=new Downloader($timestamp,$serial,$revision);
-            $result=$dl->retrieveLicense($email,$uniqueID,$akey,$serial);
-            break;
         case "retrieveBackup": // also to be executed in master server
             // unregistered licenses has no right to download database backup
             if (intval($serial)===0) die("AgilityContest client has no registered license");

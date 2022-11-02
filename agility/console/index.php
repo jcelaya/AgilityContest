@@ -145,7 +145,6 @@ function initialize() {
 	loadConfiguration();
 	// get License Information
 	getLicenseInfo();
-	getLicensedClubInfo();
 	// retrieve info on available federation modules
 	getFederationInfo();
 	// initialize session data

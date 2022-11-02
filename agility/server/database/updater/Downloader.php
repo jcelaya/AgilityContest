@@ -187,19 +187,6 @@ class Downloader {
         return "";
     }
 
-    /**
-     * Retrieve black list file from configuration directory
-     * This routine is necessary as .htaccess block any direct access to config directory
-     * @return array
-     * @throws Exception
-     */
-    function retrieveBlackList() {
-        // code to generate license is -of course- outside github and is not covered by GPL
-        // we just call it via shell_exec()
-        $data=shell_exec("/usr/local/bin/getLicense.php"); // no parameters: just compile black list
-        return array('success'=>true,'data'=>$data);
-    }
-
     function retrieveLicense($email,$uniqueID,$activationKey,$serial) {
         // code to generate license is -of course- outside github and is not covered by GPL
         // we just call it via shell_exec()

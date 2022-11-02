@@ -149,10 +149,6 @@ class Eventos extends DBObject {
             case 'crono_reset':		// puesta a cero del contador
             case 'crono_error':		// error en alineamiento de sensores
             case 'crono_ready': // estado activo/escuchando
-				if (!$this->myAuth->allowed(ENABLE_CHRONO)) {
-					$this->myLogger->info("Ignore chrono events: licencse forbids");
-					return array('errorMsg' => 'Current license does not allow chrono handling');
-				} // silently ignore
 				break;
 			// entrada de datos, dato siguiente, cancelar operacion
 			case 'llamada':		// operador abre panel de entrada de datos
@@ -174,18 +170,10 @@ class Eventos extends DBObject {
 			// eventos de cambio de camara para videomarcadores
 			// el campo data contiene la variable "Value" (url del stream ) y "mode" { mjpeg,h264,ogg,webm }
 			case 'camera':		// cambio de fuente de streaming
-				if (!$this->myAuth->allowed(ENABLE_VIDEOWALL)) {
-					$this->myLogger->info("Ignore camera events: licencse forbids");
-					return array('errorMsg' => 'Current license does not allow LiveStream handling');
-				} // silently ignore
 				break;
 			case 'command': // remote control
                 // trap switch screen commands to check need for update livestream video info
                 if (intval($data['Oper'])===EVTCMD_SWITCH_SCREEN ) {
-			        if (!$this->myAuth->allowed(ENABLE_VIDEOWALL) && !$this->myAuth->allowed(ENABLE_LIVESTREAM)) {
-                        $this->myLogger->info("Ignore videowall/livestream remote control events: licencse forbids");
-                        return array('errorMsg' => 'Current license does not allow VideoWall handling');
-                    }
 			        $sess=new Sesiones("switch_screen_event");
 			        // data: name:sessid:view:mode:playlistidx ... get playlist index
 			        $sess->updateVideoInfo($sid,intval( substr(strrchr($data['Value'], ":"), 1 ) ) );

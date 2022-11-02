@@ -89,8 +89,6 @@ class DogReader {
         $this->myLogger= new Logger($this->name,$this->myConfig->getEnv("debug_level"));
         if (php_sapi_name()!="cli") {
             $this->myAuthMgr= AuthManager::getInstance($this->name);
-            if (! $this->myAuthMgr->allowed(ENABLE_IMPORT) )
-                throw new Exception ("{$name}: Unlicensed copy or Feature disabled in current license");
             $this->myAuthMgr->access(PERMS_OPERATOR); // throw exception on fail
         }
         $this->tablename= TABLE_NAME;

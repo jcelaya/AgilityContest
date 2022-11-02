@@ -35,14 +35,6 @@ $runmode=intval($config->getEnv('running_mode'));
 if ( ($runmode & AC_RUNMODE_EVTSOURCE) === 0 ) {
     die("This AgilityContest install mode does not allow livestream operations");
 }
-try {
-    $am=AuthManager::getInstance("LiveStream");
-    if (!$am->allowed(ENABLE_LIVESTREAM)) {
-        die("Current license has no permissions to handle livestream related functions");
-    }
-} catch (Exception $e) {
-    die ( "AuthManager Exception: ".$e->getMessage()) ;
-}
 
 // tool to perform automatic upgrades in database when needed.
 // REMOVED: should only be needed in console. It's up the operator to take care on DB upgrades

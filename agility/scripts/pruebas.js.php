@@ -48,8 +48,8 @@ function newPrueba(dg,def,onAccept){
 	$('#pruebas-dialog').dialog('open').dialog('setTitle','<?php _e('Nueva Prueba'); ?>');
 	$('#pruebas-form').form('clear');
     pc.combogrid('clear');
-    pc.combogrid('setValue',ac_regInfo.clubInfo.ID);
-    pc.combogrid('setText',ac_regInfo.clubInfo.Nombre);
+    pc.combogrid('setValue', ac_regInfo.clubId);
+    pc.combogrid('setText', ac_regInfo.club);
     $('#pruebas-Federation').combogrid('readonly',false);
 	if (strpos(def,"<?php _e('-- Search --'); ?>")===false) $('#pruebas-Nombre').textbox('setValue',def.capitalize());// fill prueba Name
 	$('#pruebas-Operation').val('insert');
@@ -137,42 +137,6 @@ function savePrueba() {
     if ( ifrom>ito) {
         $.messager.alert('<?php _e("Data error"); ?>','<?php _e("Invalid inscription period"); ?>',"error");
         return;
-    }
-    // on new contests, check license data and warn user when club does not match ID
-    if ( $('#pruebas-Operation').val()==='insert' ){
-        var ser=parseInt(ac_regInfo.Serial);
-        var cid=$('#pruebas-Club').combogrid('getValue');
-        if ( (ser>1) && (cid!==ac_regInfo.clubInfo.ID)  ) {
-            var cl=$('#pruebas-Club').combogrid('getText');
-            var lcl=ac_regInfo.clubInfo.Nombre;
-            var ok=$.messager.defaults.ok;
-            var cancel=$.messager.defaults.cancel;
-            $.messager.defaults.ok="<?php _e('Continue');?>";
-            $.messager.defaults.cancel="<?php _e('Back');?>";
-            $.messager.confirm({
-                title:"<?php _e('License notice');?>",
-                msg:"<?php _e('Organizer club');?>"+' ('+cl+') '+
-                    '<br/>'+
-                    "<?php _e('does not match with licenser club information');?>"+' ('+lcl+')'+
-                    '<br/>&nbsp;<br/>'+
-                    "<?php _e('This is a copyright violation, as you are only allowed to create contests for your club');?>"+
-                    '<br/>&nbsp;<br/>'+
-                    "<?php _e('Future application versions may enforce copyright issues');?>"+
-                    '<br/>&nbsp;<br/>'+
-                    "<?php _e('Some features may be disabled. Continue at your own risk');?>",
-                width:550,
-                height:'auto',
-                icon:'warning',
-                fn: function(r) {
-                        // restore text
-                        $.messager.defaults.ok=ok;
-                        $.messager.defaults.cancel=cancel;
-                        // on request call save
-                        if (r) real_save();
-                    }
-            });
-            return false;
-        }
     }
     real_save();
 }
@@ -271,12 +235,6 @@ function emailPrueba(dg) {
     if (!row) {
         $.messager.alert('<?php _e("Mailer error"); ?>','<?php _e("There is no contest selected"); ?>',"warning");
         return false; // no way to know which prueba is selected
-    }
-    if (ac_regInfo.Serial==="00000000") {
-        $.messager.alert('<?php _e("Mail services"); ?>',
-            '<p><?php _e("Electronic mail operations<br/>are not allowed for unregistered licenses"); ?></p>',
-            "info").window('resize',{width:480});
-        return false;
     }
     // if no poster / tryptich warn user
     if ((row.Triptico=="")||(row.Cartel=="")) {

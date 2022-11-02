@@ -617,7 +617,7 @@ $config =Config::getInstance();
     $('#pdf_topmargin').textbox();
     $('#pdf_leftmargin').textbox();
     // retrieve email sender address from registration info.
-    $('#email_address').textbox().textbox('setValue',ac_regInfo.Email); // uneditable
+    $('#email_address').textbox().textbox('setValue',ac_regInfo.email); // uneditable
     $('#email_server').textbox();
     $('#email_user').textbox();
     $('#email_pass').textbox();
@@ -695,13 +695,6 @@ $config =Config::getInstance();
 	}
 
     function emailCheck() {
-        // check for registered application
-        if (ac_regInfo.Serial==="00000000") {
-            $.messager.alert('<?php _e("Mail services"); ?>',
-                '<p><?php _e("Electronic mail operations<br/>are not allowed for unregistered licenses"); ?></p>',
-                "info").window('resize',{width:480});
-            return false;
-        }
         // call to server
         $('#config-Operation').val('check');
         $.ajax({

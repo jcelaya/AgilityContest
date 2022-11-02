@@ -32,7 +32,6 @@ try {
 	if ($operation===null) throw new Exception("Call to pruebaFunctions without 'Operation' requested");
 	// verificamos permisos de acceso
     $am->access(PERMS_GUEST);
-    $am->permissions(ENABLE_LEAGUES);
     // obtenemos instancia del gestor de ligas adecuado a la federacion
     $l=Competitions::getLigasInstance("ligaFunctions",$federation);
 	switch ($operation) {

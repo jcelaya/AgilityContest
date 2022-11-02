@@ -145,14 +145,8 @@ function importExportEntrenamientos() {
                     break;
                 case 1:
                     // import
-                    check_permissions(access_perms.ENABLE_IMPORT, function (res) {
-                        if (res.errorMsg) {
-                            $.messager.alert('License error','<?php _e("Current license has no Excel import function enabled"); ?>', "error");
-                        } else {
-                            $('#entrenamientos-excel-dialog').dialog('open');
-                        }
-                        return false; // prevent default fireup of event trigger
-                    });
+                    $('#entrenamientos-excel-dialog').dialog('open');
+                    return false; // prevent default fireup of event trigger
                     break;
             }
         }).window('resize',{width:550});

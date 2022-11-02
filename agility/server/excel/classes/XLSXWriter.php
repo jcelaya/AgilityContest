@@ -84,19 +84,6 @@ class XLSX_Writer {
                 [ "Revision:",     $this->myConfig->getEnv("version_date") ]
             ]
         );
-
-        // informacion de licencia
-        $am=AuthManager::getInstance($this->myFile);
-        $ainfo=$am->getRegistrationInfo();
-        $this->myWriter->addRows(
-          [
-              [ "" ],
-              [ _utf("License Info") ],
-              [ "Serial Number:",   $ainfo["Serial"] ],
-              [ "User:",            $ainfo["User"]   ],
-              [ "Club:",            $ainfo["Club"]   ]
-          ]
-        );
     }
 
     /**

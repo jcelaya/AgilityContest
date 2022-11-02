@@ -209,16 +209,8 @@ class Admin extends DBObject {
         $bckdate=date("Ymd_Hi");
         $ver=$this->myConfig->getEnv("version_name");
         $rev=$this->myConfig->getEnv("version_date");
-        $lic=$this->myAuth->getRegistrationInfo()['Serial'];
-        // generate encryption key when configured to do
-        $key= ""; $keystr="";
-        if (intval($this->myConfig->getEnv("encrypt_database"))!==0) {
-            $key= base64_encode(substr("{$lic}{$rev}{$bckdate}",-32)); // encryption key
-            $keystr= hash("md5",$key,false);
-        }
-        if (intval($this->myConfig->getEnv("encrypt_database"))!==0) $key= random_password(32);
-        @fwrite($outfile, "-- AgilityContest Version: {$ver} Revision: {$rev} License: {$lic}\n");
-        @fwrite($outfile, "-- AgilityContest Backup Date: {$bckdate} Hash: {$keystr}\n");
+        @fwrite($outfile, "-- AgilityContest Version: {$ver} Revision: {$rev}\n");
+        @fwrite($outfile, "-- AgilityContest Backup Date: {$bckdate}\n");
 
         // now send to client database backup
         while(!feof($input)) {
@@ -249,7 +241,6 @@ class Admin extends DBObject {
         pclose($input);
         rewind($memfile);
         $data=stream_get_contents($memfile);
-        if ($key!=="") $data=SymmetricCipher::encrypt($data, $key, false);
         @fwrite($outfile, $data);
         fclose($outfile);
 
@@ -320,15 +311,8 @@ class Admin extends DBObject {
 		// insert AgilityContest Info at begining of backup file
         $ver=$this->myConfig->getEnv("version_name");
         $rev=$this->myConfig->getEnv("version_date");
-        $lic=$this->myAuth->getRegistrationInfo()['Serial'];
-        // generate encryption key when configured to do
-        $key= ""; $keystr="";
-        if (intval($this->myConfig->getEnv("encrypt_database"))!==0) {
-            $key= base64_encode(substr("{$lic}{$rev}{$bckdate}",-32)); // encryption key
-            $keystr= hash("md5",$key,false);
-        }
-        @fwrite($outfile, "-- AgilityContest Version: {$ver} Revision: {$rev} License: {$lic}\n");
-        @fwrite($outfile, "-- AgilityContest Backup Date: {$bckdate} Hash: {$keystr}\n");
+        @fwrite($outfile, "-- AgilityContest Version: {$ver} Revision: {$rev}\n");
+        @fwrite($outfile, "-- AgilityContest Backup Date: {$bckdate}\n");
 
         // now send to client database backup
 		while(!feof($input)) {
@@ -359,7 +343,6 @@ class Admin extends DBObject {
         pclose($input);
         rewind($memfile);
         $data=stream_get_contents($memfile);
-        if ($key!=="") $data=SymmetricCipher::encrypt($data, $key, false);
         @fwrite($outfile, $data);
         fclose($memfile);
 		return "ok";
@@ -383,7 +366,7 @@ class Admin extends DBObject {
         // case 1: string "remoteDownload" -> retrieve database from master server
 		if ($data==="remoteDownload") {
             $rev=$this->myConfig->getEnv("version_date");
-            $lic=$this->myAuth->getRegistrationInfo()['Serial'];
+            $lic=0;
             $srvr=$this->myConfig->getEnv("master_server");
             $url="https://{$srvr}/agility/ajax/serverRequest.php?Operation=retrieveBackup&Revision={$rev}&Serial={$lic}";
 		    $res=retrieveFileFromURL($url);

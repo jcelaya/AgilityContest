@@ -86,8 +86,7 @@ $('#seljornada-Prueba').combogrid({
 			{field:'NombreClub',	title:'<?php _e('Club'); ?>',			width:20,	align:'right'},
 			{field:'RSCE',			title:'<?php _e('Fed'); ?>.',			width:15,	align:'center', formatter:formatFederation},
 			{field:'Observaciones',	title:'<?php _e('Comments'); ?>',	width:30,	align:'right'},
-            {field:'Inscritos',		hidden:true},
-            {field:'UserLimit',		hidden:true}
+            {field:'Inscritos',		hidden:true}
 	]],
 	onChange:function(value){
 		var p=$('#seljornada-Prueba').combogrid('grid').datagrid('getSelected');
@@ -172,20 +171,6 @@ function acceptSelectJornada() {
 		$.messager.alert('<?php _e("Error"); ?>','<?php _e("You must select a valid contest/journey"); ?>',"error");
 		return;
 	}
-    if (parseInt(p.Inscritos) > parseInt(p.UserLimit)) {
-        var message='<img src="../images/sad_dog.png" width="100" alt="sad dog" style="float:right;"/>'+
-            '<p style="font-weight:bold;"><?php _e('Current license permissions'); ?><br />"' +
-			' <?php _e('forbids handling of contests</br> with more than'); ?> '+p.UserLimit+' <?php _e('inscriptions'); ?></p>';
-        $.messager.alert({
-            title: 'Access denied',
-            msg: message,
-            icon: 'error',
-            width: 450
-        });
-        $('#seljornada-Prueba').combogrid('grid').datagrid('clearSelections');
-        $('#seljornada-Jornada').combogrid('grid').datagrid('clearSelections');
-        return; // forbidden selection
-    }
 	// store selected data into global structure
 	setPrueba(p);
 	setJornada(j);

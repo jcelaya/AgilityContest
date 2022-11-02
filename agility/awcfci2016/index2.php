@@ -30,10 +30,6 @@ if(!isset($config)) $config =Config::getInstance();
 if( ! function_exists('openssl_get_publickey')) {
     die("Invalid configuration: please uncomment line 'module=php_openssl.dll' in file '\\xampp\\php\\php.ini'");
 }
-$am=AuthManager::getInstance("Public");
-if (!$am->allowed(ENABLE_PUBLIC)) {
-    die("Current license has no permissions to handle public (web) access related functions");
-}
 // tool to perform automatic upgrades in database when needed
 require_once(__DIR__ . "/../server/web/PublicWeb.php");
 
