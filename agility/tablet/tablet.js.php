@@ -211,7 +211,7 @@ function tablet_updateResultados(pendiente) {
 }
 
 function doBeep() {
-	if (ac_config.tablet_beep==="1")	setTimeout(function() {beep();},0);
+	if (isMobileDevice() && ac_config.tablet_beep==="1") setTimeout(function() {beep();},0);
 }
 
 function dorsal_add(val) {

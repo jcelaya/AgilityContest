@@ -161,11 +161,13 @@ $config =Config::getInstance();
             $('#tb_drs').numberbox('disable');
             // retrieve original data from parent datagrid
             var dgname=$('#tdialog-Parent').val();
-            var dg=$(dgname);
-            // refresh layout
-            var h=dg.datagrid('getPanel').panel('options').height;
-            var w=dg.datagrid('getPanel').panel('options').width;
-            setTimeout(function() {dg.datagrid('resize',{height:h,width:w})},0);
+            if (dgname !== "") {                
+                var dg=$(dgname);
+                // refresh layout
+                var h=dg.datagrid('getPanel').panel('options').height;
+                var w=dg.datagrid('getPanel').panel('options').width;
+                setTimeout(function() {dg.datagrid('resize',{height:h,width:w})},0);
+            }
         },
         onCollapse: function () {
             ac_clientOpts.DataEntryEnabled=true;
