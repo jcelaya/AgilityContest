@@ -17,6 +17,12 @@ You should have received a copy of the GNU General Public License along with thi
 if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+html, body {
+    font-size: 100%;
+	margin: 0;
+	height: 100%;
+}
+
 /***** Datos de la imagen de fondo ****/
 
 #en_construccion {
@@ -41,34 +47,64 @@ if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth F
     font-size: 11pt;
 }
 
-#mysidebar ul li {
-    background-color: #888;
-    color: #fff;
+#mysidebar span.menu-header {
+    padding: 5px 5px 5px 5px;
+	display: inline-block;
 }
 
 #mysidebar ul li a {
-    background-color: #00f;
-    color: #ccc;
     text-decoration: none;
     display: block;
     padding: 5px 5px 5px 15px;
 }
 
 #mysidebar ul li a:hover {
-    background: #ff0;
+    background: #FBEC88;
     border-left: 10px solid #333;
     color: #000;
+	filter: none;
 }
+
+/***** Datos de la cabecera ******/
+#mylogo {
+    position: fixed;
+    top: 0;
+    right: 10px;
+}
+
+#mylogo p {
+    margin-top: 5px;
+}
+
+#box {
+	display: flex;
+	flex-flow: column;
+  	height: 100%;
+}
+
+#myheader {
+	flex: 0 1 auto;
+	padding-top: 10px;
+	padding-left: 10px;
+}
+
+#myheader p { 
+	padding-left: 20px; 
+	font-family: Arial, sans-serif;
+    font-size: 28pt;
+    font-style: italic;
+    font-weight: bold;
+    display: table-cell;
+}
+
+#myheader p.version { font-size: 16pt; }
 
 /********** Datos del area de trabajo ************/
 /* marcador div del contenido. fija posicion */
 #mycontent {
 	/* border-style: inset; */
-	position: fixed;
-	top: 100px;
-	left: 25px;
-	width: 80%;
-	height: 80%;
+	margin: 10px;
+	flex: 1 1 auto;
 	background: transparent;
 }
 

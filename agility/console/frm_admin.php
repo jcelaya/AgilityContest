@@ -21,8 +21,8 @@ require_once(__DIR__ . "/../server/auth/Config.php");
 $config =Config::getInstance();
 ?>
 
- <div id="admin-tab" class="easyui-tabs" style="width:100%;height:100%;">
-   	<div title="<?php _e('Users'); ?>" data-options="iconCls:'icon-users'" style="padding:5px;border:solid 1px #000000">
+ <div id="admin-tab" class="easyui-tabs" style="width:100%;height:100%;" data-options="fit:true">
+   	<div title="<?php _e('Users'); ?>" data-options="iconCls:'icon-users'" style="padding:5px">
     	<?php require_once("dialogs/dlg_usuarios.inc")?>
    	</div>
    	<div title="<?php _e('Sessions'); ?>" data-options="iconCls:'icon-order'" style="padding:5px">

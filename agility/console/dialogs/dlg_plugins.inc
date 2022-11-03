@@ -1,4 +1,4 @@
-<div id="plugins-dlg-admintab" style="width:100%;height:500px;">
+<div id="plugins-dlg-admintab" style="width:100%;height:100%;">
 	<table id="plugins-datagrid"></table>
 </div>
 <div id="plugins-datagrid-toolbar" style="width:100%;display:inline-block">

@@ -36,7 +36,7 @@ $config =Config::getInstance();
 <div  style="width:100%;height:100%">
 
 	<!-- PANEL INFORMATIVO SOBRE LA PRUEBA Y JORNADAS ASOCIADAS -->
-<div id="inscripciones-infolayout" class="easyui-layout" data-options="fit:true,border:true" style="padding:10px;">
+<div id="inscripciones-infolayout" class="easyui-layout" data-options="fit:true,border:true">
 	
 	<!-- PANEL IZQUIERDO: DATOS DE LA PRUEBA -->
 	<div data-options="region:'west',title:'<?php _e('Contests data');?>',split:true,collapsed:false,collapsible:false"

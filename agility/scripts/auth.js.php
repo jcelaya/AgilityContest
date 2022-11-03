@@ -116,7 +116,7 @@ function acceptLogin() {
        			initAuthInfo();
        		} else {
 				// change menu message to logout
-				$('#login_menu-text').html('<?php _e("End session");?>' + ": <br />" + data.Login);
+				$('#login_menu-text').html('<?php _e("End session");?>' + ": " + data.Login);
 				// initialize auth info
 				initAuthInfo(data);
 				if (checkForAdmin(false)) { // do not handle syncdb unless admin login

@@ -26,13 +26,13 @@ $config =Config::getInstance();
 		style="border:1px solid #000000;margin:10px;float:right;padding:5px">
 	<dl>
 		<dt>
-			<strong><?php _e('Version'); ?>: </strong><span id="about_version"><?php _e('Version'); ?></span> - <span id="about_date"><?php _e('Date'); ?></span>
+			<strong><?php _e('Version'); ?>: </strong><span id="about_version">v<?php echo $config->getEnv('version_name'); ?></span> - <span id="about_date"><?php echo $config->getEnv('version_date'); ?></span>
 		</dt>
 		<dt>
-			<strong>AgilityContest</strong><?php _e(' is CopyRight &copy; 2013-2015 from '); ?><em>Juan Antonio Martínez &lt;juansgaviota@gmail.com&gt;</em>
+			<strong>AgilityContest</strong><?php _e(' is CopyRight &copy; 2013-2015 from '); ?><em>Juan Antonio Martínez &lt;juansgaviota@gmail.com&gt;, Javier Celaya Alastrué &lt;jcelaya@gmail.com&gt;</em>
 		</dt>
 		<dd>
-		<?php _e('Source code available at'); ?> <a href="https://github.com/jonsito/AgilityContest">https://github.com/jonsito/AgilityContest</a><br />
+		<?php _e('Source code available at'); ?> <a href="https://github.com/jcelaya/AgilityContest">https://github.com/jcelaya/AgilityContest</a><br />
 		<?php _e('Copy, modify and re-distribution is granted under terms of'); ?>
 		<a target="license" href="../License"> <?php _e('GNU General Public License version 2'); ?></a>
 		</dd>
@@ -76,11 +76,6 @@ $config =Config::getInstance();
             closable:true,
             modal:true,
             iconCls: 'icon-dog',
-            onOpen: function() { 
-                $('#about_version').html(ac_config.version_name);
-                $('#about_date').html(ac_config.version_date);
-            },  
-            onClose: function() {loadContents('../console/frm_main.php','');
-            }
+            onClose: function() { loadContents('../console/frm_main.php',''); }
         })
 </script>

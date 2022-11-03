@@ -310,38 +310,23 @@ function confirmInstallDB() {
 
 </script>
 <style>
-/* Common CSS tags for Agility Contest */
-
-body {
-    font-size: 100%;
-    background: <?php echo $config->getEnv('easyui_bgcolor'); ?>;
-}
-
-/***** Datos de la cabecera ******/
-#mylogo {
-    color: #ffffff;
-    font-size: 1.1vw;
-    position: fixed;
-    top: 0;
-    right: 10px;
-    background: <?php echo $config->getEnv('easyui_bgcolor'); ?>;
-}
-
-#myheader {	position: fixed; top: 10px; left: 10px; }
-#myheader p { 
-	color: <?php echo $config->getEnv('easyui_hdrcolor'); ?>; 
-	padding-left: 20px; 
-	font-family: Arial, sans-serif;
-    font-size: 28pt;
-    font-style: italic;
-    font-weight: bold;
-    display: table-cell;
-}
+body { background: <?php echo $config->getEnv('easyui_bgcolor'); ?>; }
+#myheader p { color: <?php echo $config->getEnv('easyui_hdrcolor'); ?>; }
 #myheader p a:link {  text-decoration:none; color:<?php echo $config->getEnv('easyui_hdrcolor'); ?>; }      /* unvisited link */
 #myheader p a:visited { text-decoration:none; color:<?php echo $config->getEnv('easyui_hdrcolor'); ?>; }  /* visited link */
 #myheader p a:hover { text-decoration:none; color:<?php echo $config->getEnv('easyui_hdrcolor'); ?>; }  /* mouse over link */
 #myheader p a:active { text-decoration:none; color:<?php echo $config->getEnv('easyui_hdrcolor'); ?>; }  /* selected link */
 #myheader span p { font-size:24pt; padding-left: 250px; color:<?php echo $config->getEnv('easyui_opcolor'); ?>; }
+#mysidebar ul li {
+    background-color: <?php echo $config->getEnv('easyui_bgcolor'); ?>;
+    color: <?php echo $config->getEnv('easyui_hdrcolor'); ?>;
+}
+
+#mysidebar ul li a {
+    background-color: <?php echo $config->getEnv('easyui_bgcolor'); ?>;
+    color: <?php echo $config->getEnv('easyui_hdrcolor'); ?>;
+    filter: brightness(85%);
+}
 </style>
 
 </head>
@@ -366,20 +351,24 @@ body {
 	</p>
 </div>
 
+<div id="box">
 <!-- CABECERA -->
 <div id="myheader">
-	<p> <a href="../console/index.php"><span id="console_top_title">Agility Contest</span></a> </p>
+	<p>
+        <a href="../console/index.php"><span id="console_top_title">Agility Contest</span></a>
+    </p>
+    <p class="version">
+        <span id="mylogo_version">v<?php echo $config->getEnv('version_name'); ?></span>
+    </p>
 	<span id="Header_Operation"></span>
 </div>
 
 <!-- LOGO -->
 <div id="mylogo">
-    <p>
-        Version: <span id="mylogo_version">1.0.0</span><br/>
-        Release: <span id="mylogo_release">19900101_1234</span>
+	<p>
+        <img id="logo_Federation" src="../images/logos/null.png" alt="Federation" width="100" height="80"/>
+        <img id="logo_AgilityContest" src="../images/AgilityContest.png" alt="AgilityContest" width="100" height="80"/>
     </p>
-	<p><img id="logo_AgilityContest" src="../images/AgilityContest.png" alt="AgilityContest" width="200" height="160"/></p>
-	<p><img id="logo_Federation" src="../images/logos/null.png" alt="Federation" width="200" height="160"/></p>
 </div>
 
 <!-- MENU LATERAL -->
@@ -391,7 +380,7 @@ body {
 	    closable:false,
 	    collapsible:true,
 	    collapsed:true,
-        height:550,
+        height:'auto',
         onCollapse:function(){
             $('#submenu_links').css('display','none');
         }"
@@ -404,7 +393,7 @@ body {
 	</li>
 	</ul>
 </li>
-<li><?php _e('DATABASE'); ?>
+<li><span class="menu-header"><?php _e('DATABASE'); ?></span>
 	<ul>
 	<li><a href="javascript:check_softLevel(access_level.PERMS_OPERATOR,function(){
 	        loadCountryOrClub();}
@@ -438,7 +427,7 @@ body {
     </li>
 	</ul>
 </li>
-<li><?php _e('CONTESTS'); ?>
+<li><span class="menu-header"><?php _e('CONTESTS'); ?></span>
 	<ul>
 	<li><a href="javascript:check_softLevel(access_level.PERMS_OPERATOR,function(){
 	        loadContents(
@@ -463,7 +452,7 @@ body {
     </li>
 	</ul>
 </li>
-<li><?php _e('REPORTS'); ?>
+<li><span class="menu-header"><?php _e('REPORTS'); ?></span>
 	<ul>
 	<li><a href="javascript:loadContents(
 	        '../console/frm_clasificaciones.php',
@@ -479,7 +468,7 @@ body {
     </li>
 	</ul>
 </li>
-<li><?php _e('TOOLS'); ?>
+<li><span class="menu-header"><?php _e('TOOLS'); ?></span>
 	<ul>
 	<li><a href="javascript:checkAndLoadContents(
 	        '../console/frm_admin.php',
@@ -491,25 +480,9 @@ body {
 	<li><a href="javascript:showMyAdminWindow();"><?php _e('Direct DB Access'); ?></a></li>
 	</ul>
 </li>
-<li><?php _e('DOCUMENTATION'); ?>
+<li><span class="menu-header"><?php _e('DOCUMENTATION'); ?></span>
 	<ul>
 	<li> <a target="documentacion" href="../console/manual.html"><?php _e('OnLine Manual'); ?></a></li>
-	<li> <a href="javascript:checkAndLoadContents(
-	        '../console/frm_registration.php',
-	        '<?php _e('License information');?>'
-	    )"><?php _e('License information'); ?>
-        </a>
-    </li>
-    <li>
-        <a href="javascript:toogleCollapse('#submenu_links')"><?php _e('External Links');?></a>
-        <span id="submenu_links" style="display:none;">
-	        <ul style="padding-left:10px;">
-				<li> <a target="facebook" href="https://www.facebook.com/groups/agilitycontest/">Facebook</a></li>
-				<li> <a target="website" href="http://www.agilitycontest.es">AgilityContest Website</a></li>
-                <li> <a target="blog" href="http://www.agilitycontest.es/blog">AgilityContest Blog</a></li>
-			</ul>
-		</span>
-    </li>
 	<li> <a href="javascript:loadContents(
 	        '../console/frm_about.php',
 	        '<?php _e('About AgilityContest');?>...'
@@ -527,6 +500,7 @@ body {
 	<div id="contenido" class="easyui-panel" style="background: transparent"
          data-options="width:'100%',fit:true,border:false"></div>
 </div>
+</div> <!-- box -->
 
 <!-- Dialogos del progreso importacion de ficheros desde excel (new/select/cancel) -->
 <div id="myimport">

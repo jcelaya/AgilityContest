@@ -57,7 +57,7 @@ $am=AuthManager::getInstance("Ligas");
 <div id="ligas-perro-buttons">
 </div>
 
-<div id="ligas-tab" style="padding:5px;display:inherit">
+<div id="ligas-tab" style="display:inherit">
     <div title="<?php _e('Grade'); ?> 1" data-options="iconCls:'icon-huella'" style="padding:5px;border:solid 1px #000000">
         <div style="width:100%;height:500px">
             <table id="ligas-g1-datagrid"></table>

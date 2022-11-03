@@ -40,7 +40,7 @@ $config =Config::getInstance();
 </div>
 
 <!--  dialogo de presentacion de resultados parciales de una manga -->
-<div id="resultadosmanga-dialog" style="width:100%;height:100%;padding:0 10px 100px 10px">
+<div id="resultadosmanga-dialog" style="width:80%;height:80%;padding:0 10px 100px 10px">
 
 	<!-- BARRA DE TAREAS DE RESULTADOS PARCIALES DE MANGA -->
 	<div id="resultadosmanga-toolbar">
