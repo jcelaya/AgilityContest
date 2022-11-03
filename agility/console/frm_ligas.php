@@ -58,18 +58,18 @@ $am=AuthManager::getInstance("Ligas");
 </div>
 
 <div id="ligas-tab" style="display:inherit">
-    <div title="<?php _e('Grade'); ?> 1" data-options="iconCls:'icon-huella'" style="padding:5px;border:solid 1px #000000">
-        <div style="width:100%;height:500px">
+    <div title="<?php _e('Grade'); ?> 1" data-options="iconCls:'icon-huella'">
+        <div style="width:100%;height:100%">
             <table id="ligas-g1-datagrid"></table>
         </div>
     </div>
-    <div title="<?php _e('Grade'); ?> 2" data-options="iconCls:'icon-dog'" style="padding:5px;border:solid 1px #000000">
-        <div style="width:100%;height:500px">
+    <div title="<?php _e('Grade'); ?> 2" data-options="iconCls:'icon-dog'">
+        <div style="width:100%;height:100%">
             <table id="ligas-g2-datagrid"></table>
         </div>
     </div>
-    <div title="<?php _e('Grade'); ?> 3" data-options="iconCls:'icon-order'" style="padding:5px;border:solid 1px #000000">
-        <div style="width:100%;height:500px">
+    <div title="<?php _e('Grade'); ?> 3" data-options="iconCls:'icon-order'">
+        <div style="width:100%;height:100%">
             <table id="ligas-g3-datagrid"></table>
         </div>
     </div>
@@ -105,8 +105,7 @@ $am=AuthManager::getInstance("Ligas");
     });
 
     $('#ligas-tab').tabs({
-        width: 'auto',
-        heignt: 550,
+        fit: true,
         tools: '#ligas-tools'
     });
 

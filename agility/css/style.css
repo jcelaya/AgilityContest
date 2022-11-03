@@ -106,6 +106,7 @@ html, body {
 	margin: 10px;
 	flex: 1 1 auto;
 	background: transparent;
+	display: flex;
 }
 
 img.mainpage{
@@ -193,6 +194,7 @@ img.mainpage{
 	width: 100px;
 	background: url(../lib/jquery-easyui-1.4.2/themes/icons/search.png) no-repeat scroll 2px 2px;
 	padding-left:20px;
+	vertical-align: middle;
 }
 
 #edit_inscripcion-form > *:not(:last-child) { padding: 5px }

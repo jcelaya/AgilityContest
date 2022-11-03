@@ -64,14 +64,12 @@ class PrintParcialGeneral extends PrintCommon {
 		$catgrad=($this->hasGrades)?_('Cat').'/'._('Grade'):_('Cat').".";
         if (!isMangaWAO($this->manga->Tipo)) {
             $this->cellHeader=
-                array(_('Dorsal'),_('Name'),_('Lic'),_('Handler'),$this->strClub,$catgrad,_('Flt'),_('Tch'),_('Ref'),_('Time'),_('Vel'),_('Penal'),_('Calification'),_('Pos'));
-            $this->pos=
-                array(  8,		17,		15,		30,		20,		15,		   6,      6,    6,       12,     7,    12,      24,			10 );
-            $this->align=
-                array(  'L',    'L',    'C',    'R',   'R',    'C',       'C',   'C',   'C',     'R',    'R',  'R',     'L',			'C');
+                    array(_('Dorsal'),_('Name'),_('Lic'),_('Handler'),$this->strClub,$catgrad,_('Flt'),_('Tch'),_('Ref'),_('Time'),_('Vel'),_('Penal'),_('Calification'),_('Pos'));
+            $this->pos	=array(  8,		 22,		15,		30,		      20,		  15,		   6,      6,    6,         12,     7,          12,         17,			10 );
+            $this->align=array(  'L',    'L',       'C',    'R',          'R',        'C',        'C',   'C',   'C',        'R',    'R',        'R',        'L',		'C');
         } else {
             $this->cellHeader=
-                array(_('Dorsal'),_('Name'),_('Handler'),_('Cat'),$this->strClub,$catgrad,_('Flt'),_('Tch'),_('Ref'),_('Time'),_('Vel'),_('Penal'),_('Calification'),_('Pos'));
+                    array(_('Dorsal'),_('Name'),_('Handler'),_('Cat'),$this->strClub,$catgrad,_('Flt'),_('Tch'),_('Ref'),_('Time'),_('Vel'),_('Penal'),_('Calification'),_('Pos'));
             $this->pos	=array(  8,		27,		   35,		   10,		20,		       15,		   6,      6,    6,       12,     7,    12,      15,			9 );
             $this->align=array(  'L',   'L',       'R',        'C',     'R',           'C',       'C',    'C',   'C',     'R',    'R',  'R',     'L',			'C');
         }
@@ -89,15 +87,13 @@ class PrintParcialGeneral extends PrintCommon {
 	function Header() {
         $str = ($this->manga->Tipo == 16) ? _("Results") : $this->headertitle; // on special round just show "results" string
         $this->print_commonHeader($str);
-        $this->Ln(5);
     }
 
     /**
      * @param $data array { trs,manga,resultados }
      * @throws Exception
      */
-    function printRoundData($data,$mode){
-        $this->print_identificacionManga($this->manga,$this->getModeString(intval($mode)));
+    function printRoundData($data){
 		$this->SetFont($this->getFontName(),'B',9); // bold 9px
         $juez1=$this->myDBObject->__getArray("jueces",$data['manga']->Juez1);
         $juez2=$this->myDBObject->__getArray("jueces",$data['manga']->Juez2);
@@ -118,7 +114,7 @@ class PrintParcialGeneral extends PrintCommon {
 		$this->Cell(20,7,"{$data['trs']['trm']} "._('Secs'),"B",0,'L',false);
 		$this->Cell(20,7,_('Speed').":","B",0,'L',false);
 		$this->Cell(18,7,"{$data['trs']['vel']} m/s","BR",0,'L',false);
-		$this->Ln(7); // linea extra antes de empezar los resultados de la manga
+		$this->Ln(14); // en total tres lineas extras en la primera hoja
 	}
 	
 	// Pie de página
@@ -204,15 +200,10 @@ class PrintParcialGeneral extends PrintCommon {
 		
 		$this->ac_SetDrawColor($this->config->getEnv('pdf_linecolor'));
 		$this->SetLineWidth(.3);
-        switch($this->federation->getLicenseType()) {
-            case Federations::$LICENSE_REQUIRED_SHORT:
-                $this->pos[1]+=5;$this->pos[2]=0;$this->pos[3]+=5;$this->pos[4]+=5;
-                break;
-            case Federations::$LICENSE_REQUIRED_WIDE:
-                $this->pos[1]+=20;$this->pos[2]=0;$this->pos[4]-=5; // remove license. leave space for LongName
-                break;
-            case Federations::$LICENSE_REQUIRED_WIDE:
-                break;
+        if ($this->federation->hasWideLicense()) {
+            $this->pos[1]+=5;$this->pos[2]=0;$this->pos[3]+=5;$this->pos[4]+=5;
+        } else if ($this->useLongNames) {
+            $this->pos[1]+=20;$this->pos[2]=0;$this->pos[4]-=5; // remove license. leave space for LongName
         }
 
 		// Datos
@@ -222,16 +213,19 @@ class PrintParcialGeneral extends PrintCommon {
             if ($result['total']==0) continue; // skip categories with no competitors
             // si estamos acabando la pagina, empezamos la ronda en una pagina nueva
             $y=$this->GetY();
-            if ($y>240) $this->AddPage();
-            $this->printRoundData($result,$this->modes[$index]);
+            if ($y>200) $this->AddPage();
+            $category = $this->getModeString(intval($this->modes[$index]));
+            $this->print_identificacionManga($this->manga,$category);
+            $this->printRoundData($result);
 
             // iteramos sobre los resultados
             $this->writeTableHeader();
+            $rowcount=0;
             foreach($result['rows'] as $row) {
-                $rowcount=0;
-                if ($this->GetY()>270) {
+                if ($this->GetY()>230) {
                     $this->Cell(array_sum($this->pos),0,'','T'); // linea de cierre
                     $this->AddPage();
+                    $this->print_identificacionManga($this->manga,$category);
                     $this->writeTableHeader();
                 }
                 $this->writeCell($row,$rowcount++);
@@ -306,25 +300,35 @@ class PrintParcialGeneral extends PrintCommon {
         } else if ($this->useLongNames) {
             $this->pos[1]+=20;$this->pos[2]=0;$this->pos[4]-=5; // remove license. leave space for LongName
         }
+        $this->AddPage();
         // iteramos sobre cada grupo de alturas disponible en la manga
         foreach ($mergecats as $indexes) {
             // mezclamos los resultados
             $result=$this->mergeResults($indexes);
             if (count($result)==0) continue; // no data, skip to next group
+            // si estamos acabando la pagina, empezamos la ronda en una pagina nueva
+            $y=$this->GetY();
+            if ($y>(240 - 40*count($indexes))) $this->AddPage();
 
-            $this->AddPage();
             // imprimimos los datos de trs de cada una de las alturas a mezclar
+            $categories = array();
             foreach($indexes as $index) {
-                $this->printRoundData($this->resultados[$index],$this->modes[$index]);
+                $categories[] = $this->getModeString(intval($this->modes[$index]));
+            }            
+            $category = implode(' + ', $categories);
+            $this->print_identificacionManga($this->manga,$category);
+            foreach($indexes as $index) {
+                $this->printRoundData($this->resultados[$index]);
             }
-            $this->Ln(5);
+
             // imprimimos el resultado mezclado iterando sobre ellos
             $this->writeTableHeader();
+            $rowcount=0;
             foreach($result as $row) {
-                $rowcount=0;
-                if ($this->GetY()>270) {
+                if ($this->GetY()>230) {
                     $this->Cell(array_sum($this->pos),0,'','T'); // linea de cierre
                     $this->AddPage();
+                    $this->print_identificacionManga($this->manga,$category);
                     $this->writeTableHeader();
                 }
                 $this->writeCell($row,$rowcount++);

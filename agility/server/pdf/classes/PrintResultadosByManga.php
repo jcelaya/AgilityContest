@@ -158,15 +158,10 @@ class PrintResultadosByManga extends PrintCommon {
 		$this->SetLineWidth(.3);
         if ( !isMangaWAO($this->manga->Tipo)) {
             if ($this->federation->hasWideLicense()) {
-                $this->pos[1] += 5;
-                $this->pos[2] = 0;
-                $this->pos[3] += 5;
-                $this->pos[4] += 5;
-            } else if ($this->useLongNames) {
-                $this->pos[1] += 20;
-                $this->pos[2] = 0;
-                $this->pos[4] -= 5; // remove license. leave space for LongName
-            }
+				$this->pos[1]+=5;$this->pos[2]=0;$this->pos[3]+=5;$this->pos[4]+=5;
+			} else if ($this->useLongNames) {
+				$this->pos[1]+=20;$this->pos[2]=0;$this->pos[4]-=5; // remove license. leave space for LongName
+			}
         }
 		// Datos
 

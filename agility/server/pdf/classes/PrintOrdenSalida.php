@@ -240,7 +240,7 @@ class PrintOrdenSalida extends PrintCommon {
 				$lastTeam=0;
 			}
             // dog not in range to print: count and  skip
-            if ( (($order+1)<$fromItem) || (($order+1)>$toItem) ) { $order++; continue; }
+            if ( ($printed<$fromItem) || ($printed>$toItem) ) { $printed++; continue; }
             // in team best min/max, there can be more dogs than max, so if dog is marked as "Not Presented" skip
             if(intval($row['NoPresentado'])===1) { $order++; continue; } ;
 			// on team, if team change, make sure that new team fits in page. Else force new page

@@ -41,8 +41,6 @@ $config =Config::getInstance();
    			onclick="deleteJuez('#jueces-datagrid')"><?php _e('Delete judge'); ?></a>
    		<input id="jueces-datagrid-search" type="text" value="<?php _e('-- Search --'); ?>" class="search_textfield"
 			   onfocus="handleSearchBox(this,true);" onblur="handleSearchBox(this,false);"/>
-   	</span>
-   	<span style="float:right;padding:5px">
    		<a id="jueces-reloadBtn" href="#" class="easyui-linkbutton"
    			data-options="iconCls:'icon-brush'"
    			onclick="

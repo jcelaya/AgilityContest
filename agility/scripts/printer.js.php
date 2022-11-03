@@ -578,7 +578,7 @@ function print_changeSelection(val) {
     switch (val) {
         case 0: case 2: case 3: case 4: case 5: rangeobj.textbox('disable');  break;
         // if cat selected enable range selection on starting order or assistant pages
-        case 1: case 6: case 7: case 8: case 9: rangeobj.textbox( (cats==='-')?'disable':'enable'); break;
+        case 1: case 6: case 7: case 8: case 9: rangeobj.textbox('enable'); break;
     }
 }
 
@@ -600,7 +600,7 @@ function print_commonDesarrollo(def,cb) {
     switch(parseInt(def)) {
         case 0: case 2: case 3: case 4: case 5: rangeobj.textbox('disable');  break;
         // if cat selected enable range selection on starting order or assistant pages
-        case 1: case 6: case 7: case 8: case 9: case 10: rangeobj.textbox( (cats==='-')?'disable':'enable'); break;
+        case 1: case 6: case 7: case 8: case 9: case 10: rangeobj.textbox('enable'); break;
     }
     $('#printer_dialog-cats').val(cats);
 	$('#printer_dialog-currentcat').html(catstr);

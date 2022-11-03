@@ -366,7 +366,7 @@ body { background: <?php echo $config->getEnv('easyui_bgcolor'); ?>; }
 <!-- LOGO -->
 <div id="mylogo">
 	<p>
-        <img id="logo_Federation" src="../images/logos/null.png" alt="Federation" width="100" height="80"/>
+        <img id="logo_Federation" src="../images/logos/null.png" alt="Federation" width="80" height="80"/>
         <img id="logo_AgilityContest" src="../images/AgilityContest.png" alt="AgilityContest" width="100" height="80"/>
     </p>
 </div>
@@ -498,7 +498,14 @@ body { background: <?php echo $config->getEnv('easyui_bgcolor'); ?>; }
 <!--  CUERPO PRINCIPAL DE LA PAGINA (se modifica con el menu) -->
 <div id="mycontent">
 	<div id="contenido" class="easyui-panel" style="background: transparent"
-         data-options="width:'100%',fit:true,border:false"></div>
+         data-options="
+            width:'100%',
+            border:false,
+            onOpen: function() {
+                $('#contenido').panel('panel').css('display', 'flex');
+            }
+         ">
+    </div>
 </div>
 </div> <!-- box -->
 

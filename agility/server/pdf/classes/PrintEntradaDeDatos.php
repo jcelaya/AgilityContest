@@ -645,8 +645,7 @@ class PrintEntradaDeDatos extends PrintCommon {
 		$rowcount=0; // numero de columna en la hoja (5,10,15)
 		$printed=1; // numero de orden que aparecera en el listado
 		for($orden=0;$orden<count($items);$orden++) {
-			if ($orden+1<$fromItem) continue;
-			if ($orden+1>$toItem) continue;
+			if ($printed<$fromItem || $printed>$toItem) { $printed++; continue; }
 			// also skip items marked as "No Presentado"
 			$row=$items[$orden];
 			if(intval($row['NoPresentado'])===1) continue;

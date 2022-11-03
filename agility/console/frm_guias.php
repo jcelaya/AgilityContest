@@ -44,8 +44,6 @@ $config =Config::getInstance();
            onclick="joinGuia('#guias-datagrid')"><?php _e('Join handlers'); ?></a>
    		<input id="guias-datagrid-search" type="text" value="<?php _e('-- Search --'); ?>" class="search_textfield"
 			   onfocus="handleSearchBox(this,true);" onblur="handleSearchBox(this,false);"/>
-	</span>
-	<span style="float:right;padding:5px">
    		<a id="guias-reloadBtn" href="#" class="easyui-linkbutton"
    			data-options="iconCls:'icon-brush'"
    			onClick="

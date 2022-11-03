@@ -21,18 +21,18 @@ require_once(__DIR__ . "/../server/auth/Config.php");
 $config =Config::getInstance();
 ?>
 
- <div id="admin-tab" class="easyui-tabs" style="width:100%;height:100%;" data-options="fit:true">
-   	<div title="<?php _e('Users'); ?>" data-options="iconCls:'icon-users'" style="padding:5px">
+ <div id="admin-tab" class="easyui-tabs" data-options="fit:true">
+   	<div title="<?php _e('Users'); ?>" data-options="iconCls:'icon-users'">
     	<?php require_once("dialogs/dlg_usuarios.inc")?>
    	</div>
-   	<div title="<?php _e('Sessions'); ?>" data-options="iconCls:'icon-order'" style="padding:5px">
+   	<div title="<?php _e('Sessions'); ?>" data-options="iconCls:'icon-order'">
         <?php require_once("dialogs/dlg_sesiones.inc")?>
         <?php require_once("dialogs/dlg_remotecontrol.inc")?>
    	</div>
-   	<div title="<?php _e('Preferences'); ?>" data-options="iconCls:'icon-setup'" style="padding:5px">
+   	<div title="<?php _e('Preferences'); ?>" data-options="iconCls:'icon-setup'">
     	<?php require_once("dialogs/dlg_configuracion.inc")?>
    	</div>
-	 <div title="<?php _e('Plugins'); ?>" data-options="iconCls:'icon-more'" style="padding:5px">
+	 <div title="<?php _e('Plugins'); ?>" data-options="iconCls:'icon-more'">
 		 <?php require_once("dialogs/dlg_plugins.inc")?>
 	 </div>
    	<div title="<?php _e('Tools'); ?>" data-options="iconCls:'icon-tools'" style="padding:5px">

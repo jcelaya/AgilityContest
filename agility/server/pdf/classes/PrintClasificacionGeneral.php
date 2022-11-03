@@ -224,9 +224,9 @@ class PrintClasificacionGeneral extends PrintCommon {
 		// datos del participante
 		$this->Cell(10,5,_('Dorsal'),0,0,'C',true); 	// dorsal
         if ($this->useLongNames){
-            $this->Cell(40,5,_('Name'),0,0,'C',true);	// nombre
+            $this->Cell(40,5,_('Name'),0,0,'L',true);	// nombre
         } else {
-            $this->Cell(25,5,_('Name'),0,0,'C',true);	// nombre
+            $this->Cell(25,5,_('Name'),0,0,'L',true);	// nombre
             $this->Cell(15,5,_('Lic').'.',0,0,'C',true);	// licencia
         }
 		if ($this->hasGrades){
@@ -234,8 +234,8 @@ class PrintClasificacionGeneral extends PrintCommon {
 		} else {
 			$this->Cell(10,5,_('Cat'),0,0,'C',true);	// categoria/grado
 		}
-		$this->Cell(35,5,_('Handler'),0,0,'C',true);	// nombreGuia
-		$this->Cell(20,5,$this->strClub,0,0,'C',true);	// nombreClub
+		$this->Cell(35,5,_('Handler'),0,0,'L',true);	// nombreGuia
+		$this->Cell(20,5,$this->strClub,0,0,'L',true);	// nombreClub
 
 		// manga 1
         if (!is_null($this->manga1)) {
@@ -310,31 +310,31 @@ class PrintClasificacionGeneral extends PrintCommon {
             $this->SetFont($this->getFontName(),'',9); // default font
             $this->Cell(15,6,"",0,0,'C',true);	// licencia
         }
-        $this->Cell(14,6,"",0,0,'C',true);	// categoria/grado
-        $this->Cell(32,6,"",0,0,'R',true);	// nombreGuia
-        $this->Cell(18,6,"",0,0,'R',true);	// nombreClub
+        $this->Cell(10,6,"",0,0,'C',true);	// categoria/grado
+        $this->Cell(35,6,"",0,0,'R',true);	// nombreGuia
+        $this->Cell(20,6,"",0,0,'R',true);	// nombreClub
         $this->Cell(59*$factor,6,'',0,0,'C',true);	// manga 1
         $this->Cell(59*$factor,6,'',0,0,'C',true);	// manga 2
         if (!is_null($this->manga3)) $this->Cell(59*$factor,6,'',0,0,'C',true);	// manga 3
 
         // global
-        $this->Cell(22*$factor,6,"",0,0,'C',true);	// Tiempo / Penalización
+        $this->Cell(24*$factor,6,"",0,0,'C',true);	// Tiempo / Penalización
         $this->SetFont($this->getFontName(),'B',6); // default font
-        $this->Cell(12*$factor,6,"-",0,0,'C',true);	// Calificacion
+        $this->Cell(10*$factor,6,"-",0,0,'C',true);	// Calificacion
         $this->SetFont($this->getFontName(),'B',10); // default font
         $this->Cell(8*$factor,6,$puesto,0,0,'R',true);	// Puesto
 
         // lineas verticales
         $this->ac_SetDrawColor($this->config->getEnv('pdf_linecolor'));
         $this->Line(10    ,$y,10,    $y+6);
-        $this->Line(10+114,$y,10+114,$y+6);
-        $this->Line(10+114+59*$factor,$y,10+114+59*$factor,$y+6);
-        $this->Line(10+114+59*2*$factor,$y,10+114+59*2*$factor,$y+6);
+        $this->Line(10+115,$y,10+115,$y+6);
+        $this->Line(10+115+59*$factor,$y,10+115+59*$factor,$y+6);
+        $this->Line(10+115+59*2*$factor,$y,10+115+59*2*$factor,$y+6);
         if(!is_null($this->manga3)) {
-            $this->Line(10+114+59*3*$factor,$y,10+114+59*3*$factor,$y+6);
+            $this->Line(10+115+59*3*$factor,$y,10+115+59*3*$factor,$y+6);
             $this->Line(10+115+(59*3+42)*$factor,$y,10+115+(59*3+42)*$factor,$y+6);
         } else {
-            $this->Line(10+114+(59*2+42)*$factor,$y,10+114+(59*2+42)*$factor,$y+6);
+            $this->Line(10+115+(59*2+42)*$factor,$y,10+115+(59*2+42)*$factor,$y+6);
         }
         $this->Ln(6);
     }
@@ -374,25 +374,26 @@ class PrintClasificacionGeneral extends PrintCommon {
 		// REMINDER: $this->cell( width, height, data, borders, where, align, fill)
 		// datos del participante
 		$this->Cell(10,6,$row['Dorsal'],0,0,'R',true); 	// dorsal
-		$this->SetFont($this->getFontName(),'',7); //
+		$this->SetFont($this->getFontName(),'',8); //
         if ($this->useLongNames) {
             $nombre=$row['Nombre']." - ".$row['NombreLargo'];
             $this->Cell(40,6,$nombre,0,0,'L',true);	// nombre (20,y
-            $this->SetFont($this->getFontName(),'',9); // default font
         } else {
             $this->Cell(25,6,$row['Nombre'],0,0,'L',true);	// nombre (20,y
-            $this->SetFont($this->getFontName(),'',9); // default font
             $this->Cell(15,6,$row['Licencia'],0,0,'C',true);	// licencia
         }
+        $this->SetFont($this->getFontName(),'',9); // default font
         $cat=$this->federation->getCategoryShort($row['Categoria']);
 		if ($this->hasGrades) {
             $grad=$this->federation->getGradeShort($row['Grado']);
-			$this->Cell(14,6,"{$cat} {$grad}",0,0,'C',true);	// categoria/grado
+			$this->Cell(10,6,"{$cat} {$grad}",0,0,'C',true);	// categoria/grado
 		} else {
-			$this->Cell(14,6,"{$cat}",0,0,'C',true);	// solo categoria (Individual-Open/Teams/KO)
+			$this->Cell(10,6,"{$cat}",0,0,'C',true);	// solo categoria (Individual-Open/Teams/KO)
 		}
-		$this->Cell(32,6,$this->getHandlerName($row),0,0,'R',true);	// nombreGuia
-		$this->Cell(18,6,$row['NombreClub'],0,0,'R',true);	// nombreClub
+		$this->SetFont($this->getFontName(),'',8); //
+		$this->Cell(35,6,$this->getHandlerName($row),0,0,'L',true);	// nombreGuia
+		$this->Cell(20,6,$row['NombreClub'],0,0,'L',true);	// nombreClub
+        $this->SetFont($this->getFontName(),'',9); // default font
 
         // manga 1
         if(!is_null($this->manga1)) {
@@ -430,23 +431,23 @@ class PrintClasificacionGeneral extends PrintCommon {
         }
 
 		// global
-		$this->Cell(11*$factor,6,$tiempo,0,0,'C',true);	// Tiempo
-		$this->Cell(11*$factor,6,$penal,0,0,'C',true);	// Penalizacion
+		$this->Cell(12*$factor,6,$tiempo,0,0,'C',true);	// Tiempo
+		$this->Cell(12*$factor,6,$penal,0,0,'C',true);	// Penalizacion
         $this->SetFont($this->getFontName(),'B',6); // default font
-		$this->Cell(12*$factor,6,$row['Calificacion'],0,0,'C',true);	// Calificacion
+		$this->Cell(10*$factor,6,$row['Calificacion'],0,0,'C',true);	// Calificacion
         $this->SetFont($this->getFontName(),'B',10); // default font
 		$this->Cell(8*$factor,6,$puesto,0,0,'R',true);	// Puesto
 		// lineas rojas
 		$this->ac_SetDrawColor($this->config->getEnv('pdf_linecolor'));
 		$this->Line(10    ,$y,10,    $y+6);
-		$this->Line(10+114,$y,10+114,$y+6);
-		$this->Line(10+114+59*$factor,$y,10+114+59*$factor,$y+6);
-		$this->Line(10+114+59*2*$factor,$y,10+114+59*2*$factor,$y+6);
+		$this->Line(10+115,$y,10+115,$y+6);
+		$this->Line(10+115+59*$factor,$y,10+115+59*$factor,$y+6);
+		$this->Line(10+115+59*2*$factor,$y,10+115+59*2*$factor,$y+6);
 		if(!is_null($this->manga3)) {
-            $this->Line(10+114+59*3*$factor,$y,10+114+59*3*$factor,$y+6);
+            $this->Line(10+115+59*3*$factor,$y,10+115+59*3*$factor,$y+6);
             $this->Line(10+115+(59*3+42)*$factor,$y,10+115+(59*3+42)*$factor,$y+6);
         } else {
-            $this->Line(10+114+(59*2+42)*$factor,$y,10+114+(59*2+42)*$factor,$y+6);
+            $this->Line(10+115+(59*2+42)*$factor,$y,10+115+(59*2+42)*$factor,$y+6);
         }
 		$this->Ln(6);
 	}

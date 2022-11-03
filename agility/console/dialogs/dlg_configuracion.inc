@@ -23,8 +23,8 @@ $config =Config::getInstance();
 
 <!-- Formularios del menu de configuracion de la aplicacion -->
 
- <div id="config-panel" class="easyui-panel" style="width:100%;height:100%;padding:5px"
-	data-options="fit:false,footer:'#config-dlg-buttons',onOpen:loadConfig">
+ <div id="config-panel" class="easyui-panel"
+	data-options="fit:true,footer:'#config-dlg-buttons',onOpen:loadConfig">
 	<form id="config-form" name="configuracion" class="easyui-form">
 	<div id="config-tabs" class="easyui-tabs" data-options="tabPosition:'left'" style="width:100%;height:auto">
 		<input id="config-Operation" type="hidden" name="Operation" value="saveConfig"/>

@@ -1223,10 +1223,8 @@ function competicionSelectByDorsal() {
     var drs = $('#competicion-search');
     // store and reset seach field
     var toLookFor=drs.val();
-    drs.val("--- Search ---");
     drs.blur();// remove focus to hide tooltip
     if (isNaN(toLookFor)) { // value is not a number: search for dog name
-        if (toLookFor==="--- Search ---") return false; // nothing to search
         dg.datagrid('options').idField="Nombre";
     } else {
         toLookFor=parseInt(toLookFor);
