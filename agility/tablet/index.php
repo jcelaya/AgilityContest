@@ -171,7 +171,7 @@ body { font-size: 100%;	background: <?php echo $config->getEnv('easyui_bgcolor')
 
 <div id="seltablet-dialog" style="width:450px;height:auto;padding:10px" class="easyui-dialog"
 	data-options="title: '<?php _e('User,Ring,Contest and Journey selection'); ?>',iconCls: 'icon-list',buttons: '#seltablet-Buttons',collapsible:false, minimizable:false,
-		maximizable:false, closable:true, closed:false, shadow:false, modal:true">
+		maximizable:false, closable:false, closed:false, shadow:false, modal:true">
 	<form id="seltablet-form">
        	<div class="fitem">
        		<label for="seltablet-Username"><?php _e('User'); ?>:</label>
@@ -309,6 +309,10 @@ $('#seltablet-Prueba').combogrid({
 		setPrueba(p); // retorna jornada, o 0 si la prueba ha cambiado
 		j.combogrid('clear');
 		j.combogrid('grid').datagrid('load',{Prueba:p.ID});
+	},
+	onLoadSuccess: function() {
+		$('#seltablet-Prueba').combogrid('grid').datagrid('selectRow', 0);
+		$('#seltablet-Username').textbox('textbox').focus();
 	}
 });
 
