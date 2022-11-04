@@ -372,6 +372,7 @@ $config =Config::getInstance();
     $('#tdialog-form').form({
         // tell session manager to update competitor's info
         onLoadSuccess: function() {
+            crono_manual = false;
             var el=parseInt($('#tdialog-Eliminado').val());
             var np=parseInt($('#tdialog-NoPresentado').val());
             $('#tdialog-EliminadoStr').val((el===0)?"":"EL");
@@ -410,7 +411,9 @@ $config =Config::getInstance();
             interval: 50,
             showMode: 2,
             onUpdate: function(elapsed,running,pause) {
-                $('#tdialog-Tiempo').val(toFixedT(parseFloat(elapsed/1000),(running)?1:ac_config.numdecs));
+                if (!crono_manual) {
+                    $('#tdialog-Tiempo').val(toFixedT(parseFloat(elapsed/1000),(running)?1:ac_config.numdecs));
+                }
                 return true;
             }
         });

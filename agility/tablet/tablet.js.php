@@ -263,12 +263,15 @@ function dorsal_del() {
     return false;
 }
 
+var crono_manual = false;
+
 function tablet_del() {
     if ($('#tb_drs').numberbox('options').editing===true) return dorsal_del();
 	doBeep();
 	var tdt=$('#tdialog-Tiempo');
 	var str=tdt.val();
 	if (str==='') return false;
+	crono_manual = true;
 	tdt.val(str.substring(0, str.length-1));
 	tablet_updateResultados(1);
 	// dont send event
