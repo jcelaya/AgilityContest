@@ -126,7 +126,7 @@ mv launcher/AgilityContest.exe .
 
 # ok. time to add AgilityContest files
 echo "Copying AgilityContest files ..."
-cp -a "${BASE_DIR}"/{.htaccess,config,logs} .
+cp -rH "${BASE_DIR}"/{.htaccess,config,logs} .
 ln -s "${BASE_DIR}"/{index.html,agility,server,applications,extras,COPYING,README.md,Contributors,ChangeLog} .
 
 mkdir -p SerialChrono
