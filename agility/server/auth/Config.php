@@ -39,6 +39,7 @@ define('AC_BACKUP_DISABLED','0'); // default is perform auto-backups
 define('AC_BACKUP_PERIOD','0');
 define('AC_BACKUP_DIR',"");
 define('AC_BACKUP_DOGS',"0");
+define('AC_BACKUP_COMPRESS',"1");
 define('AC_CRYPT_DB',"0"); // do not crypt database backup contents
 
 /** logging **/
@@ -215,6 +216,7 @@ Class Config {
         'backup_period'		=> array(	'i',	false,	AC_BACKUP_PERIOD),
         'backup_dir'		=> array(	's',	false,	AC_BACKUP_DIR),
         'backup_dogs'		=> array(	'i',	false,	AC_BACKUP_DOGS),
+        'backup_compress'	=> array(	'i',	false,	AC_BACKUP_COMPRESS),
         'encrypt_database'	=> array(	'i',	false,	AC_CRYPT_DB),
 
 		// configuracion de la prueba

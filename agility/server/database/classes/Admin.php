@@ -45,6 +45,7 @@ class Admin extends DBObject {
 	protected $bckLicense="00000000";
 	protected $bckDate="20180215_0944";
 	protected $progressHandler=null;
+    protected $compress = true;
 
     /**
      * Admin constructor.
@@ -64,6 +65,7 @@ class Admin extends DBObject {
 		$this->dbhost=$this->myConfig->getEnv('database_host');
 		$this->dbuser=base64_decode($this->myConfig->getEnv('database_user'));
 		$this->dbpass=base64_decode($this->myConfig->getEnv('database_pass'));
+        $this->compress = intval($this->myConfig->getEnv('backup_compress')) === 1;
 	}
 
 	function setProgressHandler($mode,$suffix) {
@@ -148,6 +150,66 @@ class Admin extends DBObject {
         return "";
 	}
 
+    private function do_backup($compress) {
+        $dbname=$this->dbname;
+        $dbhost=$this->dbhost;
+        $dbuser=$this->dbuser;
+        $dbpass=$this->dbpass;
+        set_time_limit(0); // some windozes are too slow dumping databases
+		$cmd="mysqldump"; // unix
+		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+			$path=str_replace("\\apache\\bin\\httpd.exe","",PHP_BINARY);
+			$cmd="start /B ".$path."\\mysql\\bin\\mysqldump.exe";
+		}
+		if (strtoupper(substr(PHP_OS, 0, 3)) === 'DAR') { // Darwin (MacOSX)
+			$cmd='/Applications/XAMPP/xamppfiles/bin/mysqldump';
+		}
+
+		// phase 1: dump structure
+		$cmd1 = "$cmd --opt --no-data --single-transaction --routines --triggers -h $dbhost -u$dbuser -p$dbpass $dbname";
+		$this->myLogger->info("Ejecutando comando: '$cmd1'");
+		$input = popen($cmd1, 'r');
+		if ($input===FALSE) { $this->myLogger->error("adminFunctions::backup():popen() failed"); return null;}
+        $memfile=@fopen('php://memory','r+');
+        if ($memfile===FALSE) { $this->myLogger->error("adminFunctions::backup():fopen(memory) failed"); return null;}
+		while(!feof($input)) {
+			$line = fgets($input);
+			if (substr($line, 0, 6) === 'INSERT') {
+				$this->process_line($memfile,$line);
+			} else {
+                @fwrite($memfile, $line);
+			}
+		}
+		pclose($input);
+
+		// phase 2: dump data. Exclude ImportData and (if configured to) Eventos table contents
+        $noexport="--ignore-table={$this->dbname}.importdata";
+		if (intval($this->myConfig->getEnv("full_backup"))==0) $noexport .= " --ignore-table={$this->dbname}.eventos";
+        $cmd2 = "$cmd --opt --no-create-info --single-transaction --routines --triggers $noexport -h $dbhost -u$dbuser -p$dbpass $dbname";
+        $this->myLogger->info("Ejecutando comando: '$cmd2'");
+        $input = popen($cmd2, 'r');
+        if ($input===FALSE) { $this->myLogger->error("adminFunctions::popen() failed"); return null;}
+        while(!feof($input)) {
+            $line = fgets($input);
+            if (substr($line, 0, 6) === 'INSERT') {
+                $this->process_line($memfile,$line);
+            } else {
+                @fwrite($memfile, $line);
+            }
+        }
+        pclose($input);
+
+		// insert AgilityContest Info at begining of backup file
+        $bckdate=date("Ymd_Hi");
+        $ver=$this->myConfig->getEnv("version_name");
+        $rev=$this->myConfig->getEnv("version_date");
+        $data = "-- AgilityContest Version: {$ver} Revision: {$rev}\n-- AgilityContest Backup Date: {$bckdate}\n";
+        rewind($memfile);
+        $data .= stream_get_contents($memfile);
+
+        return $compress ? gzencode($data, 9) : $data;
+    }
+
 	/**
 	 * Automatic backup to log file
 	 * and -if defined- to user specified file
@@ -156,91 +218,31 @@ class Admin extends DBObject {
 	*/
     public function autobackup($mode=1,$directory="") {
         $this->myLogger->enter();
-        $dbname=$this->dbname;
-        $dbhost=$this->dbhost;
-        $dbuser=$this->dbuser;
-        $dbpass=$this->dbpass;
         $dnb=$this->restore_dir."/do_not_backup";
         if (file_exists($dnb)) { // if first_install mark exists do not autobackup at login
             @unlink($dnb);
             return array('do_not_backup'=>true);
         }
-        set_time_limit(0); // some windozes are too slow dumping databases
-		// for linux
-        $cmd="mysqldump"; // unix
-		// for windows
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $path=str_replace("\\apache\\bin\\httpd.exe","",PHP_BINARY);
-            $cmd="start /B ".$path."\\mysql\\bin\\mysqldump.exe";
-            // $drive=substr(__FILE__, 0, 1);
-            // $cmd='start /B '.$drive.':\AgilityContest\xampp\mysql\bin\mysqldump.exe';
-        }
-        // for Mac-OSX
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'DAR') { // Darwin (MacOSX)
-            $cmd='/Applications/XAMPP/xamppfiles/bin/mysqldump';
+
+        $data = $this->do_backup($this->compress);
+        if ($data == null) {
+            return "";
         }
 
         // prepare auto backup file
         // rename ( if any ) previous backup
         // notice name uses '_' (underscore) whilst named backup uses '-' (minus sign)
         // this is done to preserve autobackups on temporary directory clear
-        $oldname="{$this->restore_dir}/{$dbname}_backup_old.sql";
-        $fname="{$this->restore_dir}/{$dbname}_backup.sql";
+        $zext = $this->compress ? '.gz' : '';
+        $oldname="{$this->restore_dir}/{$this->dbname}_backup_old.sql$zext";
+        $fname="{$this->restore_dir}/{$this->dbname}_backup.sql$zext";
         @rename($fname,$oldname); // @ to ignore errors in case of
         $outfile=@fopen($fname,"w");
-        $memfile=@fopen('php://memory','r+');
-        @flock($outfile,LOCK_EX);
-        if (!$memfile) {
-            $this->myLogger->error("Cannot fopen temporary php://memory file {$fname}");
-            return "adminFunctions::AutoBackup('fopen') failed";
-        }
         if (!$outfile){
             $this->myLogger->error("Cannot fopen backup file {$fname}");
             return "adminFunctions::AutoBackup('fopen') failed";
         }
-
-        // phase 1: dump structure
-        $cmd1 = "$cmd --opt --no-data --single-transaction --routines --triggers -h $dbhost -u$dbuser -p$dbpass $dbname";
-        $this->myLogger->info("Ejecutando comando: '$cmd1'");
-        $input = popen($cmd1, 'r');
-        if ($input===FALSE) return "adminFunctions::AutoBackup('popen 1') failed";
-
-        // insert AgilityContest Info at begining of backup file
-        $bckdate=date("Ymd_Hi");
-        $ver=$this->myConfig->getEnv("version_name");
-        $rev=$this->myConfig->getEnv("version_date");
-        @fwrite($outfile, "-- AgilityContest Version: {$ver} Revision: {$rev}\n");
-        @fwrite($outfile, "-- AgilityContest Backup Date: {$bckdate}\n");
-
-        // now send to client database backup
-        while(!feof($input)) {
-            $line = fgets($input);
-            if (substr($line, 0, 6) === 'INSERT') {
-                $this->process_line($memfile,$line);
-            } else {
-                @fwrite($memfile, $line);
-            }
-        }
-        pclose($input);
-        // phase 2: dump data. Exclude ImportData and (if configured to) Eventos table contents
-        $noexport="--ignore-table={$this->dbname}.importdata";
-        if (intval($this->myConfig->getEnv("full_backup"))==0) $noexport .= " --ignore-table={$this->dbname}.eventos";
-
-        $cmd2 = "$cmd --opt --no-create-info --single-transaction --routines --triggers $noexport -h $dbhost -u$dbuser -p$dbpass $dbname";
-        $this->myLogger->info("Ejecutando comando: '$cmd2'");
-        $input = popen($cmd2, 'r');
-        if ($input===FALSE) return "adminFunctions::AutoBackup('popen 2') failed";
-        while(!feof($input)) {
-            $line = fgets($input);
-            if (substr($line, 0, 6) === 'INSERT') {
-                $this->process_line($memfile,$line);
-            } else {
-                @fwrite($memfile, $line);
-            }
-        }
-        pclose($input);
-        rewind($memfile);
-        $data=stream_get_contents($memfile);
+        @flock($outfile,LOCK_EX);
         @fwrite($outfile, $data);
         fclose($outfile);
 
@@ -248,7 +250,7 @@ class Admin extends DBObject {
         $tname="";
         $dt=date("Ymd_Hi");
         // on mode=0 copy to $HOME as numerated (date+hour) backup
-        if ($mode==0) $tname="{$this->restore_dir}/{$dbname}-{$dt}.sql";
+        if ($mode==0) $tname="{$this->restore_dir}/{$this->dbname}-{$dt}.sql$zext";
         // on mode=1 copy backup to file specified in configuration
         if ($mode>0) {
             $dirname=($directory=="")?$this->myConfig->getEnv("backup_dir"):$directory;
@@ -258,7 +260,7 @@ class Admin extends DBObject {
             }
             if (!is_dir($dirname)) return "adminFunctions::AutoBAckup) invalid user directory {$dirname}";
             if (!is_writeable($dirname)) return "adminFunctions::AutoBAckup) cannot write into user directory {$dirname}";
-            $tname="{$dirname}/{$dbname}-userbackup.sql";
+            $tname="{$dirname}/{$this->dbname}-userbackup.sql$zext";
         }
         // notice that apache/php may restrict access permissions
         // and copy will silently fail
@@ -274,77 +276,27 @@ class Admin extends DBObject {
     }
 
     public function backup() {
-		
-		$dbname=$this->dbname;
-		$dbhost=$this->dbhost;
-		$dbuser=$this->dbuser;
-		$dbpass=$this->dbpass;
-		set_time_limit(0); // some windozes are too slow dumping databases
-		$cmd="mysqldump"; // unix
-		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-			$path=str_replace("\\apache\\bin\\httpd.exe","",PHP_BINARY);
-			$cmd="start /B ".$path."\\mysql\\bin\\mysqldump.exe";
-			// $drive=substr(__FILE__, 0, 1);
-			// $cmd='start /B '.$drive.':\AgilityContest\xampp\mysql\bin\mysqldump.exe';
-		}
-		if (strtoupper(substr(PHP_OS, 0, 3)) === 'DAR') { // Darwin (MacOSX)
-			$cmd='/Applications/XAMPP/xamppfiles/bin/mysqldump';
-		}
-		// phase 1: dump structure
-		$cmd1 = "$cmd --opt --no-data --single-transaction --routines --triggers -h $dbhost -u$dbuser -p$dbpass $dbname";
-		$this->myLogger->info("Ejecutando comando: '$cmd1'");
-		$input = popen($cmd1, 'r');
-		if ($input===FALSE) { $this->errorMsg="adminFunctions::backup():popen() failed"; return null;}
         // open stdout as file handler
         $outfile=fopen("php://output","w");
-        if ($outfile===FALSE) { $this->errorMsg="adminFunctions::backup():fopen(stdout) failed"; return null;}
-        $memfile=@fopen('php://memory','r+');
-        if ($memfile===FALSE) { $this->errorMsg="adminFunctions::backup():fopen(memory) failed"; return null;}
+        if ($outfile===FALSE) { $this->myLogger->error("adminFunctions::backup():fopen(stdout) failed"); return null;}
+
+        $data = $this->do_backup($this->compress);
+        if ($data == null) {
+            fclose($outfile);
+            return null;
+        }
+        $zext = $this->compress ? '.gz' : '';
+        $mime = $this->compress ? 'application/gzip' : 'text/plain';
 
         // prepare html response header
         $bckdate=date("Ymd_Hi");
-		$fname="$dbname-{$bckdate}.sql";
+		$fname="{$this->dbname}-{$bckdate}.sql$zext";
 		header('Set-Cookie: fileDownload=true; path=/');
 		header('Cache-Control: max-age=60, must-revalidate');
-		header('Content-Type: text/plain; charset=utf-8');
+		header("Content-Type: $mime; charset=utf-8");
 		header('Content-Disposition: attachment; filename="'.$fname.'"');
-		// insert AgilityContest Info at begining of backup file
-        $ver=$this->myConfig->getEnv("version_name");
-        $rev=$this->myConfig->getEnv("version_date");
-        @fwrite($outfile, "-- AgilityContest Version: {$ver} Revision: {$rev}\n");
-        @fwrite($outfile, "-- AgilityContest Backup Date: {$bckdate}\n");
-
-        // now send to client database backup
-		while(!feof($input)) {
-			$line = fgets($input);
-			if (substr($line, 0, 6) === 'INSERT') {
-				$this->process_line($memfile,$line);
-			} else {
-                @fwrite($memfile, $line);
-			}
-		}
-		pclose($input);
-		// phase 2: dump data. Exclude ImportData and (if configured to) Eventos table contents
-        $noexport="--ignore-table={$this->dbname}.importdata";
-		if (intval($this->myConfig->getEnv("full_backup"))==0) $noexport .= " --ignore-table={$this->dbname}.eventos";
-
-        $cmd2 = "$cmd --opt --no-create-info --single-transaction --routines --triggers $noexport -h $dbhost -u$dbuser -p$dbpass $dbname";
-        $this->myLogger->info("Ejecutando comando: '$cmd2'");
-        $input = popen($cmd2, 'r');
-        if ($input===FALSE) { $this->errorMsg="adminFunctions::popen() failed"; return null;}
-        while(!feof($input)) {
-            $line = fgets($input);
-            if (substr($line, 0, 6) === 'INSERT') {
-                $this->process_line($memfile,$line);
-            } else {
-                @fwrite($memfile, $line);
-            }
-        }
-        pclose($input);
-        rewind($memfile);
-        $data=stream_get_contents($memfile);
         @fwrite($outfile, $data);
-        fclose($memfile);
+        fclose($outfile);
 		return "ok";
 	}	
 
@@ -502,6 +454,9 @@ class Admin extends DBObject {
             $this->handleSession("Done.");
             throw new Exception($data['errorMsg']);
         }
+        // Try to uncompress it
+        $uncompressed = gzdecode($data);
+        if ($uncompressed !== false) $data = $uncompressed;
         // phase 2: verify received file
 		if (strpos(substr($data,0,25),"-- AgilityContest")===FALSE) {
             $this->handleSession("Done.");
