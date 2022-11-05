@@ -235,6 +235,9 @@ $('#competicion-listamangas').datagrid({
             setupResultadosWindow(row.Recorrido);
         });
         autoBackupDatabase(1,"");
+    },
+    onLoadSuccess: function() {
+        $(this).datagrid('selectRow', 0);
     }
 });
 // to allow inspect data

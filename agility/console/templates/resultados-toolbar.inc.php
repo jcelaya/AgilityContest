@@ -41,10 +41,7 @@
         textField:'text',
         panelHeight:75,
         onLoadSuccess:function() {
-            // set default value to do not macht any valid round. Just to force user to select category
-            $('#resultados-selectCategoria')
-                .combobox('setValue',-1)
-                .combobox('setText','<?php _e("Select");?>');
+            $(this).combobox('select',0);
         },
         onSelect:function (row) { if (row.mode>=0) reloadClasificaciones(); }
     });

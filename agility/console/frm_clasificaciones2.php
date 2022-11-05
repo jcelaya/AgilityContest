@@ -263,6 +263,9 @@ $('#resultados-info-ronda').combogrid({
 	},	
 	onSelect:function(index,row) {
 		resultados_doSelectRonda(row);
+	},
+	onLoadSuccess: function() {
+		$(this).combogrid('grid').datagrid('selectRow', 0);
 	}
 });
 
