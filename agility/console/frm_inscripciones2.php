@@ -49,16 +49,16 @@ $config =Config::getInstance();
 		<input type="hidden" name="Cartel"/>
 		<input type="hidden" name="Cerrada"/>
 		<p>
-		<label for="Nombre" style="font-weight:bold"><?php _e('Title'); ?></label>
-		<input id="inscripciones-pnombre" type="text" name="Nombre" disabled="disabled" size="19"/>
+		<label for="Nombre"><?php _e('Title'); ?>:</label>
+		<input id="inscripciones-pnombre" type="text" name="Nombre" disabled="disabled"/>
 		</p>
 		<p>
-		<label for="Club" style="font-weight:bold"><?php _e('Organizing Club'); ?>:</label>
-		<input id="inscripciones-pclub" type="text" name="NombreClub" disabled="disabled" size="15"/>
+		<label for="Club"><?php _e('Organizing Club'); ?>:</label>
+		<input id="inscripciones-pclub" type="text" name="NombreClub" disabled="disabled"/>
 		</p>
 		<p>
-		<label for="Observaciones" style="font-weight:bold"><?php _e('Comments'); ?>:</label>
-		<input id="inscripciones-pcomments" type="text" name="Observaciones" disabled="disabled" size="33"/>
+		<label for="Observaciones"><?php _e('Comments'); ?>:</label>
+		<input id="inscripciones-pcomments" type="text" name="Observaciones" disabled="disabled"/>
 		</p>
 		</form>
 	</div>

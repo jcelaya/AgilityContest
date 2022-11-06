@@ -158,14 +158,18 @@ img.mainpage{
 	font-size: 12px;
 	text-align: left;
 }
+.c_inscripciones-datosprueba p {
+	display: flex;
+}
+.c_inscripciones-datosprueba label {
+	font-weight:bold;
+}
 .c_inscripciones-datosprueba input {
 	font-size: 12px;
 	color: #000;
-	border:none;
-	float: right;
-}
-.c_inscripciones-datosprueba select {
-	font-size: 11px;
+	border: none;
+	text-align: right;
+	flex: 1;
 }
 
 .trstrm {
