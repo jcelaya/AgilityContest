@@ -75,84 +75,22 @@ try {
 	$result=array();
 	$mergecats=null;
 	$heights=$mangasInfo->Competition->getRoundHeights($mangas[0]); // same heights for every round
-	switch($mangasInfo->Manga->Recorrido) {
-		case 0: // recorridos separados xlarge large medium small toy
-			$l=$c->clasificacionFinal($rondas,$mangas,0,$catGuia);
-			$m=$c->clasificacionFinal($rondas,$mangas,1,$catGuia);
-			$s=$c->clasificacionFinal($rondas,$mangas,2,$catGuia);
-            if ($heights==3) {
-                $result[] = pp_getArray(0,$l);
-                $result[] = pp_getArray(1,$m);
-                $result[] = pp_getArray(2,$s);
-            }
-            if ($heights==4) {
-                $t=$c->clasificacionFinal($rondas,$mangas,5,$catGuia);
-                $result[] = pp_getArray(0,$l);
-                $result[] = pp_getArray(1,$m);
-                $result[] = pp_getArray(2,$s);
-                $result[] = pp_getArray(5,$t);
-            }
-            if ($heights==5) {
-                $t=$c->clasificacionFinal($rondas,$mangas,5,$catGuia);
-                $x = $c->clasificacionFinal($rondas, $mangas, 9,$catGuia);
-                $result[] = pp_getArray(9,$x);
-                $result[] = pp_getArray(0,$l);
-                $result[] = pp_getArray(1,$m);
-                $result[] = pp_getArray(2,$s);
-                $result[] = pp_getArray(5,$t);
-                // si merge es distinto de cero, tenemos que mezclar los resultados.
-                switch($merge) { //  Calculamos las matrices de mezclado
-                    case 1: $mergecats=[ [0,1] /* X+L */ ,[2,3,4] /* M+S+T */ ]; break;
-                    case 2: $mergecats=[ [0,1,2,3,4] /* X+L+M+S+T */ ]; break;
-                    case 3: $mergecats=[ [0,1] /* X+L */,[2] /* M */ ,[3,4] /* S+T */ ]; break;
-                    case 4: $mergecats=[ [0] /* X */, [1] /* L */,[2] /* M */ ,[3,4] /* S+T */ ]; break;
-                    default: $mergecats=null; break;
-                }
-            }
-			break;
-        case 1: // dos grupos: (l+ms) (lm+st) (xl+mst)
-			if ($heights==3) {
-				$l=$c->clasificacionFinal($rondas,$mangas,0,$catGuia);
-				$ms=$c->clasificacionFinal($rondas,$mangas,3,$catGuia);
-                $result[] = pp_getArray(0,$l);
-                $result[] = pp_getArray(3,$ms);
-			}
-			if ($heights==4) {
-				$lm=$c->clasificacionFinal($rondas,$mangas,6,$catGuia);
-				$st=$c->clasificacionFinal($rondas,$mangas,7,$catGuia);
-                $result[] = pp_getArray(6,$lm);
-                $result[] = pp_getArray(7,$st);
-			}
-			if ($heights==5) {
-                $xl=$c->clasificacionFinal($rondas,$mangas,10,$catGuia);
-                $mst=$c->clasificacionFinal($rondas,$mangas,11,$catGuia);
-                $result[] = pp_getArray(10,$xl);
-                $result[] = pp_getArray(11,$mst);
-            }
-			break;
-		case 2: // recorrido conjunto xlarge-large+medium+small+toy
-			if ($heights==3) {
-				$lms=$c->clasificacionFinal($rondas,$mangas,4,$catGuia);
-                $result[] = pp_getArray(4,$lms);
-			}
-			if ($heights==4){
-				$lmst=$c->clasificacionFinal($rondas,$mangas,8,$catGuia);
-                $result[] = pp_getArray(8,$lmst);
-			}
-			if ($heights==5) {
-                $xlmst=$c->clasificacionFinal($rondas,$mangas,12,$catGuia);
-                $result[] = pp_getArray(12,$xlmst);
-            }
-			break;
-        case 3: // tres grupos. Xlarge-Large Medium Small-Toy implica $heights==5
-            $xl=$c->clasificacionFinal($rondas,$mangas,10,$catGuia);
-            $m=$c->clasificacionFinal($rondas,$mangas,1,$catGuia);
-            $st=$c->clasificacionFinal($rondas,$mangas,7,$catGuia);
-            $result[] = pp_getArray(10,$xl);
-            $result[] = pp_getArray(1,$m);
-            $result[] = pp_getArray(7,$st);
-            break;
-	}
+    $fed=$mangasInfo->Federation;
+    $fed->getMangaMode($mode,0);
+    $modes = $fed->getRecorridoModes($mangasInfo->Manga->Recorrido);
+    foreach ($modes as $mode) {
+        $result[] = pp_getArray($mode, $c->clasificacionFinal($rondas, $mangas, $mode, $catGuia));
+    }
+	if ($mangasInfo->Manga->Recorrido == 0 && $heights==5) {
+        // si merge es distinto de cero, tenemos que mezclar los resultados.
+        switch($merge) { //  Calculamos las matrices de mezclado
+            case 1: $mergecats=[ [0,1] /* X+L */ ,[2,3,4] /* M+S+T */ ]; break;
+            case 2: $mergecats=[ [0,1,2,3,4] /* X+L+M+S+T */ ]; break;
+            case 3: $mergecats=[ [0,1] /* X+L */,[2] /* M */ ,[3,4] /* S+T */ ]; break;
+            case 4: $mergecats=[ [0] /* X */, [1] /* L */,[2] /* M */ ,[3,4] /* S+T */ ]; break;
+            default: $mergecats=null; break;
+        }
+    }
 	// en las mangas de games tenemos que usar otro sistema
     if (isMangaWAO($mangasInfo->Manga->Tipo)) {
         $pdf = new PrintClasificacionGeneralGames($prueba,$jornada,$mangas,$result,$podium);

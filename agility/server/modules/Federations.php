@@ -458,6 +458,17 @@ class Federations {
     }
 
     /**
+     * Get manga modes per recorrido
+     * @param {integer} $idx recorrido 0:common 1:mixed 2:separated
+     * @return {integer} array of modes for this recorrido
+     */
+    public function getRecorridoModes($idx) {
+        $modes = $this->config['Modes'][$idx];
+        array_unshift($modes, array_pop($modes)); // Put X category at the beginning
+        return array_unique(array_filter($modes, function($v) { return $v != -1; }), SORT_NUMERIC);
+    }
+
+    /**
      * retrieve license mode
      */
     public function getLicenseType() {

@@ -27,7 +27,7 @@ class RFEC extends Federations {
                 _('Common course'),
                 "60+50 / 40+30+20", // 2 groups
                 _("Separate courses"),
-                "60+50 / 40 / 30+20" // 3 groups
+                "60 / 50 / 40 / 30+20" // 4 groups
             ),
             'ListaGradosShort' => array(
                 '-' => 'Sin especificar',
@@ -78,18 +78,18 @@ class RFEC extends Federations {
                 'R' => 'Retirado',
                 'P' => 'Para-Agility',
             ),
-            'InfoManga' => array(
+            'InfoManga5' => array(
                 array('L' => _('Clase 50'),'M' => _('Clase 40'),'S' => _('Clase 30'),'T' => _('Clase 20'),'X' => _('Clase 60') ), // separate courses
                 array('L' => '',           'M' => _('40+30+20'),'S' => '',           'T' => '',           'X' => _('60+50')), // mixed (2 groups) courses
                 array('L' => '',           'M' => '',           'S' => '',           'T' => '',           'X' => _('6+5+4+3+2')), // common ( single height ) course
-                array('L' => '',           'M' => _('Clase 40'),'S' => _('30+20'),   'T' => '',           'X' => _('60+50'),   ) // 3 group courses
+                array('L' => _('Clase 50'),'M' => _('Clase 40'),'S' => _('Clase 30+20'),   'T' => '',           'X' => _('Clase 60'),   ) // 4 group courses
             ),
             'Modes' => array(
                 //  categorias            L   M   S   T   X
                 array(/* 0: separado */   0,  1,  2,  5,  9 ),
                 array(/* 1: 2 groups */  10, 11, 11, 11, 10 ),
                 array(/* 2: conjunto */  12, 12, 12, 12, 12 ), // pre-agility is declared as -XLMST
-                array(/* 3: 3 grupos */  10,  1,  7,  7, 10 )
+                array(/* 3: 4 grupos */   0,  1,  7,  7,  9 )
             ),
             'ModeStrings' => array( // text to be shown on each category
 
@@ -97,7 +97,7 @@ class RFEC extends Federations {
                 array(/* separado  */_('Clase 50'),     _('Clase 40'),      _('Clase 30'),      _('Clase 20'),     _('Clase 60') ),
                 array(/* 2 grupos */ _('Clase 60+50'),  _('Clase 40+30+20'),_('Clase 40+30+20'), _('Clase 40+30+20'),_('Clase 60+50') ),
                 array(/* conjunto */ "Recorrido comun", "Recorrido comun",  "Recorrido comun",  "Recorrido comun", "Recorrido comun"),
-                array(/* 3 grupos */ _('Clase 60+50'),  _('Clase 40'),       _('Clase 30+20'),   _('Clase 30+20'),  _('Clase 60+50'))
+                array(/* 4 grupos */ _('Clase 50'),     _('Clase 40'),       _('Clase 30+20'),   _('Clase 30+20'),  _('Clase 60'))
             ),
             'IndexedModes' => array (
                 /* 0 - L    */ "Clase 50",
