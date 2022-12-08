@@ -1,3 +1,11 @@
+Version 4.7.0 20221208_1730
+    - Remove license-related code
+    - Support building Docker image and running with Docker compose
+    - UI improvements to console, to use most screen space
+    - UI improvements to tablet: feedback in buttons, better info panel
+    - Replace X+L/M/S+T with more common X/L/M/S+T
+    - Support gzipped backups
+    - Several other fixes
 Version 4.6.3 20220131_1030
     - Add support for RFEC Season 2022
     - Fixes from previous version. replace obsolete php functions
