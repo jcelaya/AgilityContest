@@ -28,6 +28,7 @@ services:
       - MYSQL_PASSWORD
       - MYSQL_ROOT_PASSWORD
     volumes:
+      - ./extras/users_dockerized.sql:/docker-entrypoint-initdb.d/users_dockerized.sql:z
       - ./extras/bare_bones.sql:/docker-entrypoint-initdb.d/bare_bones.sql:z
       - ./extras/mysql.cnf:/etc/mysql/conf.d/my.cnf:z
       - persistent:/var/lib/mysql
