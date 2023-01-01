@@ -127,7 +127,8 @@ mv launcher/AgilityContest.exe .
 # ok. time to add AgilityContest files
 echo "Copying AgilityContest files ..."
 cp -rH "${BASE_DIR}"/{.htaccess,config,logs} .
-ln -s "${BASE_DIR}"/{index.html,agility,server,applications,extras,COPYING,README.md,Contributors,ChangeLog} .
+cp -rl "${BASE_DIR}"/{index.html,agility,server,applications,extras,COPYING,README.md,Contributors,ChangeLog} .
+find \( -name '*.cw.dat' -o -name '*.cw127.php' -o -name '*.mtx.php' \) -delete
 
 mkdir -p SerialChrono
 if [ -n "${CHRONO_DIR}" ]; then
@@ -159,7 +160,7 @@ if [ -d "${DROPBOX}" ]; then
         cp "${DROPBOX}/${i}" docs
     done
 fi
-ln -s "${BASE_DIR}"/README* docs
+cp -rl "${BASE_DIR}"/README* docs
 
 # TODO Website is no longer available
 # if necessary download available documentation from website
@@ -186,7 +187,7 @@ if [ ! -f "${DOWNLOADS}/AccessControl.zip" ]; then
 fi
 unzip "${DOWNLOADS}/AccessControl.zip" Plugins/i386-unicode/AccessControl.dll
 sed -e "s/__VERSION__/${AC_VERSION}/g" -e "s/__TIMESTAMP__/${AC_REVISION}/g" "${NSIS}" > AgilityContest.nsi
-ln -s "${BASE_DIR}"/build/{installer.bmp,License.txt,wellcome.bmp,*.nsh} .
+cp -rl "${BASE_DIR}"/build/{installer.bmp,License.txt,wellcome.bmp,*.nsh} .
 makensis AgilityContest.nsi
 
 APP_NAME=AgilityContest-"${AC_VERSION}"-"${AC_REVISION}"
