@@ -69,13 +69,13 @@ unzip -q "${DOWNLOADS}/${XAMPP}"
 # personalize xampp files
 # notice that relocation will be done at nsi install time with "setup_xampp.bat"
 echo "Setting up apache.conf ..."
-cp xampp/apache/conf/httpd.conf xampp/apache/conf/httpd.conf.orig
 cat <<__EOF >>xampp/apache/conf/httpd.conf
 <IfModule mpm_winnt_module>
     ThreadStackSize 8388608
 </IfModule>
 Include "conf/extra/AgilityContest_apache2.conf"
 __EOF
+sed -i 's/www.example.com/localhost/' xampp/apache/conf/httpd.conf
 unix2dos xampp/apache/conf/httpd.conf
 
 # create certificates
@@ -106,8 +106,8 @@ sed -i "s/;extension=intl/extension=intl/g" xampp/php/php.ini
 # add module php_dio (direct i/o) to support serial line (for in-built chrono software)
 # dio module is php_version dependent. on update xampp will need to replace
 if [ -f "${CONF_DIR}"/php_dio.dll ]; then
-    mkdir -p xampp/ext
-	cp "${CONF_DIR}"/php_dio.dll xampp/ext/php_dio.dll
+    mkdir -p xampp/php/ext
+	cp "${CONF_DIR}"/php_dio.dll xampp/php/ext/php_dio.dll
 	sed -i "/^extension=php_openssl.dll/i extension=php_dio.dll" xampp/php/php.ini
 fi
 
@@ -176,6 +176,8 @@ ln -s "${BASE_DIR}"/README* docs
 
 # fix version and revision number in system.ini
 sed -i -e "s/.*version_name.*/version_name = \"${AC_VERSION}\"/" -e "s/.*version_date.*/version_date = \"${AC_REVISION}\"/" config/system.ini
+sed -i "s/.*master_server.*/master_server = \"\"/" config/system.ini
+unix2dos config/*.ini
 
 # invoke makensis
 echo "Prepare and execute makensis..."
