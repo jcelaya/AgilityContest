@@ -132,6 +132,7 @@ echo "Copying AgilityContest files ..."
 cp -rH "${BASE_DIR}"/{.htaccess,config,logs} .
 cp -rl "${BASE_DIR}"/{index.html,agility,server,applications,extras,COPYING,README.md,Contributors,ChangeLog} .
 find \( -name '*.cw.dat' -o -name '*.cw127.php' -o -name '*.mtx.php' \) -delete
+rm -fr agility/phpmyadmin && mv xampp/phpMyAdmin agility/phpmyadmin
 
 mkdir -p SerialChrono
 if [ -n "${CHRONO_DIR}" ]; then

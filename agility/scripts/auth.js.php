@@ -225,7 +225,11 @@ function acceptMyAdmin() {
 		if (data.errorMsg) { // error
 			$.messager.alert("Error",data.errorMsg,"error");
 		} else { // success:
-			if (parseInt(data.Perms)<=1) window.open("/phpmyadmin","phpMyAdmin");
+			if (parseInt(data.Perms)<=1) {
+				var loc = window.location.pathname;
+				var dir = loc.substring(0, loc.lastIndexOf('agility'));
+				window.open(dir + "agility/phpmyadmin","phpMyAdmin");
+			}
 			else $.messager.alert("Error",'<?php _e("Current user has no <em>admin</em> privileges");?>',"error");
 		}
 	});
