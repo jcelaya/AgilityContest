@@ -65,6 +65,8 @@ if [ ! -f "${DOWNLOADS}/${XAMPP}" ]; then
 fi
 echo "Extracting xampp ... "
 unzip -q "${DOWNLOADS}/${XAMPP}"
+# Remove not needed pieces
+rm -fr xampp/{perl,tomcat}
 
 # personalize xampp files
 # notice that relocation will be done at nsi install time with "setup_xampp.bat"
@@ -76,6 +78,7 @@ cat <<__EOF >>xampp/apache/conf/httpd.conf
 Include "conf/extra/AgilityContest_apache2.conf"
 __EOF
 sed -i 's/www.example.com/localhost/' xampp/apache/conf/httpd.conf
+sed -i "/^\s*Alias/d" xampp/apache/conf/extra/httpd-xampp.conf
 unix2dos xampp/apache/conf/httpd.conf
 
 # create certificates
