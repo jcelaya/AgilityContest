@@ -76,7 +76,6 @@ try {
 	$mergecats=null;
 	$heights=$mangasInfo->Competition->getRoundHeights($mangas[0]); // same heights for every round
     $fed=$mangasInfo->Federation;
-    $fed->getMangaMode($mode,0);
     $modes = $fed->getRecorridoModes($mangasInfo->Manga->Recorrido);
     foreach ($modes as $mode) {
         $result[] = pp_getArray($mode, $c->clasificacionFinal($rondas, $mangas, $mode, $catGuia));
