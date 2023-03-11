@@ -12,7 +12,7 @@
     	<a id="tools-restoreBtn" href="#" class="easyui-linkbutton" style="width:85px"
 			data-options="iconCls:'icon-db_restore'" onclick="restoreDatabase(true)"><?php _e('Restore'); ?></a>
 		<input type="file" class="icon_button icon-search" id="tools-restoreFile"
-               name="restoreFile" accept="application/sql" required="required">
+               name="restoreFile" accept="application/sql,application/gzip,.sql.gz" required="required">
         <span id="tools-restoreProgress"></span>
 	</p>
     <p>
