@@ -1,3 +1,10 @@
+Version 4.7.1 20230312_2100
+    - Fix generation of final qualifications PDF
+    - Give more room to league points in final qualifications table
+    - Filter by gzip files in backup file picker
+    - Normalize RFEC tanda names (grade + activity)
+    - Tablet: hide activities without participants
+    - Tablet: expand next activity when finished
 Version 4.7.0 20221208_1730
     - Remove license-related code
     - Support building Docker image and running with Docker compose
