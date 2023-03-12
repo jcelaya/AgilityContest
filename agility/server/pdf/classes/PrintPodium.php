@@ -68,7 +68,7 @@ class PrintPodium extends PrintClasificacionGeneral {
 
 	function composeTable() {
 		$this->myLogger->enter();
-        $len=(($this->manga3)!==null)?115+(59*3+42)*0.75:115+59*2+42; // lenght of closing line
+        $len=(($this->manga3)!==null)?115+(58*3+44)*0.75:115+58*2+44; // lenght of closing line
 
 		$this->AddPage();
 		$this->print_InfoJornada();
@@ -108,7 +108,7 @@ class PrintPodium extends PrintClasificacionGeneral {
      */
     function composeMergedTable($mergecats) {
         $this->myLogger->enter();
-        $len=(($this->manga3)!==null)?115+(59*3+42)*0.75:115+59*2+42; // lenght of closing line
+        $len=(($this->manga3)!==null)?115+(58*3+44)*0.75:115+58*2+44; // lenght of closing line
 
         $this->AddPage();
         $this->print_InfoJornada();

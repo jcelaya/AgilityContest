@@ -214,10 +214,10 @@ class PrintClasificacionGeneral extends PrintCommon {
         // first row of table header
 		$this->SetFont($this->getFontName(),'BI',12); // default font
 		$this->Cell(115,5,$strcats,0,0,'L',true);
-        $this->Cell(59*$factor,5,$tm1,0,0,'C',true);
-        $this->Cell(59*$factor,5,$tm2,0,0,'C',true);
-        if($tm3!=="") $this->Cell(59*$factor,6,$tm3,0,0,'C',true);
-		$this->Cell(42*$factor,5,_('Score'),0,0,'C',true);
+        $this->Cell(58*$factor,5,$tm1,0,0,'C',true);
+        $this->Cell(58*$factor,5,$tm2,0,0,'C',true);
+        if($tm3!=="") $this->Cell(58*$factor,6,$tm3,0,0,'C',true);
+		$this->Cell(44*$factor,5,_('Score'),0,0,'C',true);
 		$this->ln();
 		$this->SetFont($this->getFontName(),'',8); // default font
 
@@ -243,10 +243,10 @@ class PrintClasificacionGeneral extends PrintCommon {
             $this->Cell(7*$factor,5,_('Ref'),0,0,'C',true);	// 1- Rehuses
             $this->Cell(12*$factor,5,_('Time'),0,0,'C',true);	// 1- Tiempo
             $this->Cell(9*$factor,5,_('Vel'),0,0,'C',true);	// 1- Velocidad
-            $this->Cell(12*$factor,5,_('Penal'),0,0,'C',true);	// 1- Penalizacion
+            $this->Cell(11*$factor,5,_('Penal'),0,0,'C',true);	// 1- Penalizacion
             $this->Cell(12*$factor,5,'Calif',0,0,'C',true);	// 1- calificacion
         } else {
-            $this->Cell(59*$factor,5,'',0,0,'C',true);	// espacio en blanco
+            $this->Cell(58*$factor,5,'',0,0,'C',true);	// espacio en blanco
         }
 
 		// manga 2
@@ -255,10 +255,10 @@ class PrintClasificacionGeneral extends PrintCommon {
 			$this->Cell(7*$factor,5,_('Ref'),0,0,'C',true);	// 2- Rehuses
 			$this->Cell(12*$factor,5,_('Time'),0,0,'C',true);	// 2- Tiempo
 			$this->Cell(9*$factor,5,_('Vel'),0,0,'C',true);	// 2- Velocidad
-			$this->Cell(12*$factor,5,_('Penal'),0,0,'C',true);	// 2- Penalizacion
+			$this->Cell(11*$factor,5,_('Penal'),0,0,'C',true);	// 2- Penalizacion
 			$this->Cell(12*$factor,5,_('Calif'),0,0,'C',true);	// 2- calificacion
 		} else {
-			$this->Cell(59*$factor,5,'',0,0,'C',true);	// espacio en blanco
+			$this->Cell(58*$factor,5,'',0,0,'C',true);	// espacio en blanco
 		}
 
         // manga 3
@@ -267,15 +267,15 @@ class PrintClasificacionGeneral extends PrintCommon {
             $this->Cell(7*$factor,5,_('Ref'),0,0,'C',true);	// 2- Rehuses
             $this->Cell(12*$factor,5,_('Time'),0,0,'C',true);	// 2- Tiempo
             $this->Cell(9*$factor,5,_('Vel'),0,0,'C',true);	// 2- Velocidad
-            $this->Cell(12*$factor,5,_('Penal'),0,0,'C',true);	// 2- Penalizacion
+            $this->Cell(11*$factor,5,_('Penal'),0,0,'C',true);	// 2- Penalizacion
             $this->Cell(12*$factor,5,_('Calif'),0,0,'C',true);	// 2- calificacion
         }
         // do not print empty data if no round 3
 
 		// global
 		$this->Cell(12*$factor,5,_('Time'),0,0,'C',true);	// Tiempo total
-		$this->Cell(12*$factor,5,_('Penaliz'),0,0,'C',true);	// Penalizacion
-		$this->Cell(10*$factor,5,_('Calific'),0,0,'C',true);	// Calificacion
+		$this->Cell(11*$factor,5,_('Penaliz'),0,0,'C',true);	// Penalizacion
+		$this->Cell(13*$factor,5,_('Calific'),0,0,'C',true);	// Calificacion
 		$this->Cell(8*$factor,5,_('Position'),0,0,'C',true);	// Puesto
 		$this->Ln();	
 		// restore colors
@@ -313,14 +313,14 @@ class PrintClasificacionGeneral extends PrintCommon {
         $this->Cell(10,6,"",0,0,'C',true);	// categoria/grado
         $this->Cell(35,6,"",0,0,'R',true);	// nombreGuia
         $this->Cell(20,6,"",0,0,'R',true);	// nombreClub
-        $this->Cell(59*$factor,6,'',0,0,'C',true);	// manga 1
-        $this->Cell(59*$factor,6,'',0,0,'C',true);	// manga 2
-        if (!is_null($this->manga3)) $this->Cell(59*$factor,6,'',0,0,'C',true);	// manga 3
+        $this->Cell(58*$factor,6,'',0,0,'C',true);	// manga 1
+        $this->Cell(58*$factor,6,'',0,0,'C',true);	// manga 2
+        if (!is_null($this->manga3)) $this->Cell(58*$factor,6,'',0,0,'C',true);	// manga 3
 
         // global
-        $this->Cell(24*$factor,6,"",0,0,'C',true);	// Tiempo / Penalización
+        $this->Cell(23*$factor,6,"",0,0,'C',true);	// Tiempo / Penalización
         $this->SetFont($this->getFontName(),'B',6); // default font
-        $this->Cell(10*$factor,6,"-",0,0,'C',true);	// Calificacion
+        $this->Cell(13*$factor,6,"-",0,0,'C',true);	// Calificacion
         $this->SetFont($this->getFontName(),'B',10); // default font
         $this->Cell(8*$factor,6,$puesto,0,0,'R',true);	// Puesto
 
@@ -328,13 +328,13 @@ class PrintClasificacionGeneral extends PrintCommon {
         $this->ac_SetDrawColor($this->config->getEnv('pdf_linecolor'));
         $this->Line(10    ,$y,10,    $y+6);
         $this->Line(10+115,$y,10+115,$y+6);
-        $this->Line(10+115+59*$factor,$y,10+115+59*$factor,$y+6);
-        $this->Line(10+115+59*2*$factor,$y,10+115+59*2*$factor,$y+6);
+        $this->Line(10+115+58*$factor,$y,10+115+58*$factor,$y+6);
+        $this->Line(10+115+58*2*$factor,$y,10+115+58*2*$factor,$y+6);
         if(!is_null($this->manga3)) {
-            $this->Line(10+115+59*3*$factor,$y,10+115+59*3*$factor,$y+6);
-            $this->Line(10+115+(59*3+42)*$factor,$y,10+115+(59*3+42)*$factor,$y+6);
+            $this->Line(10+115+58*3*$factor,$y,10+115+58*3*$factor,$y+6);
+            $this->Line(10+115+(58*3+44)*$factor,$y,10+115+(58*3+44)*$factor,$y+6);
         } else {
-            $this->Line(10+115+(59*2+42)*$factor,$y,10+115+(59*2+42)*$factor,$y+6);
+            $this->Line(10+115+(58*2+44)*$factor,$y,10+115+(58*2+44)*$factor,$y+6);
         }
         $this->Ln(6);
     }
@@ -402,10 +402,10 @@ class PrintClasificacionGeneral extends PrintCommon {
             $this->Cell(7*$factor,6,$row['R1'],0,0,'C',true);	// 1- Rehuses
             $this->Cell(12*$factor,6,$t1,0,0,'C',true);	// 1- Tiempo
             $this->Cell(9*$factor,6,$v1,0,0,'C',true);	// 1- Velocidad
-            $this->Cell(12*$factor,6,$p1,0,0,'C',true);	// 1- Penalizacion
+            $this->Cell(11*$factor,6,$p1,0,0,'C',true);	// 1- Penalizacion
             $this->Cell(12*$factor,6,$row['C1'],0,0,'C',true);	// 1- calificacion
         } else {
-            $this->Cell(59*$factor,6,'',0,0,'C',true);	// espacio en blanco
+            $this->Cell(58*$factor,6,'',0,0,'C',true);	// espacio en blanco
         }
 
 		// manga 2
@@ -414,10 +414,10 @@ class PrintClasificacionGeneral extends PrintCommon {
 			$this->Cell(7*$factor,6,$row['R2'],0,0,'C',true);	// 2- Rehuses
 			$this->Cell(12*$factor,6,$t2,0,0,'C',true);	// 2- Tiempo
 			$this->Cell(9*$factor,6,$v2,0,0,'C',true);	// 2- Velocidad
-			$this->Cell(12*$factor,6,$p2,0,0,'C',true);	// 2- Penalizacion
+			$this->Cell(11*$factor,6,$p2,0,0,'C',true);	// 2- Penalizacion
 			$this->Cell(12*$factor,6,$row['C2'],0,0,'C',true);	// 2- calificacion
 		} else {
-			$this->Cell(59*$factor,6,'',0,0,'C',true);	// espacio en blanco
+			$this->Cell(58*$factor,6,'',0,0,'C',true);	// espacio en blanco
 		}
 
         // manga 3
@@ -426,35 +426,35 @@ class PrintClasificacionGeneral extends PrintCommon {
             $this->Cell(7*$factor,6,$row['R3'],0,0,'C',true);	// 2- Rehuses
             $this->Cell(12*$factor,6,$t3,0,0,'C',true);	// 2- Tiempo
             $this->Cell(9*$factor,6,$v3,0,0,'C',true);	// 2- Velocidad
-            $this->Cell(12*$factor,6,$p3,0,0,'C',true);	// 2- Penalizacion
+            $this->Cell(11*$factor,6,$p3,0,0,'C',true);	// 2- Penalizacion
             $this->Cell(12*$factor,6,$row['C3'],0,0,'C',true);	// 2- calificacion
         }
 
 		// global
 		$this->Cell(12*$factor,6,$tiempo,0,0,'C',true);	// Tiempo
-		$this->Cell(12*$factor,6,$penal,0,0,'C',true);	// Penalizacion
+		$this->Cell(11*$factor,6,$penal,0,0,'C',true);	// Penalizacion
         $this->SetFont($this->getFontName(),'B',6); // default font
-		$this->Cell(10*$factor,6,$row['Calificacion'],0,0,'C',true);	// Calificacion
+		$this->Cell(13*$factor,6,$row['Calificacion'],0,0,'C',true);	// Calificacion
         $this->SetFont($this->getFontName(),'B',10); // default font
 		$this->Cell(8*$factor,6,$puesto,0,0,'R',true);	// Puesto
 		// lineas rojas
 		$this->ac_SetDrawColor($this->config->getEnv('pdf_linecolor'));
 		$this->Line(10    ,$y,10,    $y+6);
 		$this->Line(10+115,$y,10+115,$y+6);
-		$this->Line(10+115+59*$factor,$y,10+115+59*$factor,$y+6);
-		$this->Line(10+115+59*2*$factor,$y,10+115+59*2*$factor,$y+6);
+		$this->Line(10+115+58*$factor,$y,10+115+58*$factor,$y+6);
+		$this->Line(10+115+58*2*$factor,$y,10+115+58*2*$factor,$y+6);
 		if(!is_null($this->manga3)) {
-            $this->Line(10+115+59*3*$factor,$y,10+115+59*3*$factor,$y+6);
-            $this->Line(10+115+(59*3+42)*$factor,$y,10+115+(59*3+42)*$factor,$y+6);
+            $this->Line(10+115+58*3*$factor,$y,10+115+58*3*$factor,$y+6);
+            $this->Line(10+115+(58*3+44)*$factor,$y,10+115+(58*3+44)*$factor,$y+6);
         } else {
-            $this->Line(10+115+(59*2+42)*$factor,$y,10+115+(59*2+42)*$factor,$y+6);
+            $this->Line(10+115+(58*2+44)*$factor,$y,10+115+(58*2+44)*$factor,$y+6);
         }
 		$this->Ln(6);
 	}
 
 	function composeTable() {
 		$this->myLogger->enter();
-        $len=(($this->manga3)!==null)?115+(59*3+42)*0.75:115+59*2+42; // lenght of closing line
+        $len=(($this->manga3)!==null)?115+(58*3+44)*0.75:115+58*2+44; // lenght of closing line
 
 		// en las siguientes hojas pintamos los resultados
         $this->AddPage();
@@ -537,7 +537,7 @@ class PrintClasificacionGeneral extends PrintCommon {
      */
     function composeMergedTable($mergecats) {
         $this->myLogger->enter();
-        $len=(($this->manga3)!==null)?115+(59*3+42)*0.75:115+59*2+42; // lenght of closing line
+        $len=(($this->manga3)!==null)?115+(58*3+44)*0.75:115+58*2+44; // lenght of closing line
 
 		// en las siguientes hojas pintamos los resultados
         $this->AddPage();
