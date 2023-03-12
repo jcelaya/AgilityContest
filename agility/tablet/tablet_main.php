@@ -195,6 +195,11 @@ $config =Config::getInstance();
             Jornada: workingData.jornada,
             Sesion: (parseInt(workingData.session)===1)?1:-(workingData.session)
         },
+        filterRules:[{
+	    	field:'Participantes',
+	    	op:'notequal',
+	    	value:'0'
+	    }],
         toolbar:'#tablet-toolbar',
         loadMsg: "<?php _e('Updating series order');?>"+" ...",
         pagination: false,
@@ -252,7 +257,7 @@ $config =Config::getInstance();
             }
             doBeep();
         }
-    });
+    }).datagrid('enableFilter');
 
     // mostrar los perros de una tanda
     function tablet_showPerrosByTanda(index,row){
