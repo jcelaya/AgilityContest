@@ -738,6 +738,9 @@ function tablet_accept() {
 		setDataEntryEnabled(false);
 		dg.datagrid('refreshRow',rowindex-1);
 		dg.datagrid('clearSelections');
+		dg = $('#tablet-datagrid');
+		var oldRow = dg.datagrid('options').expandedRow;
+		dg.datagrid('collapseRow', oldRow).datagrid('expandRow', oldRow + 1);
 		tablet_putEvent('close',{ 'Value' : time } );
 	} else {
 		// not at end scrollTo, markSelected and update dataentry panel
