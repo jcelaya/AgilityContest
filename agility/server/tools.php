@@ -582,7 +582,6 @@ function list_isMember($item,$list="BEGIN,END") {
 // Function to check response time to http connect request
 // also used as tcp ping test
 function isNetworkAlive(){
-    return -1; // required cause www.agilitycontest.es is no longer available
     $starttime = microtime(true);
     $file      = @fsockopen ("www.google.es", 80, $errno, $errstr, 10);
     $stoptime  = microtime(true);
