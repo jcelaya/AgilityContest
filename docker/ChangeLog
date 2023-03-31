@@ -1,3 +1,10 @@
+Version 4.7.2 20230331_2300
+    - Fix restoring non-gzipped database backup
+    - Remove personal data
+    - Remove videos
+    - Include RSCE 2023 changes
+    - Fix exporting results to Excel
+    - Other smaller fixes
 Version 4.7.1 20230312_2100
     - Fix generation of final qualifications PDF
     - Give more room to league points in final qualifications table
