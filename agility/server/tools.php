@@ -325,17 +325,39 @@ function parseGender($gender) {
 /**
  * Try to obtain dog grade according provided string
  * @param {string} $cat user provided category
+ * @param {integer} $int federation (RSCE>=2023 changes XL and L names)
  * @return {string} X,L,M,S,T,- detected category
  */
-function parseCategory($cat) {
-    $cats= array (
-        'X' => array('x','extra','xlarge','xl','x-large','extra-large','600','60','6'),
-        'L' => array('l','large','standard','estandar','std','intermediate','intermedia','int','500','50','5'),
-	    'M' => array('m','medium','midi','mid','med','400','40','4'),
-	    'S' => array('s','small','mini','min','300','30','3'),
-	    'T' => array('t','enano','tiny','toy','xs','x-small','x-short','extra-short','250','200','25','20','2'),
-    );
-	if (is_null($cat)) return '-';
+function parseCategory($cat,$fed=0) {
+    if (is_null($cat)) return '-';
+    if ( ($fed==2) || ($fed==8) ) { // 4 alturas (nat-4 o int-4)
+        $cats= array (
+            'L' => array('large','standard','estandar','std','int','600','60','6'),
+            'M' => array('medium','midi','mid','med','500','50','5'),
+            'S' => array('small','mini','min','400','40','4'),
+            'T' => array('enano','tiny','toy','xs','x-small','x-short','extra-short','300','30','3')
+        );
+    } else { // 5-3 alturas
+        $cats= array (
+            'M' => array('medium','midi','mid','med','400','40','4'),
+            'S' => array('small','mini','min','300','30','3'),
+            'T' => array('enano','tiny','toy','xs','x-small','x-short','extra-short','250','200','25','20','2')
+        );
+        if ($fed!=0) {
+            $cats['X'] = array('extra','xlarge','xl','x-large','extra-large','600','60','6');
+            $cats['L'] = array('large','standard','estandar','std','i','intermediate','intermedia','inter','int','500','50','5');
+        } else {
+            // en rsce 2023 las categorías son "LIMST", que en la base de datos se traducen a 'XLMST'
+            if ( $cat=='L' || $cat=='l' ) return 'X';
+            if ( $cat=='I' || $cat=='i' ) return 'L';
+            $cats['X'] = array('extra','xlarge','xl','x-large','large','standard','estandar','std','extra-large','600','60','6');
+            $cats['L'] = array('i','intermediate','intermedia','inter','int','500','50','5');
+        }
+    }
+    // when database value is provided, do not perform any parsing
+    if (in_array($cat,array('-','X','L','M','S','T'))) return $cat;
+    if (in_array($cat,    array('x','l','m','s','t'))) return strtoupper($cat);
+    // else search across available values on each category
     $str = preg_replace("/[^A-Za-z0-9]/u", '', strtolower(iconv('UTF-8','ASCII//TRANSLIT',$cat)));
     $str = preg_replace('/\D+(\d+)/i','${1}',$str); // try to resolve "Clase XX" RFEC patterns
     foreach ( $cats as $key => $values) {
@@ -560,6 +582,7 @@ function list_isMember($item,$list="BEGIN,END") {
 // Function to check response time to http connect request
 // also used as tcp ping test
 function isNetworkAlive(){
+    return -1; // required cause www.agilitycontest.es is no longer available
     $starttime = microtime(true);
     $file      = @fsockopen ("www.google.es", 80, $errno, $errstr, 10);
     $stoptime  = microtime(true);
