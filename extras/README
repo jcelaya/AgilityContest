@@ -1,18 +1,12 @@
 This folder contains several sample SQL and configuration files
 
 SQL Database backups
-- agility.sql
-    working sample database file to be loaded by default
 - bare_bones.sql
     minimal database structure: no contests, no dogs, clubs, etc...
-- bare_data.sql
-    database without contests. Only dog/handler/club information
 - users.sql
     user database for standalone app in single computer environment
-- multi_users.sql
+- users_dockerized.sql
     user database for networked computer environment
-- xxxx.sql
-    extra database snapshots for named contests
 
 XAMPP Configuration files
 

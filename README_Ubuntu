@@ -27,7 +27,7 @@ bash$  git clone https://github.com/jonsito/AgilityContest
  mysql> drop database if exists agility;
  mysql> create database agility;
  mysql> use agility;
- mysql> source ${WORKDIR}/AgilityContest/extras/agility.sql
+ mysql> source ${WORKDIR}/AgilityContest/extras/bare_bones.sql
  mysql> source ${WORKDIR}/AgilityContest/extras/users.sql
  mysql> quit
 

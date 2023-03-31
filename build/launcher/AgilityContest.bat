@@ -42,7 +42,6 @@ timeout /t 5
 echo DROP DATABASE IF EXISTS agility; > ..\logs\install.sql
 echo CREATE DATABASE agility; >> ..\logs\install.sql
 echo USE agility; >> ..\logs\install.sql
-rem type ..\extras\agility.sql >> ..\logs\install.sql
 type ..\extras\users.sql >> ..\logs\install.sql
 mysql\bin\mysql -u root < ..\logs\install.sql
 del ..\logs\install.sql

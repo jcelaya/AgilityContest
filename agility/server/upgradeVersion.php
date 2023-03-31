@@ -92,7 +92,7 @@ class Updater {
     function installDB() {
 
         // phase 1: retrieve database file from "extras" directory
-        $filename=__DIR__."/../../extras/agility.sql";
+        $filename=__DIR__."/../../extras/bare_bones.sql";
         $fp=fopen($filename, "r");
         if (!$fp) return "Cannot load database file to be installed";
 

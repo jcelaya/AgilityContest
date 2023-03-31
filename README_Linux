@@ -45,7 +45,7 @@ Tener instalados y funcionando
   DROP DATABASE IF EXISTS agility;
   CREATE DATABASE agility;
   USE agility;
-  source ${BASE}/extras/agility.sql
+  source ${BASE}/extras/bare_bones.sql
   source ${BASE}/extras/users.sql
   quit
 
