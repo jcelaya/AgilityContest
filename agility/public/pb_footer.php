@@ -60,13 +60,5 @@ if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth F
         <a target="cubenode" href="http://www.cubenode.com" style="text-decoration:none;">
             <img id="pb_footer-logoAgilityContest" src="../awcfci2016/cubenode2.png" alt="cubenode" class="pb_icon_gold"/>
         </a>
-        <span style="padding:5px">
-            <!-- remove to avoid copyright issues -->
-            <!--
-            <audio controls autoplay>
-                <source src="../videos/living_for_agility.ogg" type="audio/ogg">
-            </audio>
-            -->
-        </span>
     </span>
 </div>
