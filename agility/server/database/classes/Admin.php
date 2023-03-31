@@ -455,7 +455,10 @@ class Admin extends DBObject {
             throw new Exception($data['errorMsg']);
         }
         // Try to uncompress it
+        $err = error_reporting();
+        error_reporting($err & ~E_WARNING);
         $uncompressed = gzdecode($data);
+        error_reporting($err);
         if ($uncompressed !== false) $data = $uncompressed;
         // phase 2: verify received file
 		if (strpos(substr($data,0,25),"-- AgilityContest")===FALSE) {
