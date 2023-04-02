@@ -263,31 +263,6 @@ LOCK TABLES `inscripciones` WRITE;
 /*!40000 ALTER TABLE `inscripciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = latin1 */ ;
-/*!50003 SET character_set_results = latin1 */ ;
-/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = '' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`agility_admin`@`localhost`*/ /*!50003 TRIGGER `Increase_Dorsal` BEFORE INSERT ON `inscripciones`
-		FOR EACH ROW BEGIN
-			select count(*) into @rows from inscripciones where Prueba = NEW.Prueba;
-			if @rows>0 then
-				select Dorsal + 1 into @newDorsal from inscripciones where Prueba = NEW.Prueba order by Dorsal desc limit 1;
-				set NEW.Dorsal = @newDorsal;
-			else
-				set NEW.Dorsal = 1;
-			end if;
-		END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-
 --
 -- Table structure for table `jornadas`
 --
