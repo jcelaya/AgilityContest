@@ -164,7 +164,6 @@ Class AgilityContestUpdater {
             "config.ini" => __DIR__."/../config/config.ini",
             // > 3.8.X also need to preserve system.ini for db info. After restore must update version info
             "system.ini" => __DIR__."/../config/system.ini",
-            "registration.info" => __DIR__."/../config/registration.info",
             "supporters.csv" => __DIR__ . "/../config/supporters.csv"
         );
     }
