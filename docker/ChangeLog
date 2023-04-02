@@ -1,3 +1,4 @@
+Version 4.7.3 rc
 Version 4.7.2 20230331_2300
     - Fix restoring non-gzipped database backup
     - Remove personal data
