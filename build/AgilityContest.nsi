@@ -155,8 +155,7 @@ FILE /r extras
 FILE /r logs
 FILE /r server
 FILE /r SerialChrono
-IfFileExists $TEMP\DoNotReinstall.txt dontReinstall Reinstall
-Reinstall:
+StrCmp $installedVersion "" 0 dontReinstall
     FILE /r xampp
     !insertmacro _ReplaceInFile $INSTDIR\xampp\apache\conf\extra\AgilityContest_apache2.conf "C:/AgilityContest" $INSTDIR
 
@@ -173,6 +172,9 @@ SetShellVarContext all
     WriteRegStr HKLM \
             SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$PATH \
             "DisplayName" "${PROGRAM_NAME} ${VERSION}"
+    WriteRegStr HKLM \
+            SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$PATH \
+            "DisplayVersion" "${VERSION}-${TIMESTAMP}"
     WriteRegStr HKLM \
             SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$PATH \
             "UninstallString" '"$INSTDIR\uninstall_AgilityContest.exe"'
@@ -237,6 +239,14 @@ SectionEnd
 ;;;;;;;;;;;;;;;;;;;;;;
 
 Section "Uninstall"
+  MessageBox MB_OKCANCEL|MB_DEFBUTTON1|MB_ICONEXCLAMATION \
+  "This action will delete your current configuration and backups. $\n\
+  Do you confirm you want to continue? $\n\
+  Select `Cancel` to abort and keep current installation." \
+  IDOK confirm_uninst
+  Abort "Cancelling uninstallation"
+
+confirm_uninst:
     StrCpy $PATH "${PROGRAM_NAME}"
     StrCpy $PATH_ACCESO_DIRECTO "${PROGRAM_NAME}"
     SetShellVarContext all
@@ -255,20 +265,16 @@ Section "Uninstall"
         Software\Microsoft\Windows\CurrentVersion\Uninstall\$PATH
 SectionEnd
 
-;; recuperamos ficheros de configuracion tras la instalacion
 Function .onInstSuccess
   ; recuperamos ficheros de configuracion de la desinstalacion previa
   CopyFiles $TEMP\registration.* $INSTDIR\config
+  CopyFiles $TEMP\supporters.csv $INSTDIR\config
   CopyFiles $TEMP\config.ini $INSTDIR\config
   CopyFiles $TEMP\system.ini $INSTDIR\config
 
-  ; recuperamos backups
-  CopyFiles $TEMP\agility-*.sql $INSTDIR\logs
-
   ; si es update, borramos marca de reinstalacion
-  IfFileExists $TEMP\DoNotReinstall.txt 0 skip
+  StrCmp $installedVersion "" skip
     Delete $INSTDIR\logs\first_install
-    Delete $TEMP\DoNotReinstall.txt
 skip:
 
 FunctionEnd
@@ -283,16 +289,12 @@ Function .onInit
   ; Make sure previous temp config is deleted
   Delete $TEMP\config.ini
   Delete $TEMP\system.ini
-  ; backward compatibility to <3.7.3
-  ; CopyFiles $INSTDIR\agility\server\auth\registration.* $TEMP
-  ; CopyFiles $INSTDIR\agility\server\auth\config.ini $TEMP
-  ; CopyFiles $INSTDIR\agility\server\auth\system.ini $TEMP
-  ; new config data location
+  ; keep license just in case
   CopyFiles $INSTDIR\config\registration.* $TEMP
+  CopyFiles $INSTDIR\config\supporters.csv $TEMP
   CopyFiles $INSTDIR\config\config.ini $TEMP
   CopyFiles $INSTDIR\config\system.ini $TEMP
-  ; save sql database backups
-  CopyFiles $INSTDIR\logs\agility-*.sql $TEMP
+
   StrCpy $1 ${esp} ; Spanish is selected by default
 
   ReadRegStr $R0 HKLM \
@@ -300,46 +302,15 @@ Function .onInit
   "UninstallString"
   StrCmp $R0 "" done
 
-  ReadRegStr $R1 HKLM SOFTWARE\${PROGRAM_NAME} "Version"
+  ReadRegStr $R1 HKLM SOFTWARE\AgilityContest\${PROGRAM_NAME} "Version"
   StrCpy $installedVersion "$R1"
   
-  MessageBox MB_YESNOCANCEL|MB_DEFBUTTON2|MB_ICONEXCLAMATION \
+  MessageBox MB_OKCANCEL|MB_DEFBUTTON1|MB_ICONEXCLAMATION \
   "${PROGRAM_NAME} $installedVersion is currently installed. $\n\
-  Reinstall or Upgrade ? $\n\
-  Press YES to remove current installation and INSTALL new version $\n\
-  Press NO to just UPGRADE to new version ${PROGRAM_NAME} ${VERSION} $\n\
-  Select `Cancel` to abort and keep current installation " \
-  IDYES uninst \
-  IDNO markUpdate
+  Do you confirm you want to upgrade? $\n\
+  Select `Cancel` to abort and keep current installation." \
+  IDOK done
   Abort "Cancelling installation"
-
-markUpdate:
-   ; create a teporary file mark
-   FileOpen $0 $TEMP\DoNotReinstall.txt w ;Opens a Empty File an fills it
-   FileWrite $0 "DoNotReinstall\r$\n"
-   FileClose $0 ;Closes the filled file
-   goto done
-
-; Run the uninstaller
-uninst:
-  Delete $TEMP\DoNotReinstall.txt
-  ; make sure that application is stopped before uninstall/reinstall
-  ifFileExists "$INSTDIR\xampp\apache\bin\pv.exe" 0 dontExecKillProc
-  nsExec::Exec '"$INSTDIR\xampp\apache\bin\pv.exe" -f -k httpd.exe -q'
-  nsExec::Exec '"$INSTDIR\xampp\apache\bin\pv.exe" -f -k mysqld.exe -q'
-
-  dontExecKillProc:
-
-  ClearErrors
-  ; invoke uninstaller without /S (silent) option
-  ExecWait '$R0 _?=$INSTDIR' ;Do not copy the uninstaller to a temp file
-     
-  IfErrors no_remove_uninstaller done
-    ;You can either use Delete /REBOOTOK in the uninstaller or add some code
-    ;here to remove the uninstaller. Use a registry key to check
-    ;whether the user has chosen to uninstall. If you are using an uninstaller
-    ;components page, make sure all sections are uninstalled.
-  no_remove_uninstaller:
 
 done:
                          
