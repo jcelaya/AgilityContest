@@ -46,7 +46,7 @@ define('AC_CONSOLE_EVENTS',"0"); // track and show events in cosole
 define('AC_CONSOLE_NEWS',"1"); // ask server for news on startup
 define('AC_RESET_EVENTS',"1"); // clear event registry on login
 define('AC_SEARCH_UPDATES',"1"); // look for application updates at startup
-define('AC_SEARCH_UPDATEDB',"-1"); // look for application updates at startup -1:ask, 0:don't 1:do
+define('AC_SEARCH_UPDATEDB',"0"); // look for application updates at startup -1:ask, 0:don't 1:do
 define('AC_FULL_BACKUP',"0"); // include events in database backup
 define('AC_EVENT_PRINTER','');
 define('AC_WIDE_PRINTER','0'); // defaults to 58mm wide POS printer
