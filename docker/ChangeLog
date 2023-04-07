@@ -1,4 +1,8 @@
-Version 4.7.3 rc
+Version 4.7.3 20230407_1900
+    - Fix bare bones SQL code
+    - Simplify and fix Windows update
+    - Sort contests by closing date, so it's easier to find a certain contest
+    - Tablet: Add chrono field so that setting the time manually is easier
 Version 4.7.2 20230331_2300
     - Fix restoring non-gzipped database backup
     - Remove personal data
