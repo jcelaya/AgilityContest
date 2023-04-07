@@ -229,6 +229,7 @@ function tablet_add(val) {
 	var maxlen=(ac_config.crono_milliseconds==="0")?6:7;
 	var declen=(ac_config.crono_milliseconds==="0")?2:3;
 	var tdt=$('#tdialog-Tiempo');
+	tdt.data("manual", true);
 	var str=tdt.val();
 	if (parseInt(str)===0) str=''; // clear espurious zeroes
 	if(str.length>=maxlen) return false; // sss.xx 6/7 chars according configuration
@@ -267,6 +268,7 @@ function tablet_del() {
     if ($('#tb_drs').numberbox('options').editing===true) return dorsal_del();
 	doBeep();
 	var tdt=$('#tdialog-Tiempo');
+	tdt.data("manual", true);
 	var str=tdt.val();
 	if (str==='') return false;
 	tdt.val(str.substring(0, str.length-1));
@@ -325,7 +327,7 @@ function tablet_np(sendEvent) {
 		tdflt.val(0);
 		tdreh.val(0);
 		tdtoc.val(0);
-		tdtime.val(0);
+		tdtime.val("0.00");
 		tdtint.val(0);
 	} else {
 		tdnp.val(0);
@@ -363,7 +365,7 @@ function tablet_elim(sendEvent) {
 		// si eliminado, poner nopresentado a cero, conservar lo demas
 		tdnp.val(0);
 		$('#tdialog-NoPresentadoStr').val("");
-		tdtime.val(0);
+		tdtime.val("0.00");
 	} else {
 		tde.val(0);
 		tdestr.val("");
@@ -412,7 +414,7 @@ function tablet_updateChronoData(data,send) {
 		$('#tdialog-NoPresentadoStr').val(str);
 		$('#tdialog-Eliminado').val(0);
 		$('#tdialog-EliminadoStr').val("");
-		$('#tdialog-Tiempo').val(0);
+		$('#tdialog-Tiempo').val("0.00");
 		$('#tdialog-Tintermedio').val(0);
 	}
 	// call server to update results
@@ -431,7 +433,9 @@ function tablet_cronometro(oper,time) {
         $('#tdialog-NoPresentadoStr').val("");
         $('#tdialog-Eliminado').val(0);
         $('#tdialog-EliminadoStr').val("");
-        $('#tdialog-Tiempo').val(0);
+        $('#tdialog-Chrono').val("0.00");
+        $('#tdialog-Tiempo').val("0.00");
+		$('#tdialog-Tiempo').data("manual", false);
         $('#tdialog-Tintermedio').val(0);
     }
 }
@@ -439,9 +443,9 @@ function tablet_cronometro(oper,time) {
 var myCounter = new Countdown({  
 	seconds:15,  // number of seconds to count down
 	onUpdateStatus: function(tsec){
-		$('#tdialog-Tiempo').val(toFixedT((tsec/10),1));
+		$('#tdialog-Chrono').val(toFixedT((tsec/10),1));
 	}, // callback for each tenth of second
-	// onCounterEnd: function(){  $('#tdialog_Tiempo').html('<span class="blink" style="color:red">-out-</span>'); } // final action
+	// onCounterEnd: function(){  $('#tdialog_Chrono').html('<span class="blink" style="color:red">-out-</span>'); } // final action
 	onCounterEnd: function(){  // at end of countdown start timer
 		var time = Date.now() - startDate;
 		switch (parseInt(ac_config.tablet_countdown)) {
@@ -967,7 +971,7 @@ function bindKeysToTablet() {
  * @param evt event Data
  */
 function tablet_eventManager(id,evt) {
-	var tbox=$('#tdialog-Tiempo');
+	var tbox=$('#tdialog-Chrono');
 	var crm=$('#cronometro');
 	var event=parseEvent(evt); // remember that event was coded in DB as an string
 	event['ID']=id; // fix real id on stored eventData

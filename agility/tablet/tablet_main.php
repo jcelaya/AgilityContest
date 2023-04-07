@@ -98,9 +98,11 @@ $config =Config::getInstance();
                         <input id="tdialog-Tocados" type="text" readonly="readonly" value="0" name="Tocados" class="tablet_data"/>
                         <label id="tdialog-RehusesLbl" for="tdialog-Rehuses"><?php _e('Refusals'); ?></label>
                         <input id="tdialog-Rehuses" type="text" readonly="readonly" value="0" name="Rehuses" class="tablet_data"/>
+                        <label id="tdialog-ChronoLbl" for="tdialog-Chrono"><?php _e('Chronometer'); ?></label>
+                        <input id="tdialog-Chrono" type="text" readonly="readonly" value="0.00" name="Chrono" class="tablet_data"/>
                         <label id="tdialog-TiempoLbl" for="tdialog-Tiempo"><?php _e('Time'); ?></label>
                         <span id="tdialog-timestamp" style="display:none"></span>
-                        <input id="tdialog-Tiempo" type="text" readonly="readonly" value="00.00" name="Tiempo" class="tablet_data"/>
+                        <input id="tdialog-Tiempo" type="text" readonly="readonly" value="s0.00" name="Tiempo" class="tablet_data"/>
                         <input id="tdialog-TIntermedio" name="TIntermedio" type="hidden">
                         <label id="tdialog-NoPresentadoLbl" for="tdialog-NoPresentadoStr"><?php _e('No Pr'); ?>.</label>
                         <input id="tdialog-NoPresentado" type="hidden" name="NoPresentado" value="0"/>
@@ -381,6 +383,9 @@ $config =Config::getInstance();
             var np=parseInt($('#tdialog-NoPresentado').val());
             $('#tdialog-EliminadoStr').val((el===0)?"":"EL");
             $('#tdialog-NoPresentadoStr').val((np===0)?"":"NP");
+            if ($('#tdialog-Tiempo').val() == "0") {
+                $('#tdialog-Tiempo').val("0.00");
+            }
             tablet_putEvent('llamada',
                     { // setup initial data for event,
                         'TimeStamp'     : Math.floor(Date.now()/1000),
@@ -404,6 +409,7 @@ $config =Config::getInstance();
                         'Grado'         : $('#tdialog-Grado').val()
                     }
             ) ;
+            $('#tdialog-Tiempo').data("manual", false);
         }
     });
 
@@ -415,7 +421,13 @@ $config =Config::getInstance();
             interval: 50,
             showMode: 2,
             onUpdate: function(elapsed,running,pause) {
-                $('#tdialog-Tiempo').val(toFixedT(parseFloat(elapsed/1000),(running)?1:ac_config.numdecs));
+                $('#tdialog-Chrono').val(toFixedT(parseFloat(elapsed/1000),(running)?1:ac_config.numdecs));
+                var eliminado = parseInt($('#tdialog-Eliminado').val()) === 1;
+                var noPresentado = parseInt($('#tdialog-NoPresentado').val()) === 1;
+                var manual = $('#tdialog-Tiempo').data("manual")
+                if (!running && elapsed > 10000 && !manual && !eliminado && !noPresentado) {
+                    $('#tdialog-Tiempo').val($('#tdialog-Chrono').val());
+                }
                 return true;
             }
         });
@@ -518,19 +530,21 @@ $config =Config::getInstance();
     doLayout(dg,"#tdialog-Club",			68, 	51,		52,		7	);
     doLayout(dg,"#tdialog-CeloLbl",			120, 	52,		15,		7	);
     doLayout(dg,"#tdialog-Celo",			128,	51,		20,		7	);
-    doLayout(dg,"#tdialog-FaltasLbl",		50,		74,		10,		5	);
-    doLayout(dg,"#tdialog-Faltas",			50,		60,		10,		15	);
-    doLayout(dg,"#tdialog-TocadosLbl",		65,		74,		10,		5	);
-    doLayout(dg,"#tdialog-Tocados",			65,		60,		10,		15	);
-    doLayout(dg,"#tdialog-RehusesLbl",		80,		74,		10,		5	);
-    doLayout(dg,"#tdialog-Rehuses",			80,		60,		10,		15	);
-    doLayout(dg,"#tdialog-TiempoLbl",		95,		74,		35,		5	);
-    doLayout(dg,"#tdialog-Tiempo",			95,		60,		35,		15	);
-    doLayout(dg,"#tdialog-NoPresentadoLbl",	135,	74,		10,		5	);
-    doLayout(dg,"#tdialog-NoPresentadoStr",	135,	60,		10,		15	);
-    doLayout(dg,"#tdialog-EliminadoLbl",	150,	74,		10,		5	);
-    doLayout(dg,"#tdialog-EliminadoStr",	150,	60,		10,		15	);
-    doLayout(dg,"#tdialog-InfoLbl",		    42,		30,		121,	5   );
+    doLayout(dg,"#tdialog-FaltasLbl",		42,		74,		10,		5	);
+    doLayout(dg,"#tdialog-Faltas",			42,		60,		10,		15	);
+    doLayout(dg,"#tdialog-TocadosLbl",		57,		74,		10,		5	);
+    doLayout(dg,"#tdialog-Tocados",			57,		60,		10,		15	);
+    doLayout(dg,"#tdialog-RehusesLbl",		72,		74,		10,		5	);
+    doLayout(dg,"#tdialog-Rehuses",			72,		60,		10,		15	);
+    doLayout(dg,"#tdialog-ChronoLbl",		87,		74,		22,		5	);
+    doLayout(dg,"#tdialog-Chrono",			87,		60,		22,		15	);
+    doLayout(dg,"#tdialog-TiempoLbl",		112,	74,		22,		5	);
+    doLayout(dg,"#tdialog-Tiempo",			112,	60,		22,		15	);
+    doLayout(dg,"#tdialog-NoPresentadoLbl",	139,	74,		10,		5	);
+    doLayout(dg,"#tdialog-NoPresentadoStr",	139,	60,		10,		15	);
+    doLayout(dg,"#tdialog-EliminadoLbl",	154,	74,		10,		5	);
+    doLayout(dg,"#tdialog-EliminadoStr",	154,	60,		10,		15	);
+    doLayout(dg,"#tdialog-InfoLbl",		    42,		30,		122,	5   );
     doLayout(dg,"#tdialog-NumberLbl",	    42,		38,		9,	    15  );
     doLayout(dg,"#tdialog-Rectangulo",		40,		28,		126,	51  );
 
