@@ -94,6 +94,8 @@ $config =Config::getInstance();
             columns: [[
                 { field:'ID', hidden:true }, // primary key
             	{ field:'Nombre',		width:30,	sortable:true,	title:'<?php _e('Contest name'); ?>',formatter:formatBold },
+                { field:'OpeningReg',	hidden:true },
+                { field:'ClosingReg',	width:7,	sortable:true,	title:'<?php _e('Closing'); ?>' },
                 { field:'Club',			hidden:true },
             	{ field:'NombreClub',	width:15,	sortable:true,	title:'<?php _e('Organizing club'); ?>' },
             	{ field:'Ubicacion',	width:15,					title:'<?php _e('Event location'); ?>' },
@@ -102,9 +104,7 @@ $config =Config::getInstance();
                 { field:'Observaciones',width:10,					title:'<?php _e('Comments'); ?>'},
                 { field:'RSCE',			width:7, formatter:	formatFederation,		title:'<?php _e('Federation'); ?>', align: 'center'},
                 { field:'Selectiva',	width:7, formatter:	formatOk,title:'<?php _e('Selective'); ?>',	align: 'center'},
-                { field:'Cerrada',		width:7, formatter:	formatCerrada,	title:'<?php _e('Closed'); ?>',	align: 'center'},
-                { field:'OpeningReg',	hidden:true },
-                { field:'ClosingReg',	hidden:true }
+                { field:'Cerrada',		width:7, formatter:	formatCerrada,	title:'<?php _e('Closed'); ?>',	align: 'center'}
             ]],
             // colorize rows. notice that overrides default css, so need to specify proper values on datagrid.css
             rowStyler:myRowStyler,
