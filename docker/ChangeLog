@@ -1,3 +1,8 @@
+Version 4.7.4 20230507_0000
+    - Fix number of participants in pre-agility rounds
+    - Fix selecting first category in results page
+    - Fix RFEC long grade names
+    - Include grade and journey name in pdf filenames
 Version 4.7.3 20230407_1900
     - Fix bare bones SQL code
     - Simplify and fix Windows update
