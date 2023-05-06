@@ -40,8 +40,11 @@
         valueField:'mode',
         textField:'text',
         panelHeight:75,
-        onLoadSuccess:function() {
-            $(this).combobox('select',0);
+        onLoadSuccess:function(items) {
+            if (items.length){
+                var opts = $(this).combobox('options');
+                $(this).combobox('select', items[0][opts.valueField]);
+            }
         },
         onSelect:function (row) { if (row.mode>=0) reloadClasificaciones(); }
     });
