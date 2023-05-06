@@ -74,9 +74,9 @@ class PrintParcialGeneral extends PrintCommon {
             $this->align=array(  'L',   'L',       'R',        'C',     'R',           'C',       'C',    'C',   'C',     'R',    'R',  'R',     'L',			'C');
         }
         // set file name
-        $grad=$this->federation->getTipoManga($this->manga->Tipo,3); // nombre de la manga
-        $res=normalize_filename($grad);
-        $this->set_FileName("ResultadosManga_{$res}.pdf");
+		$grado = _(Mangas::getTipoManga($this->manga->Tipo,3,$this->federation));
+        $suffix = normalize_filename("{$grado}_{$this->jornada->Nombre}");
+        $this->set_FileName("Clasificacion_Manga_{$suffix}.pdf");
         // do not show fed icon in pre-agility, special, or ko
         if (in_array($this->manga->Tipo,array(0,1,2,15,16,18,19,20,21,22,23,24,))) {
             $this->icon2=getIconPath($this->federation->get('Name'),"null.png");

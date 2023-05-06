@@ -81,10 +81,10 @@ class PrintOrdenSalida extends PrintCommon {
         foreach($eq->getTeamsByJornada() as $team) $this->teams[$team['ID']]=$team;
         $this->rango= (preg_match('/^\d+-\d+$/',$data['rango']))? $data['rango'] : "1-99999";
         // set file name
-        $grad=$this->federation->getTipoManga($this->manga->Tipo,3); // nombre de la manga
-        $str=($data['categorias']=='-')?$grad:"{$grad}_{$data['categorias']}";  // categorias del listado
-        $res=normalize_filename($str);
-        $this->set_FileName("OrdenDeSalida_{$res}.pdf");
+		$grado = _(Mangas::getTipoManga($this->manga->Tipo,4,$this->federation));
+        $str=($data['categorias']=='-')?$grado:"{$grado}_{$data['categorias']}";
+        $suffix = normalize_filename("{$str}_{$this->jornada->Nombre}");
+        $this->set_FileName("OrdenDeSalida_{$suffix}.pdf");
         // set categories to compare against
         $this->heights=Competitions::getHeights($this->prueba->ID,$this->jornada->ID,$this->manga->ID);
         $this->validcats=compatible_categories($this->heights,$data['categorias']);

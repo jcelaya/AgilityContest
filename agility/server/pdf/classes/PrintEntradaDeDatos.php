@@ -79,10 +79,10 @@ class PrintEntradaDeDatos extends PrintCommon {
 		$this->fillData=($data['fill']!=0)?true:false;
         $this->rango= (preg_match('/^\d+-\d+$/',$data['rango']))? $data['rango'] : "1-99999";
         // set file name
-        $grad=$this->federation->getTipoManga($this->manga->Tipo,3); // nombre de la manga
-        $str=($data['cats']=='-')?$grad:"{$grad}_{$data['cats']}";
-        $res=normalize_filename($str);
-        $this->set_FileName("HojasAsistente_{$res}.pdf");
+		$grado = _(Mangas::getTipoManga($this->manga->Tipo,4,$this->federation));
+        $str=($data['cats']=='-')?$grado:"{$grado}_{$data['cats']}";
+        $suffix = normalize_filename("{$str}_{$this->jornada->Nombre}");
+        $this->set_FileName("HojasAsistente_{$suffix}.pdf");
 		// set categories to compare against
 		$this->heights=Competitions::getHeights($this->prueba->ID,$this->jornada->ID,$this->manga->ID);
 		$this->validcats=compatible_categories($this->heights,$data['cats']);

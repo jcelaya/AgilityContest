@@ -46,9 +46,9 @@ class PrintPodium extends PrintClasificacionGeneral {
 		parent::__construct($prueba,$jornada,$mangas,$results);
 
         // set file name
-        $grad=$this->federation->getTipoManga($this->manga1->Tipo,4); // nombre de la serie
-        $res=normalize_filename($grad);
-        $this->set_FileName("Podium_{$res}.pdf");
+        $grado = _(Mangas::getTipoManga($this->manga1->Tipo, 4, $this->federation)); // nombre de la serie
+        $suffix = normalize_filename("{$grado}_{$this->jornada->Nombre}");
+        $this->set_FileName("Podium_{$suffix}.pdf");
 	}
 
     function Header() {

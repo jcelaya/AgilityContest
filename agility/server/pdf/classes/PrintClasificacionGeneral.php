@@ -61,7 +61,9 @@ class PrintClasificacionGeneral extends PrintCommon {
             $this->icon2=getIconPath($this->federation->get('Name'),"null.png");
         }
         // set file name
-        $this->set_FileName("Clasificacion_General.pdf");
+        $grado = _(Mangas::getTipoManga($this->manga1->Tipo,4,$this->federation));
+        $suffix = normalize_filename("{$grado}_{$this->jornada->Nombre}");
+        $this->set_FileName("Clasificacion_General_{$suffix}.pdf");
 	}
 
 	function Header() {
