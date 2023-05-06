@@ -333,14 +333,14 @@ class RFEC extends Federations {
                 30 =>	array( 30,'Gambler',			        'WAO',	'Gambler',	    'Gmblr',        6),
                 31 =>	array( 31,'SpeedStakes',			    'WAO',	'SpeedStakes',	'SpdStk',       7), // single round
                 // PENDING: revise grade. perhaps need to create an specific 'Jr' grade for them
-                32 =>	array( 32,'Junior Agility',	            'Jr',	'Junior Ag.',	    'Jr Ag.',   1),
-                33 => 	array( 33,'Junior Jumping',	            'Jr',	'Junior Jp.',	    'Jr Jp.',   2),
-                34 =>	array( 34,'Senior Agility',	            'Sr',	'Senior Ag',	    'Sr Ag.',   1),
-                35 => 	array( 35,'Senior Jumping',	            'Sr',	'Senior Jp',	    'Sr Ag.',   2),
-                36 =>	array( 36,'Infantil Agility',	        'Ch',	'Infantil Ag.',	    'Inf Ag',   1),
-                37 => 	array( 37,'Infantil Jumping',	        'Ch',	'Infantil Jp.',	    'Inf Jp',   2),
-                38 =>	array( 38,'ParaAgility Ag.',	        'PA',	'P.Agility Ag.',    'PA. Ag',   1),
-                39 => 	array( 30,'ParaAgility Jp.',	        'PA',	'P.Agility Jp.',    'PA. Jp',   2),
+                32 =>	array( 32,'Junior Agility',	            'Jr',	'Junior Ag.',	    'Junior',   1),
+                33 => 	array( 33,'Junior Jumping',	            'Jr',	'Junior Jp.',	    'Junior',   2),
+                34 =>	array( 34,'Senior Agility',	            'Sr',	'Senior Ag',	    'Senior',   1),
+                35 => 	array( 35,'Senior Jumping',	            'Sr',	'Senior Jp',	    'Senior',   2),
+                36 =>	array( 36,'Infantil Agility',	        'Ch',	'Infantil Ag.',	    'Infantil',   1),
+                37 => 	array( 37,'Infantil Jumping',	        'Ch',	'Infantil Jp.',	    'Infantil',   2),
+                38 =>	array( 38,'ParaAgility Agility',	    'PA',	'P.Agility Ag.',    'ParaAgility',   1),
+                39 => 	array( 30,'ParaAgility Jumping',	    'PA',	'P.Agility Jp.',    'ParaAgility',   2),
             ),
             'TipoRondas' => array(
                 /* 0 */ array(0,	''),
