@@ -725,7 +725,12 @@ class Tandas extends DBObject {
                         if ( strstr($res['rows'][$key]['Categoria'],$itm['Categoria'])===false ) continue;
                         $count++;
                     }
-                    // si no estamos en -/I/J/S/P comparamos grados y luego alturas
+                    // En iniciacion/pre-agility están todas las categorias en la misma manga
+                    else if ($res['rows'][$key]['Grado']==='P.A.') {
+                        if ($itm['Grado']!=='P.A.') continue;
+                        $count++;
+                    }
+                    // si no estamos en -/I/J/S/P/PA comparamos grados y luego alturas
                     else if ($itm['Grado']===$res['rows'][$key]['Grado']){
                         if ( strstr($res['rows'][$key]['Categoria'],$itm['Categoria'])===false ) continue;
                         $count++;
