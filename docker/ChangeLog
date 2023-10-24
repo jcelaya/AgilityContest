@@ -1,3 +1,6 @@
+Version 4.7.5 20231024_0000
+    - Fix qualification column size in partial results
+    - Add Liga Aragonesa RFEC 2024 with changes to qualification computing
 Version 4.7.4 20230507_0000
     - Fix number of participants in pre-agility rounds
     - Fix selecting first category in results page
