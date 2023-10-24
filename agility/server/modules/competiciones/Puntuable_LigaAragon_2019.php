@@ -23,7 +23,7 @@ require_once(__DIR__."/lib/ligas/Liga_RFEC_2018.php");
 class Puntuable_LigaAragon_2019 extends Puntuable_RFEC_2018 {
 
     function __construct() {
-        parent::__construct("Puntuable Liga Aragonesa");
+        parent::__construct("Puntuable Liga Aragonesa 2019");
         $this->federationID=1;
         $this->federationDefault=1;
         $this->competitionID=5;
