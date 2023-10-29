@@ -118,7 +118,7 @@ include_once(__DIR__ . "/../console/templates/scores_mail.inc.php");
 		</span>
 		<span style="float:right;">
             <label id="r_prstatslbl" for="r_prstats"><?php _e('Include Statistics'); ?>:</label>
-            <input id="r_prstats" style="width:78px" name="r_prstats" class="easyui-checkbox" type="checkbox" value="1" checked="checked"/>
+            <input id="r_prstats" style="width:78px" name="r_prstats" class="easyui-checkbox" type="checkbox" value="0"/>
             <br/>
             <span id="r_junior"> <!-- to hide when not in children+junior rounds -->
                 <label id="r_childrenlbl" for="r_children"><?php _e('Split Children/Junior'); ?></label>
