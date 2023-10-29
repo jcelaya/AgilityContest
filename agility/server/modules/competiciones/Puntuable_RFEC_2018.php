@@ -253,4 +253,26 @@ class Puntuable_RFEC_2018 extends Competitions {
         $perro['Calificacion']="$pt1 - $pt2 - $pfin";
         $perro['Puntos']=intval($pt1)+intval($pt2)+intval($pfin);
     }
+
+    /**
+     * Provide default TRS/TRM/Recorrido values for a given competitiona at
+     * Round creation time
+     * @param {integer} $tipo Round tipe as declared as Mangas::TipoManga
+     * @return {array} trs array or null if no changes
+     */
+    public function presetTRSData($tipo) {
+        $manga=array();
+        $manga['Recorrido'] = 2; // 0:separados 1:mixto 2:conjunto
+        $manga['TRS_X_Tipo'] = 6; $manga['TRS_X_Factor'] = 4;  $manga['TRS_X_Unit'] = 'm'; // no TRS
+        $manga['TRM_X_Tipo'] = 1; $manga['TRM_X_Factor'] = 50; $manga['TRM_X_Unit'] = '%'; // TRM = TRS + 50%
+        $manga['TRS_L_Tipo'] = 6; $manga['TRS_L_Factor'] = 4;  $manga['TRS_L_Unit'] = 'm';
+        $manga['TRM_L_Tipo'] = 1; $manga['TRM_L_Factor'] = 50; $manga['TRM_L_Unit'] = '%';
+        $manga['TRS_M_Tipo'] = 6; $manga['TRS_M_Factor'] = 4;  $manga['TRS_M_Unit'] = 'm';
+        $manga['TRM_M_Tipo'] = 1; $manga['TRM_M_Factor'] = 50; $manga['TRM_M_Unit'] = '%';
+        $manga['TRS_S_Tipo'] = 6; $manga['TRS_S_Factor'] = 4;  $manga['TRS_S_Unit'] = 'm';
+        $manga['TRM_S_Tipo'] = 1; $manga['TRM_S_Factor'] = 50; $manga['TRM_S_Unit'] = '%';
+        $manga['TRS_T_Tipo'] = 6; $manga['TRS_T_Factor'] = 4;  $manga['TRS_T_Unit'] = 'm';
+        $manga['TRM_T_Tipo'] = 1; $manga['TRM_T_Factor'] = 50; $manga['TRM_T_Unit'] = '%';
+        return $manga;
+    }
 }

@@ -145,7 +145,7 @@ $heights=Competitions::getHeights(0,0,$m);
                 </select>
             </td>
             <td>
-                <input type="text" id="dmanga_TRS_X_TimeSpeed" name="TRS_X_TimeSpeed" readonly="readonly" disabled="disabled" size="5" value=""/>
+                <input type="text" id="dmanga_TRS_X_TimeSpeed" name="TRS_X_TimeSpeed" readonly="readonly" disabled="disabled" size="10" value=""/>
             </td>
             <!-- datos para TRM X-Large -->
             <td>
@@ -207,7 +207,7 @@ $heights=Competitions::getHeights(0,0,$m);
 				</select>
 			</td>
             <td>
-                <input type="text" id="dmanga_TRS_L_TimeSpeed" name="TRS_L_TimeSpeed" readonly="readonly" disabled="disabled" size="5" value=""/>
+                <input type="text" id="dmanga_TRS_L_TimeSpeed" name="TRS_L_TimeSpeed" readonly="readonly" disabled="disabled" size="10" value=""/>
             </td>
 			<!-- datos para TRM standard -->
 			<td>
@@ -270,7 +270,7 @@ $heights=Competitions::getHeights(0,0,$m);
 				</select>
 			</td>
             <td>
-                <input type="text" id="dmanga_TRS_M_TimeSpeed" name="TRS_M_TimeSpeed" readonly="readonly" disabled="disabled" size="5" value=""/>
+                <input type="text" id="dmanga_TRS_M_TimeSpeed" name="TRS_M_TimeSpeed" readonly="readonly" disabled="disabled" size="10" value=""/>
             </td>
 			<!-- datos para TRM medium -->
 			<td>
@@ -334,7 +334,7 @@ $heights=Competitions::getHeights(0,0,$m);
 				</select>
 			</td>
             <td>
-                <input type="text" id="dmanga_TRS_S_TimeSpeed" name="TRS_S_TimeSpeed" readonly="readonly" disabled="disabled" size="5" value=""/>
+                <input type="text" id="dmanga_TRS_S_TimeSpeed" name="TRS_S_TimeSpeed" readonly="readonly" disabled="disabled" size="10" value=""/>
             </td>
 			<!-- datos para TRM small -->
 			<td>
@@ -399,7 +399,7 @@ $heights=Competitions::getHeights(0,0,$m);
 				</select>
 			</td>
             <td>
-                <input type="text" id="dmanga_TRS_T_TimeSpeed" name="TRS_T_TimeSpeed" readonly="readonly" disabled="disabled" size="5" value=""/>
+                <input type="text" id="dmanga_TRS_T_TimeSpeed" name="TRS_T_TimeSpeed" readonly="readonly" disabled="disabled" size="10" value=""/>
             </td>
 			<!-- datos para TRM tiny -->
 			<td>
@@ -507,11 +507,11 @@ $heights=Competitions::getHeights(0,0,$m);
     $('#dmanga_TRS_M_Tipo').combobox({valueField:'value',editable:false,keyHandler:myKeyHandler,panelHeight:'auto',panelWidth:130,onChange:function(n,o){mark_modified();round_setUnit(n,'#dmanga_TRS_M_Unit')}});
     $('#dmanga_TRS_S_Tipo').combobox({valueField:'value',editable:false,keyHandler:myKeyHandler,panelHeight:'auto',panelWidth:130,onChange:function(n,o){mark_modified();round_setUnit(n,'#dmanga_TRS_S_Unit')}});
     $('#dmanga_TRS_T_Tipo').combobox({valueField:'value',editable:false,keyHandler:myKeyHandler,panelHeight:'auto',panelWidth:130,onChange:function(n,o){mark_modified();round_setUnit(n,'#dmanga_TRS_T_Unit')}});
-    $('#dmanga_TRS_X_Factor').textbox({onChange:function(n,o){mark_modified();}});
-    $('#dmanga_TRS_L_Factor').textbox({onChange:function(n,o){mark_modified();}});
-    $('#dmanga_TRS_M_Factor').textbox({onChange:function(n,o){mark_modified();}});
-    $('#dmanga_TRS_S_Factor').textbox({onChange:function(n,o){mark_modified();}});
-    $('#dmanga_TRS_T_Factor').textbox({onChange:function(n,o){mark_modified();}});
+    $('#dmanga_TRS_X_Factor').textbox({onChange:function(n,o){mark_modified();dmanga_evalTimeSpeed();}});
+    $('#dmanga_TRS_L_Factor').textbox({onChange:function(n,o){mark_modified();dmanga_evalTimeSpeed();}});
+    $('#dmanga_TRS_M_Factor').textbox({onChange:function(n,o){mark_modified();dmanga_evalTimeSpeed();}});
+    $('#dmanga_TRS_S_Factor').textbox({onChange:function(n,o){mark_modified();dmanga_evalTimeSpeed();}});
+    $('#dmanga_TRS_T_Factor').textbox({onChange:function(n,o){mark_modified();dmanga_evalTimeSpeed();}});
     $('#dmanga_TRS_X_Unit').combobox({valueField:'value',editable:false,keyHandler:myKeyHandler,panelHeight:'auto',onChange:function(n,o){mark_modified();round_setMode(n,'#dmanga_TRS_X_Tipo')}});
     $('#dmanga_TRS_L_Unit').combobox({valueField:'value',editable:false,keyHandler:myKeyHandler,panelHeight:'auto',onChange:function(n,o){mark_modified();round_setMode(n,'#dmanga_TRS_L_Tipo')}});
     $('#dmanga_TRS_M_Unit').combobox({valueField:'value',editable:false,keyHandler:myKeyHandler,panelHeight:'auto',onChange:function(n,o){mark_modified();round_setMode(n,'#dmanga_TRS_M_Tipo')}});

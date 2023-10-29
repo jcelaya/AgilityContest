@@ -279,7 +279,7 @@ function dmanga_evalTimeSpeed() {
                 break;
             case "6": // velocidad X metros por segundo
                 speed_x= f;
-                time_x= (f==0)?0: d/speed_x;
+                time_x= (f==0)?0: Math.ceil(d/speed_x);
                 tspeed_x = toFixedT(time_x,1)+" seg";
                 break;
         }
@@ -302,7 +302,7 @@ function dmanga_evalTimeSpeed() {
             break;
         case "6": // velocidad X metros por segundo
             speed_l= f;
-            time_l= (f==0)?0: d/speed_l;
+            time_l= (f==0)?0: Math.ceil(d/speed_l);
             tspeed_l = toFixedT(time_l,1)+" seg";
             break;
         case "7": // tiempo XLarge + xxx
@@ -347,7 +347,7 @@ function dmanga_evalTimeSpeed() {
             break;
         case "6": // velocidad X metros por segundo
             speed_m= f;
-            time_m= (f==0)?0: d/speed_m;
+            time_m= (f==0)?0: Math.ceil(d/speed_m);
             tspeed_m = toFixedT(time_m,1)+" seg";
             break;
     }
@@ -391,7 +391,7 @@ function dmanga_evalTimeSpeed() {
             break;
         case "6": // velocidad X metros por segundo
             speed_s= f;
-            time_s= (f==0)?0: d/speed_s;
+            time_s= (f==0)?0: Math.ceil(d/speed_s);
             tspeed_s = toFixedT(time_s,1)+" seg";
             break;
     }
@@ -444,7 +444,7 @@ function dmanga_evalTimeSpeed() {
             break;
         case "6": // velocidad X metros por segundo
             speed_t= f;
-            time_t= (f==0)?0: d/speed_t;
+            time_t= (f==0)?0: Math.ceil(d/speed_t);
             tspeed_t = toFixedT(time_t,1)+" seg";
             break;
     }
@@ -709,7 +709,11 @@ function save_manga(id) {
                     $.messager.show({width:300, height:200, title:'<?php _e('Error'); ?>',msg: result.errorMsg });
                 } else {// on submit success, reload results
                     var recorrido=$("input:radio[name=Recorrido]:checked").val();
-                    $.messager.alert('<?php _e('Data saved'); ?>','<?php _e('Data on current round stored'); ?>','info');
+                    $.messager.show({
+                        timeout: 3000,
+                        title: '<?php _e('Data saved'); ?>',
+                        msg: '<?php _e('Data on current round stored');?>'
+                    });
                     workingData.datosManga.Recorrido=recorrido;
                     // update tspeed value
                     dmanga_evalTimeSpeed();
