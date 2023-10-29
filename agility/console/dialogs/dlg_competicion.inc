@@ -44,8 +44,6 @@ $config =Config::getInstance();
 		   data-options="iconCls:'icon-updown'" onclick="swapMangas()"><?php _e('Swap'); ?></a>
 	   	<a id="competicion-resetBtn" href="#" class="easyui-linkbutton"
 		   data-options="iconCls:'icon-brush'" onclick="resetCompeticion()"><?php _e('Reset'); ?></a>
-   		<a id="competicion-printBtn" href="#" class="easyui-linkbutton"
-           data-options="iconCls:'icon-print'" onclick="print_commonDesarrollo(8,'#competicion-categoria');"><?php _e('Printer forms'); ?></a>
 	</span>
 </div>
 

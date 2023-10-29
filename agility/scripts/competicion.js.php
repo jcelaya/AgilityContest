@@ -55,48 +55,13 @@ function getModeStringByCatRecFed(cat,rec,fed) {
  */
 
 function prepareCompetitionDialogs(dlgname) {
-    // declaramos botones comunes a todos los dialogos de la competicion
-    // para poder saltar de un dialogo a otro sin tener que cerrar primero
     var btns= [
         {
-            text:   '<?php _e("Training");?>',
-            iconCls:'icon-tools',
+            text:   '<?php _e("Done.");?>',
+            iconCls:'icon-ok',
             handler:function(){
-                competicionDialog("entrenamientos");
-            },
-            disabled: ( dlgname.indexOf("entrenamientos")===0)
-        },
-        {
-            text: '<?php _e("Planning");?>',
-            iconCls: 'icon-updown',
-            handler: function () {
-                competicionDialog("ordentandas");
-            },
-            disabled: ( dlgname.indexOf("ordentandas")===0)
-        },
-        {
-            text:   '<?php _e("Starting order");?>',
-            iconCls:'icon-order',
-            handler:function(){
-                competicionDialog("ordensalida");
-            },
-            disabled: ( dlgname.indexOf("ordensalida")===0)
-        },
-        {
-            text:   '<?php _e("Data entry");?>',
-            iconCls:'icon-table',
-            handler:function(){
-                competicionDialog("competicion");
-            },
-            disabled: ( dlgname.indexOf("competicion")===0)
-        },
-        {
-            text:   '<?php _e("Round results");?>',
-            iconCls:'icon-endflag',
-            handler:function(){
-                competicionDialog("resultadosmanga");
-            },
-            disabled: ( dlgname.indexOf("resultados")===0) // notice different name ( for games, ko and so )
+                $('#'+dlgname+'-dialog').dialog('close');
+            }
         }
     ];
     $('#'+dlgname+'-dialog').dialog({buttons: btns});

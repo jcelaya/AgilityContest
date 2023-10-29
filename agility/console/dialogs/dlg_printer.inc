@@ -28,18 +28,14 @@ $config =Config::getInstance();
     </p>
     <form id="printer_dialog-options" name="printer-options">
         <input type="hidden" name="printer_dialog-cats" id="printer_dialog-cats" value=""/>
-        <input type="radio" name="printer_dialog-option" id="printer_dialog-option0" value="0" onclick="print_changeSelection(0)"/>
-        <label for="printer_dialog-option0"><?php _e('Activities and timetable on this journey'); ?></label><br/>
         <input type="radio" name="printer_dialog-option" id="printer_dialog-option1" value="1" onclick="print_changeSelection(1)"/>
         <label for="printer_dialog-option1"><?php _e('Starting order on this round'); ?></label><br/>
         <input type="radio" name="printer_dialog-option" id="printer_dialog-option2" value="2" onclick="print_changeSelection(2)"/>
-        <label for="printer_dialog-option2"><?php _e('Starting order on this round'); ?> (<?php _e("Excel format");?>)</label><br/><br/>
-        <input type="radio" name="printer_dialog-option" id="printer_dialog-option3" value="3" onclick="print_changeSelection(3)"/>
-        <label for="printer_dialog-option3"><?php _e('SheetCalc to evaluate SCT and MCT'); ?></label><br/>
+        <label for="printer_dialog-option2"><?php _e('Starting order on this round'); ?> (<?php _e("Excel format");?>)</label><br/>
         <input type="radio" name="printer_dialog-option" id="printer_dialog-option4" value="4" onclick="print_changeSelection(4)"/>
         <label for="printer_dialog-option4"><?php _e('Sheet to anotate data on rounds'); ?></label><br/>
         <input type="radio" name="printer_dialog-option" id="printer_dialog-option5" value="5" onclick="print_changeSelection(5)"/>
-        <label for="printer_dialog-option5"><?php _e('Judge assistant empty sheet'); ?></label><br/><br/>
+        <label for="printer_dialog-option5"><?php _e('Judge assistant empty sheet'); ?></label><br/>
         <input type="radio" name="printer_dialog-option" id="printer_dialog-option6" value="6" onclick="print_changeSelection(6)"/>
         <label for="printer_dialog-option6"><?php _e('Judge assistant sheets (1 dog/page)'); ?></label><br/>
         <input type="radio" name="printer_dialog-option" id="printer_dialog-option7" value="7" onclick="print_changeSelection(7)"/>

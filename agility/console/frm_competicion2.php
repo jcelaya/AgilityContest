@@ -115,6 +115,24 @@ switch(http_request("tipo","s","std")) {
     </header>
 	<!-- paneles de lista de mangas y datos de cada manga -->
 	<div id="competicion_infolayout" class="easyui-layout" style="height:100%">
+        <div data-options="region:'north',border:'false'" style="width:100%;display:inline-block;padding:0 5px;height:38px">
+   	        <span style="float:left;padding:5px">
+                <a id="competicion-entrenamientosBtn" href="#" class="easyui-linkbutton"
+                    data-options="iconCls:'icon-tools'"
+                    onclick="competicionDialog('entrenamientos');"><?php _e('Training');?></a>
+                <a id="competicion-ordentandasBtn" href="#" class="easyui-linkbutton"
+                    data-options="iconCls:'icon-updown'"
+                    onclick="competicionDialog('ordentandas');"><?php _e('Planning');?></a>
+            </span>
+            <span style="float:right;padding:5px">
+                <a id="dmanga_Inscripciones" href="#" class="easyui-linkbutton"
+                    data-options="iconCls:'icon-edit'"
+                    onclick="open_inscripciones();"><?php _e('Inscriptions'); ?></a>
+                <a id="dmanga_Clasificaciones" href="#" class="easyui-linkbutton"
+                    data-options="iconCls:'icon-flag'"
+                    onclick="open_clasificaciones();"><?php _e('Scores'); ?></a>
+            </span>
+		</div>
 		<div data-options="region:'west',title:'<?php _e('Journey rounds');?>',split:true,collapsed:false" style="width:20%">
 			<!-- Tabla que contiene la lista de Mangas de la jornada -->
 			<table id="competicion-listamangas" style="padding:20px"></table>
@@ -125,26 +143,6 @@ switch(http_request("tipo","s","std")) {
 	</div> <!-- informacion de layout -->
 </div> <!-- panel de informacion -->  
 
-<!-- BARRA DE TAREAS DE LA LISTA DE MANGAS-->
-<div id="competicion-listamanga-toolbar" style="width:100%;display:inline-block">
-	<span style="float:left;padding:5px">
-		<a id="competicion-entrenamientosBtn" href="#" class="easyui-linkbutton"
-           data-options="iconCls:'icon-tools'" style="width:185px"
-           onclick="competicionDialog('entrenamientos');"><?php _e('Training');?></a>
-		<a id="competicion-ordentandasBtn" href="#" class="easyui-linkbutton"
-			data-options="iconCls:'icon-updown'" style="width:185px"
-			onclick="competicionDialog('ordentandas');"><?php _e('Planning');?></a>
-		<a id="competicion-ordensalidaBtn" href="#" class="easyui-linkbutton"
-           data-options="iconCls:'icon-order'" style="width:185px"
-           onclick="competicionDialog('ordensalida');"><?php _e('Starting order');?></a>
-		<a id="competicion-competicionBtn" href="#" class="easyui-linkbutton"
-			data-options="iconCls:'icon-table'" style="width:185px"
-			onclick="competicionDialog('competicion');"><?php _e('Data entry');?></a>
-		<a id="competicion-resultmangaBtn" href="#" class="easyui-linkbutton"
-			data-options="iconCls:'icon-endflag'" style="width:185px"
-			onclick="competicionDialog('resultadosmanga');"><?php _e('Round results');?></a>
-	</span>
-</div>
 <script type="text/javascript">
 
 // declaracion de cada elemento grafico
@@ -169,7 +167,6 @@ $('#competicion-listamangas').datagrid({
     fitColumns: true,
     singleSelect: true,
     showHeader: false,
-    toolbar: '#competicion-listamanga-toolbar',
     columns:[[
             { field:'ID',			hidden:true }, // ID de la jornada
       	    { field:'Tipo',			hidden:true }, // Tipo de manga
@@ -246,8 +243,7 @@ addSimpleKeyHandler('#competicion-listamangas',"");
 //tooltips
 addTooltip($('#competicion-entrenamientosBtn').linkbutton(),"<?php _e('View/Edit Training session timetable for the contest')?>");
 addTooltip($('#competicion-ordentandasBtn').linkbutton(),"<?php _e('View/Edit Rounds and series order<br />on this journey')?>");
-addTooltip($('#competicion-ordensalidaBtn').linkbutton(),"<?php _e('View/Edit Starting order on selected round');?>");
-addTooltip($('#competicion-competicionBtn').linkbutton(),"<?php _e('Insert/Edit competitors results');?>");
-addTooltip($('#competicion-resultmangaBtn').linkbutton(),"<?php _e('Review Partial results on selected round');?>");
+addTooltip($('#dmanga_Inscripciones').linkbutton(),'<?php _e("Jump to Inscriptions window"); ?>');
+addTooltip($('#dmanga_Clasificaciones').linkbutton(),'<?php _e("Jump to Result and Scores window"); ?>');
 </script>
     

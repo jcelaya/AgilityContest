@@ -43,7 +43,7 @@ $config =Config::getInstance();
 	   	<a id="ordentandas-reloadBtn" href="#" class="easyui-linkbutton" 
 	   		data-options="iconCls:'icon-reload'" onclick="reloadOrdenTandas();"><?php _e('Update'); ?></a>
    		<a id="ordentandas-printBtn" href="#" class="easyui-linkbutton"
-   			data-options="iconCls:'icon-print'" onclick="print_commonDesarrollo(0)"><?php _e('Print'); ?></a>
+   			data-options="iconCls:'icon-print'" onclick="print_ordenTandas()"><?php _e('Print'); ?></a>
 	</span>
 </div>
 

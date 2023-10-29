@@ -110,7 +110,7 @@ function print_listaPerros(mode) {
 /**
  * Imprime la secuencia de tandas de la jornada
  */
-function print_ordenTandas(comments) {
+function print_ordenTandas() {
     $.fileDownload(
         '../ajax/pdf/print_ordenTandas.php',
         {
@@ -118,7 +118,7 @@ function print_ordenTandas(comments) {
             data: {
                 Prueba: workingData.prueba,
                 Jornada: workingData.jornada,
-                Comentarios: comments
+                Comentarios: ''
             },
             preparingMessageHtml:'(rounds order) <?php _e("We are preparing your report, please wait"); ?> ...',
             failMessageHtml: '(rounds order) <?php _e("There was a problem generating your report, please try again."); ?>'
@@ -394,24 +394,24 @@ function print_parcial(mode) {
             '</select>'+
             '</span></span>';
     var title='<span id="pp_header">'+
-        '<br/>&nbsp;<br/><?php _e("Header title");?>: '+
+        '<br/><?php _e("Header title");?>: '+
         '<input id="pp_headertitle" class="easyui-textbox" type="text" value="<?php _e("Partial scores"); ?>"/>'+
         '</span>';
     var msgs=  {
-        0: '*<?php _e("Create PDF Report for selected series");?>',
-        2: '<?php _e("Print filled assistant sheets 10 dogs/pages"); ?>',
-        3: '<?php _e("Print filled assistant sheets 15 dogs/pages"); ?>',
-        6: '<?php _e("Create PDF Report for all series");?>'+merge+title
+        0: '*<?php _e("Create PDF Report for all series");?>',
+        1: '<?php _e("Create PDF Report for selected series");?>',
+        3: '<?php _e("Print filled assistant sheets 10 dogs/pages"); ?>',
+        4: '<?php _e("Print filled assistant sheets 15 dogs/pages"); ?>'+merge+title
     };
     if (isJornadaKO()) msgs={
-        0: '*<?php _e("Create PDF Report");?>',
-        4: '<?php _e("Print filled assistant sheets 16 dogs/pages"); ?>'
+        1: '*<?php _e("Create PDF Report");?>',
+        5: '<?php _e("Print filled assistant sheets 16 dogs/pages"); ?>'
     };
     if (isJornadaEqMejores()) msgs= {
-        0: '*<?php _e("Create PDF (teams) Report");?>',
-        1: '<?php _e("Create PDF (individual) Report");?>',
-        2: '<?php _e("Print filled assistant sheets 10 dogs/pages"); ?>',
-        3: '<?php _e("Print filled assistant sheets 15 dogs/pages"); ?>'+merge+title
+        1: '*<?php _e("Create PDF (teams) Report");?>',
+        2: '<?php _e("Create PDF (individual) Report");?>',
+        3: '<?php _e("Print filled assistant sheets 10 dogs/pages"); ?>',
+        4: '<?php _e("Print filled assistant sheets 15 dogs/pages"); ?>'+merge+title
     }
     $.messager.radio(
         '<?php _e("Partial scores"); ?>',
@@ -423,10 +423,10 @@ function print_parcial(mode) {
             var url="";
             var global=0;
             switch (parseInt(r)) {
-                case 6:
+                case 0:
                     global=1;
                     // no break;
-                case 0: // create pdf
+                case 1: // create pdf
                     // generic, ko, games
                     url = '../ajax/pdf/print_resultadosByManga.php'; // default
                     // since 4.2.x Equipos3/Equipos4 becomes mindogs/maxdogs for team journeys
@@ -436,7 +436,7 @@ function print_parcial(mode) {
                         else url = '../ajax/pdf/print_resultadosByEquipos4.php'; // team All
                     }
                     // no break
-                case 1: // on x-of-y best team contests extra option to print individual results
+                case 2: // on x-of-y best team contests extra option to print individual results
                     if (url==="") url = '../ajax/pdf/print_resultadosByManga.php';
                     $.fileDownload(
                         url,
@@ -457,16 +457,16 @@ function print_parcial(mode) {
                         }
                     );
                     break;
-                case 2: // filled normal rounds 10 dogs/page
+                case 3: // filled normal rounds 10 dogs/page
                     print_asistente(10, modeToCats(mode), true,"1-99999","",false);
                     break;
-                case 3: // filled normal rounds 15 dogs/page
+                case 4: // filled normal rounds 15 dogs/page
                     print_asistente(15, modeToCats(mode), true,"1-99999","",false);
                     break;
-                case 4: // filled ko assistant sheets
+                case 5: // filled ko assistant sheets
                     print_asistente(16, modeToCats(mode), true,"1-99999","",false);
                     break;
-                case 5: // create excel file
+                case 6: // create excel file
                     $.fileDownload(
                         '../ajax/excel/excelWriterFunctions.php',
                         {
@@ -550,7 +550,7 @@ function print_performCommonDesarollo() {
     var row= $('#competicion-listamangas').datagrid('getSelected'); // look for round selected
     var cats=$('#printer_dialog-cats').val();
     switch(oper){
-        case 0: print_ordenTandas(comments); return false; // programa de la jornada
+        case 0: print_ordenTandas(); return false; // programa de la jornada
         case 1: if (!row) break; print_ordenSalida(cats,false,range,comments); return false; //orden de salida pdf
         case 2: if (!row) break; print_ordenSalida(cats,true,range,comments); return false; // orden de salida excel
         case 3: print_trsTemplates(0); return false; // tabla trs/trm

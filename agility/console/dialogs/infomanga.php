@@ -29,18 +29,40 @@ if (!$fed) die ("Internal error::Invalid Federation ID: $f");
 $heights=Competitions::getHeights(0,0,$m);
 ?>
 
-<!-- Formulario que contiene los datos de una manga -->
+<p>
+    <span style="margin:0 5px;display:inline-block">
+        <a id="competicion-ordensalidaBtn" href="#" class="easyui-linkbutton"
+            data-options="iconCls:'icon-order'" style="width:185px"
+            onclick="competicionDialog('ordensalida');"><?php _e('Starting order');?></a>
+        <a id="competicion-competicionBtn" href="#" class="easyui-linkbutton"
+            data-options="iconCls:'icon-table'" style="width:185px"
+            onclick="competicionDialog('competicion');"><?php _e('Data entry');?></a>
+        <a id="competicion-resultmangaBtn" href="#" class="easyui-linkbutton"
+            data-options="iconCls:'icon-endflag'" style="width:185px"
+            onclick="competicionDialog('resultadosmanga');"><?php _e('Round results');?></a>
+    </span>
+</p>
 
+<p>
+	<span id="infomanga_readonly" class="blink" style="display:none;color:#ff0000;text-align:center;font-size:17px">
+		<?php _e('Current user has NO WRITE PERMISSIONS');?>
+	</span><br/>
+    <span id="infomanga_closed" class="blink" style="display:none;color:#ff0000;text-align:center;font-size:17px">
+		<?php _e('Journey closed. CANNOT ADD/MODIFY DATA');?>
+	</span><br/>
+    <span id="infomanga_description" style="display:inline-block;font-size:1.1vw;text-align:center;width:50%">
+        <span id="infomanga_tipo"></span> - <span id="infomanga_alturas"></span>
+    </span>
+</p>
+
+<!-- Formulario que contiene los datos de una manga -->
 <form id="competicion-formdatosmanga">
 	<input type="hidden" id="dmanga_Operation" name="Operation" value=""/>
 	<input type="hidden" id="dmanga_Jornada" name="Jornada" value=""/>
 	<input type="hidden" id="dmanga_Manga" name="Manga" value=""/>
 	<input type="hidden" id="dmanga_ID" name="ID" value=""/>
 	<input type="hidden" id="dmanga_Tipo" name="Tipo" value=""/>
-	<table id="competicion-tabladatosmanga">
-		<tr>
-			<td colspan="10">&nbsp;</td>
-		</tr>
+	<table id="competicion-tabladatosmanga" style="padding: 5px">
 		<tr> <!-- fila 0: datos de los jueces -->
 			<td colspan="3">
 				<label for="dmanga_Juez1"><span style="text-align:right"><?php _e('Judge'); ?> 1:</span></label>
@@ -423,36 +445,14 @@ $heights=Competitions::getHeights(0,0,$m);
 				</select>
 			</td>
 		</tr>
-
-        <!-- fila 8: observaciones JAMC Agosto 2020 ahora se usa para indicar si grado 1 es agility o jumping -->
 		<tr>
-            <td colspan="10">&nbsp;</td>
-            <!--
-			<td colspan="2"><label for="dmanga_Observaciones"><?php _e('Comments'); ?></label></td>
-			<td colspan="8"><input type="text" id="dmanga_Observaciones" name="Observaciones" size="75" value=""/></td>
-			-->
+			<td colspan="10">&nbsp;</td>
 		</tr>
 		<tr> <!-- fila 7: botones reset y save -->
-            <td>
-                <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-print'"
-                   id="dmanga_Templates" onclick="print_commonDesarrollo(3);"><?php _e('Templates'); ?></a>
-            </td>
-			<td colspan="1">&nbsp;</td>
-            <td>
-                <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'"
-                   id="dmanga_Inscripciones" onclick="open_inscripciones();"><?php _e('Inscriptions'); ?></a>
-            </td>
-            <td>
-                <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-flag'"
-                   id="dmanga_Clasificaciones" onclick="open_clasificaciones();"><?php _e('Scores'); ?></a>
-            </td>
-            <td colspan="2">&nbsp;</td>
-			<td align="center">
+			<td colspan="7">&nbsp;</td>
+			<td colspan="3" align="right">
 				<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-reload'" 
 					id="dmanga_Restaurar" onclick="reload_manga(workingData.manga);"><?php _e('Restore'); ?></a>
-			</td>
-			<td colspan="1">&nbsp;</td>
-			<td colspan="2" align="left">
 				<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'" 
 					id="dmanga_Guardar" onclick="save_manga(workingData.manga);"><?php _e('Save'); ?></a>
 			</td>
@@ -460,17 +460,6 @@ $heights=Competitions::getHeights(0,0,$m);
 	</table>
 </form>
 
-<p>
-	<span id="infomanga_readonly" class="blink" style="display:none;color:#ff0000;text-align:center;font-size:17px">
-		<?php _e('Current user has NO WRITE PERMISSIONS');?>
-	</span>
-    <span id="infomanga_closed" class="blink" style="display:none;color:#ff0000;text-align:center;font-size:17px">
-		<?php _e('Journey closed. CANNOT ADD/MODIFY DATA');?>
-	</span>
-    <span id="infomanga_description" style="display:inline-block;font-size:1.1vw;text-align:center;width:50%">
-        <br/><span id="infomanga_tipo"></span> - <span id="infomanga_alturas"></span>
-    </span>
-</p>
 <script type="text/javascript">
     var myKeyHandler = $.extend({},$.fn.combobox.defaults.keyHandler,{
         down:function(q){
@@ -633,8 +622,9 @@ addTooltip($('#dmanga_Recorrido_2'),'<?php _e("Independent courses for all categ
 addTooltip($('#dmanga_Recorrido_3'),'<?php echo $ttr3; ?>');
 addTooltip($('#dmanga_Restaurar').linkbutton(),'<?php _e("Restore original round info from database"); ?>');
 addTooltip($('#dmanga_Templates').linkbutton(),'<?php _e("Open print form selection dialog"); ?>');
-addTooltip($('#dmanga_Inscripciones').linkbutton(),'<?php _e("Jump to Inscriptions window"); ?>');
-addTooltip($('#dmanga_Clasificaciones').linkbutton(),'<?php _e("Jump to Result and Scores window"); ?>');
+addTooltip($('#competicion-ordensalidaBtn').linkbutton(),"<?php _e('View/Edit Starting order on selected round');?>");
+addTooltip($('#competicion-competicionBtn').linkbutton(),"<?php _e('Insert/Edit competitors results');?>");
+addTooltip($('#competicion-resultmangaBtn').linkbutton(),"<?php _e('Review Partial results on selected round');?>");
 addTooltip($('#dmanga_Guardar').linkbutton(),'<?php _e("Save round technical data into database"); ?>');
 addTooltip($('#dmanga_AddJuez').linkbutton(),'<?php _e("Add a new judge into database"); ?>');
 addTooltip($('#dmanga_SameJuez').linkbutton(),'<?php _e("Clone judge information on every rounds for this journey"); ?>');
