@@ -124,6 +124,9 @@ $config =Config::getInstance();
             },
             onClickRow: function(index,row) { setPrueba(row); } // mark prueba as active
             
+        }).datagrid('sort', {
+            sortName: 'ClosingReg',
+            sortOrder: 'desc'
         }); // end of pruebas-datagrid
         
 		// key handler
