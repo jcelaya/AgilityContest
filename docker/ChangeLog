@@ -1,3 +1,8 @@
+Version 4.7.6 20240316_0000
+    - Restructure competition page
+    - Print proper Fed categories in data entry sheets and tablet
+    - Add MasQueAgility and Moracan's logos
+    - Other minor improvements and fixes
 Version 4.7.5 20231024_0000
     - Fix qualification column size in partial results
     - Add Liga Aragonesa RFEC 2024 with changes to qualification computing
