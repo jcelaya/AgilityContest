@@ -325,6 +325,8 @@ $config =Config::getInstance();
                 data.Session=workingData.session;
                 data.Parent=mySelfstr; // store datagrid reference
                 data.RowIndex=idx; // store row index
+                data.Categoria=formatCategoria(data.Categoria)
+                data.Grado=formatGrado(data.Grado)
                 $('#tdialog-form').form('load',data);
                 $('#tb_drs').numberbox('setValue',''+data.Dorsal);
                 setDataEntryEnabled(true);
@@ -524,8 +526,8 @@ $config =Config::getInstance();
     doLayout(dg,"#tdialog-Guia",			68,		44,		52,		7	);
     doLayout(dg,"#tdialog-CategoriaLbl",	120,	45,		7,		7	);
     doLayout(dg,"#tdialog-Categoria",		128,	44,		7,		7	);
-    doLayout(dg,"#tdialog-GradoLbl",		135,	45,		10,		7	);
-    doLayout(dg,"#tdialog-Grado",			147,    44,		10,		7	);
+    doLayout(dg,"#tdialog-GradoLbl",		135,	45,		12,		7	);
+    doLayout(dg,"#tdialog-Grado",			147,    44,		12,		7	);
     doLayout(dg,"#tdialog-ClubLbl",			53, 	52,		15,		7	);
     doLayout(dg,"#tdialog-Club",			68, 	51,		52,		7	);
     doLayout(dg,"#tdialog-CeloLbl",			120, 	52,		15,		7	);

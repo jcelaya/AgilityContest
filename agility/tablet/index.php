@@ -415,6 +415,7 @@ function tablet_acceptSelectJornada() {
         	    	function() {
         	    	   	initAuthInfo(data);
         	    	   	initWorkingData(s.ID,tablet_eventManager); // synchronous ajax call inside :-(
+						setFederation(p.RSCE);
         	    	   	// los demas valores se actualizan en la linea anterior
         	    		workingData.nombrePrueba=p.Nombre;
 						workingData.datosPrueba=p;

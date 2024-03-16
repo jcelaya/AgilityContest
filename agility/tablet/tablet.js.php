@@ -146,8 +146,8 @@ function tablet_updateSession(row) {
 		workingData.testDog.Jornada=row.Jornada;
 		workingData.testDog.Manga=row.Manga;
 		workingData.testDog.Tanda=row.Nombre;
-		workingData.testDog.Categoria=row.Categoria;
-		workingData.testDog.Grado=row.Grado;
+		workingData.testDog.Categoria=formatCategoria(row.Categoria);
+		workingData.testDog.Grado=formatGrado(row.Grado);
 	}
 	// update sesion info in database
 	var data = {
@@ -754,6 +754,8 @@ function tablet_accept() {
 		data.Session=workingData.session;
 		data.RowIndex=rowindex;
 		data.Parent=dgname;
+		data.Categoria=formatCategoria(data.Categoria)
+		data.Grado=formatGrado(data.Grado)
 		$('#tdialog-form').form('load',data);
 		tb_drs.numberbox('setValue',''+data.Dorsal);
 		tablet_markSelectedDog(parseInt(data.RowIndex));
@@ -797,6 +799,8 @@ function tablet_gotoDorsal(tanda,dgname,dorsal) {
 			data.Session = workingData.session;
 			data.Parent = dgname; // store datagrid reference
 			data.RowIndex=idx;
+			data.Categoria=formatCategoria(data.Categoria)
+			data.Grado=formatGrado(data.Grado)
 			$('#tdialog-form').form('load', data);
 			tablet_markSelectedDog(parseInt(idx));
 			setDataEntryEnabled(true);
