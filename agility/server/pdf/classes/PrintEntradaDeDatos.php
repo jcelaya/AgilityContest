@@ -157,8 +157,8 @@ class PrintEntradaDeDatos extends PrintCommon {
                 }
                 // recorridos tipo 0 ( comun ) y 2 ( separados ) no necesitan agrupamiento de categorias
             }
-            if ($this->validcats=="XLMST") $this->print_identificacionManga($this->manga,"");
-            else	$this->print_identificacionManga($this->manga,$this->getCatString($cat,$this->heights));
+			if (isMangaPreAgility($this->manga->Tipo)) $this->print_identificacionManga($this->manga, "");
+            else $this->print_identificacionManga($this->manga, $this->getCatString($cat, $this->heights));
 		} else {
 			// modo extendido: pinta solo identificacion de la jornada
 			$this->SetFont($this->getFontName(),'B',12); // bold 15
@@ -330,11 +330,12 @@ class PrintEntradaDeDatos extends PrintCommon {
         $this->SetXY($x+15,$y+2); // restore cursor position
         $this->Cell(15,4,$row['Dorsal'],		'',0,'R',false); // display order
         $this->Cell(10,4,((1&intval($row['Celo']))!==0)?"Celo":"",'',0,'R',false);
+		$cat=$this->federation->get('ListaCategoriasShort')[$row['Categoria']];
 		if ($wide) {
-			$this->Cell(50,4,"{$row['Nombre']} - {$row['Categoria']}",		'',0,'R',false);
+			$this->Cell(50,4,"{$row['Nombre']} - {$cat}",		'',0,'R',false);
 		} else {
 			if (!isMangaWAO($this->manga->Tipo)) {
-				$this->Cell(20,4,"{$row['Licencia']} - {$row['Categoria']}",'',0,'R',false);
+				$this->Cell(20,4,"{$row['Licencia']} - {$cat}",'',0,'R',false);
 			} else {
 				$cat=$this->getCatString($row['Categoria']);
 				$this->Cell(20,4,$cat,'',0,'R',false);
