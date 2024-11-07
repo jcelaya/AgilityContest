@@ -481,6 +481,10 @@ class Admin extends DBObject {
 
         $this->myLogger->trace($str);
         $rconn->query($str);
+
+        // phase 6: apply migrations
+        $this->apply_migrations($rconn);
+
         // finally close db connection and return
         DBConnection::closeConnection($rconn);
         // mark system to do not auto-backup on next login,
@@ -529,6 +533,21 @@ class Admin extends DBObject {
         }
 		return "";
 	}
+
+    private function apply_migrations($conn) {
+        $this->myLogger->info("Applying migrations for version {$this->bckVersion}");
+        $migrations = array(
+            array("version" => "4.8", "query" => "ALTER TABLE sesiones ADD IF NOT EXISTS Federacion int(4) NOT NULL DEFAULT '1'"),
+        );
+        foreach ($migrations as $migration) {
+            if (version_compare($this->bckVersion, $migration["version"], "<")) {
+                $this->myLogger->info("Applying migration: {$migration["query"]}");
+                if (!$conn->query($migration["query"])) {
+                    $this->myLogger->error("Error applying migration: {$conn->error}");
+                }
+            }
+        }
+    }
 
 	public function clearTemporaryDirectory() {
 		// borramos ficheros relacionados con actualizaciones

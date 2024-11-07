@@ -532,7 +532,7 @@ function getFederationInfo() {
 		type: "GET",
 		url: '../ajax/modules/moduleFunctions.php',
 		data: {	Operation: 'list' },
-		async: true,
+		async: false,
 		cache: false,
 		dataType: 'json',
 		success: function(list){

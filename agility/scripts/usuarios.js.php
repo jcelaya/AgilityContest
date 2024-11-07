@@ -168,10 +168,7 @@ function savePassword() {
         	ID: 			id,
         	Password:		op,
         	NewPassword:	np,
-        	NewPassword2:	np2,
-        	// not sure why, but seems that default's ajaxSetup() 
-        	// doesn't work fine with cors, so force it
-        	SessionKey: ac_authInfo.SessionKey
+        	NewPassword2:	np2
         },
         dataType: 'json',
         success: function (result) {

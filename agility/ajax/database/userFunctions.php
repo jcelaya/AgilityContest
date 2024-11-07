@@ -37,20 +37,20 @@ try {
 	$user=http_request("Username","s",null);
 	$pass=http_request("Password","s",null);
 	$sid=http_request("Session","i",0); // ring
-	$sk=http_request("SessionKey","s","");
 	if ($operation===null) throw new Exception("Call to userFunctions without 'Operation' requested");
 	switch ($operation) {
 		case "insert": $am->access(PERMS_ADMIN); $result=$users->insert(); break;
 		case "update": $am->access(PERMS_ADMIN); $result=$users->update($id); break;
 		case "delete": $am->access(PERMS_ADMIN); $result=$users->delete($id); break;
-		case "password": $result=$am->setPassword($id,$pass,$sk); break; // access checks are done inside method
+		case "password": $result=$am->setPassword($id,$pass,$am->getSessionKey()); break; // access checks are done inside method
 		case "selectbyid": $result=$users->selectByID($id); break;
 		case "select": $result=$users->select(); break; // list with order, index, count and where
 		case "enumerate": $result=$users->enumerate(); break; // list with where
         case "lastLogin": $result=$am->lastLogin($user); break; // check sessions for last login
 		case "login":
             $ll = $am->lastLogin($user); // evaluate last login _before_ new login to retrieve LastModified field
-		    $result = $am->login($user,$pass,$sid);
+		    $result = $am->login($user, $pass, $sid);
+			setcookie("ACSID", $result['SessionKey'], time()+86400, "/"); // set cookie for 1 day
 		    // fix lastLogin value
             $result['LastLogin']= "";
             if ($ll['total']!=0) {
@@ -68,7 +68,12 @@ try {
             $result['NewEntries']=0;
 		    $result['Warning']="";
             break;
-		case "pwcheck": $result=$am->checkPassword($user,$pass); break; // just check pass, dont create session
+		case "me":
+			$result = $am->getCurrentSession();
+            $result->NewEntries = 0;
+		    $result->Warning = "";
+			break;
+		case "pwcheck": $result=$am->checkPassword($user,$pass,$sid); break; // just check pass, dont create session
         case "logout": $result=$am->logout(); break;
         case "reset": $result=$am->resetAdminPassword(); break;
 		default:

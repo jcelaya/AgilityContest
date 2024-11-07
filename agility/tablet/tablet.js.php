@@ -497,6 +497,12 @@ function tablet_perroEnBlanco() {
     setDataEntryEnabled(true);
 }
 
+function tablet_logout() {
+	unsetSessionCookie();
+	initAuthInfo();
+	location.reload();
+}
+
 function tablet_startstop() {
 	var time = Date.now() - startDate;
 	var ssb=getStartStopMode();

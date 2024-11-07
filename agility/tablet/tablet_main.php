@@ -134,6 +134,8 @@ $config =Config::getInstance();
            data-options="iconCls:'icon-dog'" onclick="tablet_perroEnBlanco();"><?php _e('Test dog'); ?></a>
         <a id="tablet-recoBtn" href="#" class="easyui-linkbutton"
            data-options="iconCls:'icon-huella'" onclick="tablet_reconocimiento();"><?php _e('Course walk'); ?></a>
+        <a id="tablet-exitBtn" href="#" class="easyui-linkbutton"
+           data-options="iconCls:'icon-exit'" onclick="tablet_logout();"><?php _e('Logout session'); ?></a>
     </span>
 </div>
 
@@ -483,6 +485,7 @@ $config =Config::getInstance();
     addTooltip($('#tablet-reloadBtn').linkbutton(),'<?php _e("Update session data");?>');
     addTooltip($('#tablet-whiteBtn').linkbutton(),'<?php _e("Mark test dog enter into ring");?>');
     addTooltip($('#tablet-recoBtn').linkbutton(),'<?php _e("Tell chronometer to start Course walk");?>');
+    addTooltip($('#tablet-exitBtn').linkbutton(),'<?php _e("Logout session");?>');
     addTooltip($('#tablet-datagrid-search'),'<?php _e("Activate data entry panel on selected dorsal");?>');
 
     // layout

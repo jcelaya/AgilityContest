@@ -132,25 +132,18 @@ function initialize() {
     if (checkForServer()) {
         $('#console_top_title').html("Agility Contest (Server)")
     }
-	// make sure that every ajax call provides sessionKey
-	$.ajaxSetup({
-	  beforeSend: function(jqXHR,settings) {
-		if ( typeof(ac_authInfo.SessionKey)!=="undefined" && ac_authInfo.SessionKey!==null) {
-			jqXHR.setRequestHeader('X-Ac-Sessionkey',ac_authInfo.SessionKey);
-		}
-	    return true;
-	  }
-	});
 	// load configuration
 	loadConfiguration();
 	// get License Information
 	getLicenseInfo();
 	// retrieve info on available federation modules
 	getFederationInfo();
-	// initialize session data
-	initAuthInfo();
-	// load login page
-	loadContents("../console/frm_login.php","");
+    // Check for valid session
+    tryCurrentSession(consoleLoginSuccessful);
+    if (ac_authInfo.ID == 0) {
+        // load login page
+        loadContents("../console/frm_login.php","");
+    }
 	var upgdiv=$('#upgradeVersion');
 	if (typeof (ac_installdb) !== "undefined") {
         upgdiv.css('display','none'); // hide install log

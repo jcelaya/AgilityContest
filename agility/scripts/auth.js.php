@@ -98,7 +98,6 @@ function acceptLogin() {
         $.messager.alert("Invalid data",'<?php _e("There is no chosen federation");?>',"error");
         return;
     }
-	setFederation(fed);
     // disable accept button to avoid pressing twice
     $('#login-okBtn').linkbutton('disable');
 	$.ajax({
@@ -108,44 +107,16 @@ function acceptLogin() {
    		data: {
    			Operation: 'login',
    			Username: user,
-   			Password: pass
+   			Password: pass,
+			Federation: fed
    		},
    		success: function(data) {
        		if (data.errorMsg) { // error
                 $.messager.alert({width:350, height:'auto', title:'<?php _e('Error'); ?>',msg: data.errorMsg,icon:'error' });
        			initAuthInfo();
+				unsetSessionCookie();
        		} else {
-				// change menu message to logout
-				$('#login_menu-text').html('<?php _e("End session");?>' + ": " + data.Login);
-				// initialize auth info
-				initAuthInfo(data);
-				if (checkForAdmin(false)) { // do not handle syncdb unless admin login
-					// if not configured ( value<0 ) ask user to enable autosync database
-					var up = parseInt(ac_config.search_updatedb);
-					if (up < 0) {
-						setTimeout(function () {
-							askForUpdateDB();
-						}, 500);
-					}
-					if ((up > 0) && ($('#login_updatedb').prop('checked') == true)) {
-						setTimeout(function () {
-							synchronizeDatabase(false)
-						}, 500);
-					}
-				}
-
-                // force backup on login success
-                autoBackupDatabase(0,"");
-                // if configured, trigger autobackup every "n" minutes
-                var bp=parseInt(ac_config.backup_period);
-                if (bp!=0) ac_config.backup_timeoutHandler=setTimeout(function() {trigger_autoBackup(bp);},60*bp*1000);
-
-                // fire up console event manager
-                ac_config.event_handler=console_eventManager;
-                ac_clientOpts.Name=user+"@Console"
-                ac_clientOpts.SessionName=composeClientSessionName(ac_clientOpts);
-                var ce=parseInt(ac_config.console_events);
-                if (ce!=0) startEventMgr();
+				consoleLoginSuccessful(data);
        		} 
        	},
         error: function(XMLHttpRequest,textStatus,errorThrown) {
@@ -183,6 +154,7 @@ function acceptLogout() {
        		} else {// success: 
        			$.messager.alert('<?php _e("User");?>'+" "+user,'<?php _e("Session has been closed by user");?>',"info");
            		$('#login_menu-text').html('<?php _e("Init session");?>');
+				unsetSessionCookie();
            		initAuthInfo();
            		setFederation(0); // on logout defaults to RSCE
                 // fire named backup
@@ -196,6 +168,75 @@ function acceptLogout() {
    		error: function() { alert("error");	}
 	});
 	$('#logout-window').window('close');	
+}
+
+function consoleLoginSuccessful(data) {
+	setFederation(data.Federacion);
+	// change menu message to logout
+	$('#login_menu-text').html('<?php _e("End session");?>' + ": " + data.Login);
+	// initialize auth info
+	initAuthInfo(data);
+	if (checkForAdmin(false)) { // do not handle syncdb unless admin login
+		// if not configured ( value<0 ) ask user to enable autosync database
+		var up = parseInt(ac_config.search_updatedb);
+		if (up < 0) {
+			setTimeout(function () {
+				askForUpdateDB();
+			}, 500);
+		}
+		if ((up > 0) && ($('#login_updatedb').prop('checked') == true)) {
+			setTimeout(function () {
+				synchronizeDatabase(false)
+			}, 500);
+		}
+	}
+
+	// force backup on login success
+	autoBackupDatabase(0,"");
+	// if configured, trigger autobackup every "n" minutes
+	var bp=parseInt(ac_config.backup_period);
+	if (bp!=0) ac_config.backup_timeoutHandler=setTimeout(function() {trigger_autoBackup(bp);},60*bp*1000);
+
+	// fire up console event manager
+	ac_config.event_handler=console_eventManager;
+	ac_clientOpts.Name=data.Login+"@Console"
+	ac_clientOpts.SessionName=composeClientSessionName(ac_clientOpts);
+	var ce=parseInt(ac_config.console_events);
+	if (ce!=0) startEventMgr();
+}
+
+function unsetSessionCookie() {
+	document.cookie = "ACSID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+
+function tryCurrentSession(successCallback) {
+	$.ajax({
+		type: 'POST',
+		url: '../ajax/database/userFunctions.php',
+        async: false,
+		dataType: 'json',
+		data: {
+			Operation: 'me'
+   		},
+   		success: function(data) {
+			if (data.errorMsg) { // error
+				initAuthInfo();
+				unsetSessionCookie();
+			} else {
+				successCallback(data);
+			}
+       	},
+        error: function(XMLHttpRequest,textStatus,errorThrown) {
+            // connection error: show an slide message error at bottom of the screen
+            $.messager.show({
+                title:"<?php _e('Error');?>",
+                msg: "<?php _e('Error');?>: acceptLogin() "+XMLHttpRequest.status+" - "+XMLHttpRequest.responseText+" - "+textStatus + " "+ errorThrown,
+                timeout: 5000,
+                showType: 'slide',
+                height:200
+            });
+        }
+	});
 }
 
 function checkPassword(user,pass,callback) {

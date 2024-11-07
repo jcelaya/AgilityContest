@@ -131,15 +131,42 @@ var ac_clientOpts = {
 ac_clientOpts.SessionName=composeClientSessionName(ac_clientOpts);
 
 function initialize() {
-	// make sure that every ajax call provides sessionKey
-	$.ajaxSetup({
-	  beforeSend: function(jqXHR,settings) {
-		if ( typeof(ac_authInfo.SessionKey)!=="undefined" && ac_authInfo.SessionKey!==null) {
-			jqXHR.setRequestHeader('X-Ac-Sessionkey',ac_authInfo.SessionKey);
+    tryCurrentSession(function(data) {
+		var prueba = null;
+		var jornada = null;
+		$.ajax({
+			type: 'GET',
+			url: "../ajax/database/pruebaFunctions.php",
+			dataType: 'json',
+			data: {Operation: 'getbyid', ID: data.Prueba},
+			async: false,
+			success: function (p) {
+				prueba = p;
+				return false;
+			}
+		});
+		$.ajax({
+			type: 'GET',
+			url: '../ajax/database/jornadaFunctions.php',
+			dataType: 'json',
+			data: {Operation: 'getbyid', Prueba: data.Prueba, ID: data.Jornada},
+			async: false,
+			success: function (j) {
+				jornada = j;
+				return false;
+			}
+		});
+		if (prueba.ID && jornada.ID) {
+			tabletLoginSuccessful(data, prueba, jornada);
+		} else {
+			console.log("No contest information");
+			unsetSessionCookie();
+			initAuthInfo();
 		}
-	    return true;
-	  }
 	});
+    if (ac_authInfo.ID == 0) {
+		$('#seltablet-dialog').dialog('open');
+    }
 }
 
 /**
@@ -172,7 +199,7 @@ body { font-size: 100%;	background: <?php echo $config->getEnv('easyui_bgcolor')
 
 <div id="seltablet-dialog" style="width:450px;height:auto;padding:10px" class="easyui-dialog"
 	data-options="title: '<?php _e('User,Ring,Contest and Journey selection'); ?>',iconCls: 'icon-list',buttons: '#seltablet-Buttons',collapsible:false, minimizable:false,
-		maximizable:false, closable:false, closed:false, shadow:false, modal:true">
+		maximizable:false, closable:false, closed:true, shadow:false, modal:true">
 	<form id="seltablet-form">
        	<div class="fitem">
        		<label for="seltablet-Username"><?php _e('User'); ?>:</label>
@@ -401,51 +428,9 @@ function tablet_acceptSelectJornada() {
     		if (data.errorMsg) { 
         		$.messager.alert("Error",data.errorMsg,"error"); 
         		initAuthInfo(); // initialize to null
+				unsetSessionCookie();
         	} else {
-    		    var ll="";
-    		    if (data.LastLogin!=="") {
-    		        ll = "<?php _e('Last login');?>:<br/>"+data.LastLogin;
-                }
-                // close dialog
-                $('#seltablet-dialog').dialog('close');
-        		$.messager.alert(
-        	    	"<?php _e('User');?>: "+data.Login,
-        	    	'<?php _e("Session successfully started");?><br/>'+ll,
-        	    	"info",
-        	    	function() {
-        	    	   	initAuthInfo(data);
-        	    	   	initWorkingData(s.ID,tablet_eventManager); // synchronous ajax call inside :-(
-						setFederation(p.RSCE);
-        	    	   	// los demas valores se actualizan en la linea anterior
-        	    		workingData.nombrePrueba=p.Nombre;
-						workingData.datosPrueba=p;
-						workingData.nombreJornada=j.Nombre;
-                        workingData.datosJornada=j;
-                        // jornadas "normales", equipos3 e Individual-Open comparten el mismo fichero
-        	    		var page="../tablet/tablet_main.php";
-        	    		if (parseInt(workingData.datosJornada.Equipos4)>1) {
-        	    			page="../tablet/tablet_main.php"; // parche temporal. Pendiente de implementar tablet Equipos4
-        	    		}
-        	    		if (parseInt(workingData.datosJornada.KO)===1) {
-        	    		    $.messager.alert("Not available yet","Tablet layout for KO rounds is not yet available<br/>Usin std one","info");
-                            // page="../tablet/tablet_main_ko.php";
-                            page="../tablet/tablet_main.php";
-        	    		}
-                        // load requested page
-        	    		$('#tablet_contenido').load(	
-        	    				page,
-        	    				function(response,status,xhr){
-        	    					if (status==='error') $('#tablet_contenido').load('../frm_notavailable.php');
-        	        	    		// start event manager
-        	        	    		startEventMgr();
-									setDataEntryEnabled(false);
-                                    $('#tablet-layout').layout('panel','west').panel('setTitle',p.Nombre+" - "+ j.Nombre);
-									$('#tdialog-InfoLbl').html(p.Nombre + ' - ' + j.Nombre);
-									bindKeysToTablet();
-        	    				}
-        	    			); // load
-        	    	} // close dialog; open main window
-        	    ); // alert calback
+				tabletLoginSuccessful(data, p, j);
         	} // if no ajax error
     	}, // success function
         error: function(XMLHttpRequest,textStatus,errorThrown) {
@@ -463,6 +448,40 @@ function tablet_acceptSelectJornada() {
             $('#seltablet-okBtn').linkbutton('enable');
         }
 	}); // ajax call
+}
+
+function tabletLoginSuccessful(data, p, j) {
+	// close dialog
+	$('#seltablet-dialog').dialog('close');
+	initAuthInfo(data);
+	initWorkingData(data.SessionID, tablet_eventManager); // synchronous ajax call inside :-(
+	setFederation(p.RSCE);
+	// los demas valores se actualizan en la linea anterior
+	workingData.nombrePrueba = p.Nombre;
+	workingData.datosPrueba = p;
+	workingData.nombreJornada = j.Nombre;
+	workingData.datosJornada = j;
+	// jornadas "normales", equipos3 e Individual-Open comparten el mismo fichero
+	var page="../tablet/tablet_main.php";
+	if (parseInt(workingData.datosJornada.Equipos4) > 1) {
+		page = "../tablet/tablet_main.php"; // parche temporal. Pendiente de implementar tablet Equipos4
+	}
+	if (parseInt(workingData.datosJornada.KO) === 1) {
+		$.messager.alert("Not available yet", "Tablet layout for KO rounds is not yet available<br/>Usin std one", "info");
+		// page = "../tablet/tablet_main_ko.php";
+		page = "../tablet/tablet_main.php";
+	}
+	$('#tablet_contenido').load(	
+		page,
+		function(response, status, xhr){
+			if (status === 'error') $('#tablet_contenido').load('../frm_notavailable.php');
+			startEventMgr();
+			setDataEntryEnabled(false);
+			$('#tablet-layout').layout('panel', 'west').panel('setTitle', p.Nombre + " - " + j.Nombre);
+			$('#tdialog-InfoLbl').html(p.Nombre + ' - ' + j.Nombre);
+			bindKeysToTablet();
+		}
+	); // load
 }
 
 $('#seltablet-Username').textbox({

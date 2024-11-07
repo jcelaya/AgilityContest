@@ -322,13 +322,13 @@ if (isset($_REQUEST["Operation"]) && ($_REQUEST["Operation"]==="progress" ) ) {
 // Comprobaciones previas antes de arrancar
 
 $f=fopen(TEMP_DIR."do_upgrade",'r'); // check for previous update request
-if ( !$f || !isset($_REQUEST['sessionkey'])) {
+if ( !$f || !isset($_COOKIE["ACSID"])) {
     die("<p>Debe solicitar la actualizacion desde el panel de administracion</p></pre>");
 }
 
 $sk=fread($f,1024); // check session key
 fclose($f);
-if ( $sk !== $_REQUEST['sessionkey']) {
+if ( $sk !== $_COOKIE["ACSID"]) {
     die("<p>No ha proporcionado un identificador de sesion valido</p></pre>");
 }
 

@@ -99,19 +99,6 @@ if (($poster==null) || ($poster=="")) $poster="../default_poster.png";
         getLicenseInfo();
         getFederationInfo();
 
-        /* not really needed for public access, but stay here for compatibility */
-        function initialize() {
-            // make sure that every ajax call provides sessionKey
-            $.ajaxSetup({
-                beforeSend: function(jqXHR,settings) {
-                    if ( typeof(ac_authInfo.SessionKey)!=="undefined" && ac_authInfo.SessionKey!==null) {
-                        jqXHR.setRequestHeader('X-Ac-Sessionkey',ac_authInfo.SessionKey);
-                    }
-                    return true;
-                }
-            });
-        }
-
         function myRowStyler(idx,row) { return pbRowStyler(idx,row); }
         function myRowStyler2(idx,row) { return pbRowStyler2(idx,row); }
 

@@ -60,16 +60,21 @@ class AuthManager {
 
 		/* try to retrieve session token */
 		$hdrs=getAllHeaders();
-		// $this->myLogger->trace("headers are: ".json_encode($hdrs));
-		if (!array_key_exists("X-Ac-Sessionkey",$hdrs)) { // look for X-Ac-Sessionkey header
+		if (!array_key_exists("ACSID",$_COOKIE)) {
 			$this->myLogger->info("No sessionKey found in request");
 			// no key found: assume anonymous login
 			$this->level=PERMS_GUEST;
 			return;
 		}
 		/* if found evaluate for expiration and level */
-		$sk=$hdrs['X-Ac-Sessionkey'];
-		$obj=$this->getUserByKey($sk);
+		$sk=$_COOKIE["ACSID"];
+		try {
+			$obj=$this->getUserByKey($sk);
+		} catch (Exception $e) {
+			$this->myLogger->info("Invalid session key: '$sk'");
+			$this->level=PERMS_GUEST;
+			return;
+		}
 		$this->myLogger->info("Username:{$obj->Login} Perms:{$obj->Perms}");
 		$this->level=$obj->Perms;
 		$this->mySessionKey=$sk;
@@ -97,7 +102,7 @@ class AuthManager {
 	 */
 	function getUserByKey($sk) {
 	    $obj=$this->mySessionMgr->__selectObject(
-			"*",
+			"*,sesiones.ID AS SessionID,usuarios.ID AS UserID",
 			"sesiones,usuarios",
 			"(usuarios.ID=sesiones.Operador) AND ( SessionKey='$sk')"
 		);
@@ -168,6 +173,8 @@ class AuthManager {
      * @return {array} errorMessage or result data
      */
     function login($login,$password,$sid=0,$nosession=false) {
+		//create a random session key
+		$this->mySessionKey = random_password(16);
         if (inMasterServer($this->myConfig,$this->myLogger))
             return $this->certLogin($sid, $nosession);
         else return $this->dbLogin($login, $password, $sid, $nosession);
@@ -236,14 +243,13 @@ class AuthManager {
 		}
 		// get & store permission level
 		$this->level=$obj->Perms;
-		//create a random session key
-		$sk=random_password(16);
 		// compose data for a new session
 		$data=array (
 				// datos para el gestor de sesiones
 				'Operador'	=>	$obj->ID,
-				'SessionKey'=>  $sk,
+				'SessionKey'=>  $this->mySessionKey,
 				'Nombre' 	=> 	http_request("Nombre","s",""),
+				'Federacion'=> 	http_request("Federation","i",1),
 				'Prueba' 	=> 	http_request("Prueba","i",0),
 				'Jornada'	=>	http_request("Jornada","i",0),
 				'Manga'		=>	http_request("Manga","i",0),
@@ -324,9 +330,50 @@ class AuthManager {
 		$this->myLogger->leave();
 		return $data;
 	}
+
+	function getCurrentSession() {
+		$user = $this->getUserByKey($this->mySessionKey);
+		$this->level = $user->Perms;
+		unset($user->Password);
+		$user->Type = 'init';
+		$user->Source = 'AuthManager';
+		$user->TimeStamp = time();
+		$sid = $user->SessionID;
+		// and fire 'init' event
+		$evtMgr = new Eventos("AuthManager", $sid, $this);
+		// genera informacion: usuario|consola/tablet|sesion|ipaddr
+        $ipstr = str_replace(':', ';', $_SERVER['REMOTE_ADDR']);
+		$valuestr = "{$user->Login}:{$user->Nombre}:{$user->SessionID}:{$ipstr}";
+		$event = array(
+			// datos identificativos del evento
+			"ID" => 0, 							// Event ID
+			"Session" => $sid, 		// Session (Ring) ID
+			"TimeStamp" => $user->Timestamp, // TimeStamp - event time
+			"Type" => $user->Type, 			 // Event Type
+			"Source" => $user->Source,		// Event Source
+			// datos asociados al contenido del evento
+			"Pru" => $user->Prueba,	// Prueba,
+			"Jor" => $user->Jornada,	// Jornada,
+			"Mng" => $user->Manga,	// Manga,
+			"Tnd" => $user->Tanda,	// Tanda,
+			"Dog" => 0,	// Perro,
+			"Drs" => 0,					// Dorsal,
+			"Hot" => 0,					// Celo,
+			"Flt" => -1,				// Faltas,
+			"Toc" => -1,				// Tocados,
+			"Reh" => -1,				// Rehuses,
+			"NPr" => -1,				// NoPresentado,
+			"Eli" => -1,				// Eliminado,
+			"Tim" => -1,				// Tiempo,
+			// marca de tiempo en los eventos de crono
+			"Value" => $valuestr		// Value
+		);
+		$evtMgr->putEvent($event);
+		return $user;
+	}
 	
-	function checkPassword($user,$pass) {
-		return $this->login($user,$pass,0,true);	
+	function checkPassword($user,$pass,$sid) {
+		return $this->login($user,$pass,$sid,true);	
 	}
 
 	function resetAdminPassword() {

@@ -106,15 +106,10 @@ var ac_clientOpts = {
 ac_clientOpts.SessionName=composeClientSessionName(ac_clientOpts);
 
 function initialize() {
-	// make sure that every ajax call provides sessionKey
-	$.ajaxSetup({
-	  beforeSend: function(jqXHR,settings) {
-		if ( typeof(ac_authInfo.SessionKey)!=="undefined" && ac_authInfo.SessionKey!==null) {
-			jqXHR.setRequestHeader('X-Ac-Sessionkey',ac_authInfo.SessionKey);
-		}
-	    return true;
-	  }
-	});
+    tryCurrentSession(qrcodeLoginSuccessful);
+    if (ac_authInfo.ID == 0) {
+		$('#selqrcode-dialog').dialog('open');
+    }
 }
 
 </script>
@@ -190,7 +185,7 @@ body {
 <!-- dialogo inicial ( pide usuario, contraseña y ring -->
 <div id="selqrcode-dialog" style="width:300px;height:auto;padding:10px" class="easyui-dialog"
 	data-options="title: '<?php _e('QRCode reader sesion init:'); ?>',iconCls: 'icon-list',buttons: '#selqrcode-Buttons',collapsible:false, minimizable:false,
-		maximizable:false, closable:true, closed:false, shadow:false, modal:true">
+		maximizable:false, closable:true, closed:true, shadow:false, modal:true">
 	<form id="selqrcode-form">
        	<div class="fitem">
        		<label for="selqrcode-Username"><?php _e('User'); ?>:</label>
@@ -348,22 +343,8 @@ function qrcode_loginSession() {
         		$.messager.alert("Error",data.errorMsg,"error"); 
         		initAuthInfo(); // initialize to null
         	} else {
-                // store selected data into global structure
-                workingData.session=s.ID;
-                workingData.nombreSesion=s.Nombre;
-                initWorkingData(s.ID,qrcode_eventManager);
-                // close dialog
-                $('#selqrcode-dialog').dialog('close');  // close dialog;
-        		$.messager.alert(
-        	    	"<?php _e('User');?>: "+data.Login,
-        	    	'<?php _e("Session successfully started");?><br/>',
-        	    	"info",
-        	    	function() { // open main window
-        	    	    data.SessionKey=null; // unset var as no longer needed and will collide with tablet
-        	    	   	initAuthInfo(data);
-        	    		$('#qrcode_contenido').window('open');
-        	    	}
-        	    ); // alert calback
+                document.cookie = "ACSID="+data.SessionKey+"; path=/";
+                qrcodeLoginSuccessful(data);
         	} // if no ajax error
     	}, // success function
         error: function(XMLHttpRequest,textStatus,errorThrown) {
@@ -381,6 +362,13 @@ function qrcode_loginSession() {
             $('#selqrcode-okBtn').linkbutton('enable');
         }
 	}); // ajax call
+}
+
+function qrcodeLoginSuccessful(data) {
+	console.log(data);
+    initWorkingData(data.SessionID, qrcode_eventManager);
+    initAuthInfo(data);
+    $('#qrcode_contenido').window('open');
 }
 
 //on Enter key on login field fo	cus on password

@@ -455,7 +455,7 @@ function askForUpgrade(msg,name,release){
                             return false;
                         }
                         $.messager.confirm("<?php _e('Upgrade');?>","<?php _e('Download complete. Press Acccept to start upgrade');?>",function(r){
-                            if (r) window.location='../upgrade.php?sessionkey='+ac_authInfo.SessionKey;
+                            if (r) window.location='../upgrade.php';
                         });
                     },
                     error: function(XMLHttpRequest,textStatus,errorThrown) {
