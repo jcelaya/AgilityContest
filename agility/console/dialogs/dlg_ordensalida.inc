@@ -83,11 +83,6 @@ $config =Config::getInstance();
            data-options="iconCls:'icon-huella'" onclick="$('#ordeneq3-dialog').dialog('open');"><?php _e('Teams'); ?></a>
         <label for="ordensalida-categoria"><?php _e('Cat');?></label>
         <select id="ordensalida-categoria" style="width:80px"></select>
-        <span style="">
-            <!-- need revision. in the meanwhile, hide -->
-            <label for="ordensalida-rango"><?php _e('Range');?></label>
-            <input id="ordensalida-rango" style="width:80px" value="0-99999"/>
-        </span>
    		<a id="ordensalida-reloadBtn" href="#" class="easyui-linkbutton"
            data-options="iconCls:'icon-reload'" onclick="reloadOrdenSalida();"><?php _e('Refresh'); ?></a>
    	</span>
@@ -211,12 +206,6 @@ $('#ordensalida-categoria').combobox({
     textField: 'Nombre',
     data: cats,
     onSelect: function(rec) { reloadOrdenSalida(); }
-});
-
-$('#ordensalida-rango').textbox({
-    width:80,
-    required:false,
-    validType:'intrange' // created by me at easyui-patches
 });
 
 // datos de la tabla de equipos
@@ -391,7 +380,6 @@ addTooltip($('#ordensalida-printBtn').linkbutton(),'<?php _e("Print starting ord
 addTooltip($('#ordensalida-reloadBtn').linkbutton(),'<?php _e("Reload starting order. Update window"); ?>');
 addTooltip($('#ordensalida-categoria').combobox('textbox'),'<?php _e("Select categories to work with"); ?>');
 addTooltip($('#ordensalida-selection').combobox('textbox'),'<?php _e("Select sorting order"); ?>');
-addTooltip($('#ordensalida-rango').textbox('textbox'),'<?php _e("Select dorsal range to apply sort process"); ?>');
 addTooltip($('#ordensalida-excel-okBtn').linkbutton(),'<?php _e("Import round result data from selected Excel file"); ?>');
 addTooltip($('#ordensalida-excel-cancelBtn').linkbutton(),'<?php _e("Cancel operation. Close window"); ?>');
 addTooltip($('#ordensalida-reorder-okBtn').linkbutton(),'<?php _e("Move dogs to new provided starting order"); ?>');

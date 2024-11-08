@@ -333,10 +333,9 @@ class OrdenSalida extends DBObject {
 	 * @param {string} $lista lista original de la base de datos
      * @param {int} $mode 0:L 1:M 2:S 3:MS 4:LMS 5:T 6:LM 7:ST 8:LMST 9:X 10:XL 11:MST 12:XLMST
      * @param {boolean} $reverse On true return included dogs in reverse order
-	 * @param {string} $range dog range to be included in result
 	 * @return {array} 0:original 1:included 2:excluded 3:doglist
 	 */
-	function splitPerrosByMode($lista,$mode,$reverse,$range) {
+	function splitPerrosByMode($lista,$mode,$reverse) {
 		$this->myLogger->enter();
 		// cogemos todos los perros de la manga e indexamos en función del perroID
 		$res=$this->__select("*","resultados","Manga={$this->manga->ID}","","");
@@ -345,15 +344,6 @@ class OrdenSalida extends DBObject {
 		// split de los datos originales
 		$ordenperros=explode(",",getInnerString($lista,"BEGIN,",",END"));
 
-		// ajustamos el rango de dorsales a evaluar
-        $fromItem=1;
-        $toItem=99999;
-        if (preg_match('/^\d+-\d+$/',$range)) {
-            $a=explode("-",$range);
-            $fromItem=( intval($a[0]) <= 0 )? 1 : intval($a[0]);
-            $toItem=( intval($a[1]) > 99999)? 99999 : intval($a[1]);
-            $this->myLogger->trace("range:$range from:$fromItem to:$toItem");
-        }
 		// clasificamos los perros por categorias
 		$listas=array( 0=>array(),1=>array(),2=>array());
 		foreach($ordenperros as $perro) {
@@ -363,18 +353,11 @@ class OrdenSalida extends DBObject {
 			if (!array_key_exists($perro,$listaperros)) continue;
             // add unconditionally to main list
             array_push($listas[0],$perro);
-            // compare dorsals
-			$d=intval($listaperros[$perro]['Dorsal']);
-			if ( ($d<$fromItem) || ($d>$toItem)) {
-				// out of dorsals, insert into exclude list
-                array_push($listas[2],$perro);
+			// dorsal match, compare categories, and insert in proper list
+			if (category_match($listaperros[$perro]['Categoria'],$this->heights,$mode)) {
+				array_push($listas[1],$perro);
 			} else {
-                // dorsal match, compare categories, and insert in proper list
-                if (category_match($listaperros[$perro]['Categoria'],$this->heights,$mode)) {
-                    array_push($listas[1],$perro);
-                } else {
-                    array_push($listas[2],$perro);
-                }
+				array_push($listas[2],$perro);
 			}
 		}
 		// retornamos el array de strings
@@ -443,7 +426,7 @@ class OrdenSalida extends DBObject {
 	 * @param {integer} catmode categorias a tener en cuenta en el listado que hay que presentar
 	 * @param {array} rs lista de resultados a presentar. Se utiliza para reordenar resultados en funcion del orden de salida
 	 */
-	function getData($teamView=false,$catmode=12,$rs=null,$range="0-99999") {
+	function getData($teamView=false,$catmode=12,$rs=null) {
 		$this->myLogger->enter();
 		// obtenemos los perros de la manga, anyadiendo los datos que faltan (NombreLargo y NombreEquipo) a partir de los ID's
 		if (!$rs) $rs= $this->__select(
@@ -472,7 +455,7 @@ class OrdenSalida extends DBObject {
 		// excluyendo a aquellos cuya categoria no coincide con la solicitada
 		$p2=array();
 		// 0:original 1:included 2:excluded 3:listaperros
-		$listas=$this->splitPerrosByMode($this->getOrden(),$catmode,false,$range);
+		$listas=$this->splitPerrosByMode($this->getOrden(),$catmode,false,"");
 		$orden=explode(',',$listas[1]); // cogemos la lista de los perros incluidos
 		// PENDING: This is a bypass for some obscure error in orden_salida data corruption.
 		// NEED TO BE PROPERLY FIXED
@@ -586,13 +569,13 @@ class OrdenSalida extends DBObject {
 	 * @param	{int} $catmode categorias a las que tiene que afectar este cambio
 	 * @return {string} nuevo orden de salida
 	 */
-	function randomOrder($catmode,$range) {
+	function randomOrder($catmode) {
 		$this->myLogger->enter();
         assertClosedJourney($this->jornada); // throw exception on closed journeys
 		// fase 1 aleatorizamos la manga
 		$orden=$this->getOrden();
 		// buscamos los perros de la categoria seleccionada
-		$listas=$this->splitPerrosByMode($orden,$catmode,false,$range);
+		$listas=$this->splitPerrosByMode($orden,$catmode,false);
         $str1=$listas[2];
         $str2=implode(",",aleatorio(explode(",", $listas[1])));
         $ordensalida=$this->joinOrders($str1,$str2);
@@ -616,13 +599,13 @@ class OrdenSalida extends DBObject {
 	 * @param	{int} $catmode categorias a las que tiene que afectar este cambio
 	 * @return {string} nuevo orden de salida
 	 */
-	function randomClubesOrder($catmode,$range) {
+	function randomClubesOrder($catmode) {
 		$this->myLogger->enter();
 		assertClosedJourney($this->jornada); // throw exception on closed journeys
 		// fase 1 aleatorizamos la manga
 		$orden=$this->getOrden();
 		// buscamos los perros de la categoria seleccionada
-		$listas=$this->splitPerrosByMode($orden,$catmode,false,$range);
+		$listas=$this->splitPerrosByMode($orden,$catmode,false);
 		$str1=$listas[2]; // perros que no se reordenan
 		// aleatorizamos perros a ordenar
 		$toorder=aleatorio(explode(",", $listas[1]));
@@ -659,7 +642,7 @@ class OrdenSalida extends DBObject {
      * @param {boolean} reverse on true return selected dogs/teams in reverse order
      * @return {string} nuevo orden de salida; null on error
      */
-    function sameOrder($catmode,$reverse,$range) {
+    function sameOrder($catmode,$reverse) {
         $this->myLogger->enter();
         assertClosedJourney($this->jornada); // throw exception on closed journeys
         // buscamos la "manga hermana"
@@ -671,8 +654,8 @@ class OrdenSalida extends DBObject {
             return $this->error("Cannot clone order: Manga:{$this->manga->ID} of Jornada:{$this->jornada->ID} has no brother");
 
         // spliteamos manga propia y hermana, y las mezclamos en funcion de la categoria
-        $lista=$this->splitPerrosByMode($hermanas[0]->Orden_Salida,$catmode,false,$range); // manga actual "splitteada"
-        $lista2=$this->splitPerrosByMode($hermanas[1]->Orden_Salida,$catmode,$reverse,$range); // manga hermana "splitteada"
+        $lista=$this->splitPerrosByMode($hermanas[0]->Orden_Salida,$catmode,false); // manga actual "splitteada"
+        $lista2=$this->splitPerrosByMode($hermanas[1]->Orden_Salida,$catmode,$reverse); // manga hermana "splitteada"
         $str1=$lista[2];
         $str2=$lista2[1];
         $ordensalida=$this->joinOrders($str1,$str2);
@@ -695,15 +678,15 @@ class OrdenSalida extends DBObject {
      * @param	{int} $catmode categorias a las que tiene que afectar este cambio
      * @return {string} nuevo orden de salida; null on error
      */
-    function reverseOrder($catmode,$range) {
-        return $this->sameOrder($catmode,true,$range);
+    function reverseOrder($catmode) {
+        return $this->sameOrder($catmode,true);
     }
 
     /**
 	 * Ordena por orden alfabetico de guias en la categoria indicada
      * @param int $catmode
      */
-    function alphaOrder($catmode,$range) {
+    function alphaOrder($catmode) {
         $this->myLogger->enter();
         assertClosedJourney($this->jornada); // throw exception on closed journeys
 		$data=$this->getData(false,$catmode)['rows'];
@@ -717,7 +700,7 @@ class OrdenSalida extends DBObject {
 		// ahora cogemos la manga, extraemos lo que no queremos y metemos el nuevo orden
         $orden=$this->getOrden();
         // buscamos los perros de la categoria seleccionada
-        $listas=$this->splitPerrosByMode($orden,$catmode,false,$range); // 0:All 1:toChange 2:toRemain
+        $listas=$this->splitPerrosByMode($orden,$catmode,false); // 0:All 1:toChange 2:toRemain
         $str1=$listas[2]; // los que se van a quedar "como están"
         $ordensalida=$this->joinOrders($str1,$str);
         $this->setOrden($ordensalida);
@@ -728,7 +711,7 @@ class OrdenSalida extends DBObject {
      * Ordena por orden de dorsales en la categoria indicada
      * @param int $catmode
      */
-    function dorsalOrder($catmode,$range) {
+    function dorsalOrder($catmode) {
         $this->myLogger->enter();
         assertClosedJourney($this->jornada); // throw exception on closed journeys
 
@@ -751,7 +734,7 @@ class OrdenSalida extends DBObject {
         $str= substr($str,1); // quitamos coma inicial
 
         // extraemos del orden los perros de la categoria seleccionada e insertamos el nuevo orden
-        $listas=$this->splitPerrosByMode($orden,$catmode,false,$range); // 0:All 1:toChange 2:toRemain
+        $listas=$this->splitPerrosByMode($orden,$catmode,false); // 0:All 1:toChange 2:toRemain
         $str1=$listas[2]; // los que se van a quedar "como están"
         $ordensalida=$this->joinOrders($str1,$str);
         $this->setOrden($ordensalida);
@@ -765,7 +748,7 @@ class OrdenSalida extends DBObject {
 	 * @param {integer} $mode categorias de la manga (L,M,S,MS,LMS,T,LM,ST,LMST,X,XL,MST,XLMST)
 	 * @param {integer} $catmode categorias que hay que ordenar en la manga (X,L,M,S,T,XLMST)
 	 */
-	protected function invierteResultados($from,$mode,$catmode,$range="0-99999") {
+	protected function invierteResultados($from,$mode,$catmode) {
 
         // FASE 1: invertimos orden de salida de perros
 		$r =Competitions::getResultadosInstance("OrdenSalida::invierteResultados",$from->ID);
@@ -822,7 +805,7 @@ class OrdenSalida extends DBObject {
 	 * de manga en funcion del orden inverso al resultado de su manga "hermana"
 	 * @return {string} nuevo orden de salida; null on error
 	 */
-	function orderByResults($catmode,$range) {
+	function orderByResults($catmode) {
 		$this->myLogger->enter();
         assertClosedJourney($this->jornada); // throw exception on closed journeys
 		// fase 1: buscamos la "manga hermana"
@@ -936,16 +919,16 @@ class OrdenSalida extends DBObject {
      * @param {string} $method
      * @param {string} $catmode
      */
-	function setOrder($method,$catmode,$range) {
+	function setOrder($method,$catmode) {
 		switch($method) {
 			case "rheights": return $this->reverseHeightsOrder(); break;
-			case "random": return $this->randomOrder($catmode,$range); break;
-			case "rclubes": return $this->randomClubesOrder($catmode,$range); break;
-            case "reverse": return $this->reverseOrder($catmode,$range); break;
-            case "results": return $this->orderByResults($catmode,$range); break;
-            case "clone": return $this->sameOrder($catmode,false,$range); break;
-            case "alpha": return $this->alphaOrder($catmode,$range); break;
-            case "dorsal": return $this->dorsalOrder($catmode,$range); break;
+			case "random": return $this->randomOrder($catmode); break;
+			case "rclubes": return $this->randomClubesOrder($catmode); break;
+            case "reverse": return $this->reverseOrder($catmode); break;
+            case "results": return $this->orderByResults($catmode); break;
+            case "clone": return $this->sameOrder($catmode,false); break;
+            case "alpha": return $this->alphaOrder($catmode); break;
+            case "dorsal": return $this->dorsalOrder($catmode); break;
 			default:return $this->error("Invalid Sorting method: {$method}");
 		}
 	}

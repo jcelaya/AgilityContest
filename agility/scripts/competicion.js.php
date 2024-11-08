@@ -1507,8 +1507,7 @@ function evalOrdenSalida(oper) {
     				Manga: workingData.manga,
                     Categorias: $('#ordensalida-categoria').combobox('getValue'),
     				Operation: 'setOrder',
-                    SortMethod: oper,
-                    Range: $('#ordensalida-rango').textbox('getValue')
+                    SortMethod: oper
 	    		}
     		}).done( function(result) {
                 if (result.errorMsg){

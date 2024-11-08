@@ -73,7 +73,7 @@ class OrdenSalida_EO_Final extends OrdenSalida {
      * @param {boolean} reverse on true return selected dogs/teams in reverse order
 	 * @return {string} nuevo orden de salida; null on error
 	 */
-	function sameOrder($catmode,$reverse,$range) {
+	function sameOrder($catmode,$reverse) {
 		$this->myLogger->enter();
         assertClosedJourney($this->jornada); // throw exception on closed journeys
         // fase 1: buscamos la "manga padre"
@@ -82,8 +82,8 @@ class OrdenSalida_EO_Final extends OrdenSalida {
             return $this->error("Error: Cannot find Qualification Agility Round in this contest");
 
 		// spliteamos manga propia y hermana, y las mezclamos en funcion de la categoria
-		$lista=$this->splitPerrosByMode($this->getOrden(),$catmode,false,$range); // manga actual "splitteada"
-		$lista2=$this->splitPerrosByMode($mpadre[0]['Orden_Salida'],$catmode,$reverse,$range); // manga padre "splitteada"
+		$lista=$this->splitPerrosByMode($this->getOrden(),$catmode,false); // manga actual "splitteada"
+		$lista2=$this->splitPerrosByMode($mpadre[0]['Orden_Salida'],$catmode,$reverse); // manga padre "splitteada"
         $str1=$lista[2];
         $str2=$lista2[1];
         $ordensalida=$this->joinOrders($str1,$str2);
@@ -105,11 +105,10 @@ class OrdenSalida_EO_Final extends OrdenSalida {
 	 *   perros que no esten clasificados
 	 *
 	 * @param {string} catmode categorias que hay que ordenar en la manga (X,L,M,S,T)
-	 * @param {string} range ( rango de perros a ordenar. No usado aqui )
 	 * @return {string} nuevo orden de salida; null on error
 	 * @throws Exception on invalid journey
 	 */
-	function orderByResults($catmode,$range) {
+	function orderByResults($catmode) {
 		$this->myLogger->enter();
         assertClosedJourney($this->jornada); // throw exception on closed journeys
 		// fase 1: buscamos la "manga padre"

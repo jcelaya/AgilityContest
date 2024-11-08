@@ -43,7 +43,6 @@ try {
     $tv= http_request("TeamView","b",false);
 	$team= http_request("Equipo","i",0);
     $cats= http_request("Categorias","s","-"); // sort everything LMST by default
-    $range= http_request("Range","s","0-99999"); // select only dorsals in range
     $method= http_request("SortMethod","s","results");
 	$catmode=12;
 	switch ($cats) {
@@ -58,8 +57,8 @@ try {
 		throw new Exception("Call to ordenSalidaFunctions with Invalid Prueba:$p Jornada:$j or manga:$m ID");
 	$os=Competitions::getOrdenSalidaInstance($file,$m);
 	switch ($operation) {
-        case "setOrder":  $am->access(PERMS_OPERATOR);	$result = $os->setOrder($method,$catmode,$range); break;
-        case "getData":	$result = $os->getData($tv,$catmode,null,$range); break;
+        case "setOrder":  $am->access(PERMS_OPERATOR);	$result = $os->setOrder($method,$catmode); break;
+        case "getData":	$result = $os->getData($tv,$catmode,null); break;
         case "getTeams":	$result = $os->getTeams(); break;
         case "getDataByTeam":	$result = $os->getDataByTeam($team); break;
         case "dnd": $am->access(PERMS_ASSISTANT); $result = $os->dragAndDrop($f,$t,$w); break;
