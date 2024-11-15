@@ -62,12 +62,12 @@
     <!-- try to disable zoom in tablet on double click -->
     <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=0.5, user-scalable=yes"/>
     <title>AgilityContest (WebHost install)</title>
-    <link rel="stylesheet" type="text/css" href="lib/jquery-easyui-1.4.2/themes/default/easyui.css" />
-    <link rel="stylesheet" type="text/css" href="lib/jquery-easyui-1.4.2/themes/icon.css" />
+    <link rel="stylesheet" type="text/css" href="lib/jquery-easyui/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="lib/jquery-easyui/themes/icon.css" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/datagrid.css" />
-    <script src="lib/jquery-2.2.4.min.js" type="text/javascript" charset="utf-8" > </script>
-    <script src="lib/jquery-easyui-1.4.2/jquery.easyui.min.js" type="text/javascript" charset="utf-8" ></script>
+    <script src="lib/jquery-easyui/jquery.min.js" type="text/javascript" charset="utf-8" > </script>
+    <script src="lib/jquery-easyui/jquery.easyui.min.js" type="text/javascript" charset="utf-8" ></script>
     <script src="scripts/common.js.php" type="text/javascript" charset="utf-8" > </script>
     <script src="scripts/webhost.js.php" type="text/javascript" charset="utf-8" > </script>
 </head>

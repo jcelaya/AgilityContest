@@ -57,19 +57,19 @@ if (($poster==null) || ($poster=="")) $poster="../default_poster.png";
     <!-- try to disable zoom in tablet on double click -->
     <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=0.5, user-scalable=yes"/>
 
-    <link rel="stylesheet" type="text/css" href="../lib/jquery-easyui-1.4.2/themes/<?php echo $config->getEnv('easyui_theme'); ?>/easyui.css" />
-    <link rel="stylesheet" type="text/css" href="../lib/jquery-easyui-1.4.2/themes/icon.css" />
+    <link rel="stylesheet" type="text/css" href="../lib/jquery-easyui/themes/<?php echo $config->getEnv('easyui_theme'); ?>/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../lib/jquery-easyui/themes/icon.css" />
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../css/switchbutton.css" />
     <link rel="stylesheet" type="text/css" href="../css/datagrid.css" />
     <link rel="stylesheet" type="text/css" href="../css/videowall_css.php" />
     <link rel="stylesheet" type="text/css" href="../css/public_css.php" />
     
-    <script src="../lib/jquery-2.2.4.min.js" type="text/javascript" charset="utf-8" > </script>
-    <script src="../lib/jquery-easyui-1.4.2/jquery.easyui.min.js" type="text/javascript" charset="utf-8" ></script>
-    <script src="../lib/jquery-easyui-1.4.2/extensions/datagrid-dnd/datagrid-dnd.js" type="text/javascript" charset="utf-8" > </script>
-    <script src="../lib/jquery-easyui-1.4.2/extensions/datagrid-view/datagrid-detailview.js" type="text/javascript" charset="utf-8" > </script>
-    <script src="../lib/jquery-easyui-1.4.2/extensions/datagrid-view/datagrid-scrollview.js" type="text/javascript" charset="utf-8" > </script>
+    <script src="../lib/jquery-easyui/jquery.min.js" type="text/javascript" charset="utf-8" > </script>
+    <script src="../lib/jquery-easyui/jquery.easyui.min.js" type="text/javascript" charset="utf-8" ></script>
+    <script src="../lib/jquery-easyui/extensions/datagrid-dnd/datagrid-dnd.js" type="text/javascript" charset="utf-8" > </script>
+    <script src="../lib/jquery-easyui/extensions/datagrid-view/datagrid-detailview.js" type="text/javascript" charset="utf-8" > </script>
+    <script src="../lib/jquery-easyui/extensions/datagrid-view/datagrid-scrollview.js" type="text/javascript" charset="utf-8" > </script>
     <script src="../lib/jquery-fileDownload-1.4.2.js" type="text/javascript" charset="utf-8" > </script>
     <script src="../lib/sprintf.js" type="text/javascript" charset="utf-8" > </script>
     <script src="../scripts/easyui-patches.js" type="text/javascript" charset="utf-8" > </script>

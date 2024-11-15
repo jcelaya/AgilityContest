@@ -362,7 +362,7 @@ echo '
                 background-size:50% 100%;
             }
         </style>
-        <script src="lib/jquery-2.2.4.min.js" type="text/javascript" charset="utf-8" > </script>
+        <script src="lib/jquery-easyui/jquery.min.js" type="text/javascript" charset="utf-8" > </script>
         <script type="text/javascript" charset="utf-8">
             jQuery.fn.putCursorAtEnd = function() {
                 return this.each(function() {

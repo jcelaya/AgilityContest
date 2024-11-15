@@ -172,8 +172,6 @@ $('#ordensalida-selection').combobox({
     valueField:'value',
     showItemIcon: true,
     editable: false,
-    label: 'Perform Action:',
-    labelPosition: 'top',
     data: [
         {value:'none',   text:"<?php _e('--- Select ---'); ?>",icon:"question.png",selected:true},
         {value:'random', text:"<?php _e('Random order'); ?>",icon:"dice.png"},

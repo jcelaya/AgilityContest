@@ -665,7 +665,7 @@ function getIconPath($fedname,$name) {
 		__DIR__. "/../images/logos", // standard club icon location
 		__DIR__. "/i18n",			// standard countri flags location
 		__DIR__. "/../images/supporters", // where to store supporters logos
-        __DIR__. "/../lib/jquery-easyui-1.4.2/themes/icons", // app logos
+        __DIR__. "/../lib/jquery-easyui/themes/icons", // app logos
         __DIR__. "/modules/federaciones/$fedname" // federation logos
 	);
 	if (array_key_exists("$fedname - $name",$iconPathTable)) return $iconPathTable["$fedname - $name"];

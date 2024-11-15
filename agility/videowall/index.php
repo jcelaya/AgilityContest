@@ -51,16 +51,16 @@ if ( ($runmode & AC_RUNMODE_EVTSOURCE) === 0 ) {
 		or (at your option) any later version." />
 <title>AgilityContest (VideoWall)</title>
 <link rel="stylesheet" type="text/css" href="../fonts/fonts.css" />
-<link rel="stylesheet" type="text/css" href="../lib/jquery-easyui-1.4.2/themes/<?php echo $config->getEnv('easyui_theme'); ?>/easyui.css" />
-<link rel="stylesheet" type="text/css" href="../lib/jquery-easyui-1.4.2/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../lib/jquery-easyui/themes/<?php echo $config->getEnv('easyui_theme'); ?>/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../lib/jquery-easyui/themes/icon.css" />
 <link rel="stylesheet" type="text/css" href="../css/style.css" />
 <link rel="stylesheet" type="text/css" href="../css/datagrid.css" />
 <link rel="stylesheet" type="text/css" href="../css/videowall_css.php" />
 <link rel="stylesheet" type="text/css" href="../css/public_css.php" />
 <script src="../lib/HackTimer/HackTimer.js" type="text/javascript" charset="utf-8" ></script>
-<script src="../lib/jquery-2.2.4.min.js" type="text/javascript" charset="utf-8" > </script>
-<script src="../lib/jquery-easyui-1.4.2/jquery.easyui.min.js" type="text/javascript" charset="utf-8" > </script>
-<script src="../lib/jquery-easyui-1.4.2/extensions/datagrid-view/datagrid-detailview.js" type="text/javascript" charset="utf-8" > </script>
+<script src="../lib/jquery-easyui/jquery.min.js" type="text/javascript" charset="utf-8" > </script>
+<script src="../lib/jquery-easyui/jquery.easyui.min.js" type="text/javascript" charset="utf-8" > </script>
+<script src="../lib/jquery-easyui/extensions/datagrid-view/datagrid-detailview.js" type="text/javascript" charset="utf-8" > </script>
 <script src="../lib/jquery-fileDownload-1.4.2.js" type="text/javascript" charset="utf-8" > </script>
 <script src="../scripts/easyui-patches.js" type="text/javascript" charset="utf-8" > </script>
 <script src="../scripts/datagrid_formatters.js.php" type="text/javascript" charset="utf-8" > </script>
