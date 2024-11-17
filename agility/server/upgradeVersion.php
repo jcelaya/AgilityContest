@@ -928,6 +928,9 @@ try {
     $upg->addColumnUnlessExists("usuarios", "Club", "int(4)", "1");
     $upg->addMailList();
     $upg->updateDefaultJuezClub();
+
+    // v4.8
+    $upg->addColumnUnlessExists("sesiones", "Federacion", "int(4)", "1");
 } catch (Exception $e) {
     syslog(LOG_ERR,$e->getMessage());
     die($e->getMessage());
