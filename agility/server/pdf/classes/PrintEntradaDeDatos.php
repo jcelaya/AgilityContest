@@ -81,6 +81,9 @@ class PrintEntradaDeDatos extends PrintCommon {
         // set file name
 		$grado = _(Mangas::getTipoManga($this->manga->Tipo,4,$this->federation));
         $str=($data['cats']=='-')?$grado:"{$grado}_{$data['cats']}";
+        if ($this->manga->Tipo <= 2) $str .= "_Manga" . $this->manga->Tipo;
+        else if (isMangaAgility($this->manga->Tipo)) $str .= "_Agility";
+        else if (isMangaJumping($this->manga->Tipo)) $str .= "_Jumping";
         $suffix = normalize_filename("{$str}_{$this->jornada->Nombre}");
         $this->set_FileName("HojasAsistente_{$suffix}.pdf");
 		// set categories to compare against
@@ -89,13 +92,6 @@ class PrintEntradaDeDatos extends PrintCommon {
 		// do not show fed icon in pre-agility, special, or ko
 		if (in_array($this->manga->Tipo,array(0,1,2,15,16,18,19,20,21,22,23,24,))) {
 			$this->icon2=getIconPath($this->federation->get('Name'),"null.png");
-		}
-	}
-
-	private function markAgilityOrJumping($str) {
-		// JAMC agosto 2020: on Grade 1 RSCE, add agility or jumping according "Observaciones"
-		if ( ($this->manga->Grado=="GI") && ($this->federation->get('Name')=='RSCE') ) {
-			if ($this->manga->Observaciones!=="")	$str .= " ({$this->manga->Observaciones})";
 		}
 	}
 
