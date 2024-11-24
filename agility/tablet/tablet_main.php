@@ -453,7 +453,7 @@ $config =Config::getInstance();
             { field:'NombreGuia',	width:'33%', align:'right',	title: '<?php _e('Handler');?>' },
             { field:'NombreClub',	width:'25%', align:'right',	title: '<?php _e('Club');?>' }
         ]],
-        onDblClickRow: function(index,row) {
+        onClickRow: function(index,row) {
             // check for store before change dog
             if (parseInt(ac_config.tablet_dblclick)===1){
                 // retrieve parent datagrid to update results
