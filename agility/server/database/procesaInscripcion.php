@@ -116,9 +116,13 @@ function canInscribeIn($listamangas,$gradmanga,$gradperro,$catguia) {
             // arriving here means do not inscribe in this round
             return false;
         case 'Ch':
+            // si el perro es pre-agility no se puede inscribir
+            if ($gradperro === 'P.A.') return false;
             // si el guia no es infantil no se le puede inscribir
             return ($catguia === 'I');
         case 'Jr':
+            // si el perro es pre-agility no se puede inscribir
+            if ($gradperro === 'P.A.') return false;
             // si el guia es junior se le inscribe
             if ($catguia === 'J') return true;
             // si el guia es infantil pero NO HAY manga de infantil se le inscribe
@@ -126,9 +130,13 @@ function canInscribeIn($listamangas,$gradmanga,$gradperro,$catguia) {
             // else do not inscribe
             break;
         case 'Sr':
+            // si el perro es pre-agility no se puede inscribir
+            if ($gradperro === 'P.A.') return false;
             // solo se inscribe si el guia es senior
             return ($catguia === 'S');
         case 'Par':
+            // si el perro es pre-agility no se puede inscribir
+            if ($gradperro === 'P.A.') return false;
             // solo se inscribe si el guia es para-agility
             return ($catguia === 'P');
         default: // default is not inscribe
