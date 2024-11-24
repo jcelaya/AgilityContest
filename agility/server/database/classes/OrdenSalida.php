@@ -444,6 +444,17 @@ class OrdenSalida extends DBObject {
 		$p1=array();
 		$guias=array();
 		foreach ($rs['rows'] as $resultado) {
+			// Modificar la altura de los perros en RFEC iniciacion
+			if ($this->manga->Tipo <= 2 && $this->federation->get('ID') == 1) {
+				switch ($resultado['Categoria']) {
+					case "X": $resultado['Categoria'] = "M"; break;
+					case "L": $resultado['Categoria'] = "M"; break;
+					case "M": $resultado['Categoria'] = "T"; break;
+					case "S": $resultado['Categoria'] = "T"; break;
+					case "T": $resultado['Categoria'] = "T"; break; // This one should be even smaller
+					default: $this->myLogger->warn("Categoria desconocida " . $resultado['Categoria']);
+				}
+			}
 			// recreamos el array de perros anyadiendo el ID del perro como clave
 			$p1[$resultado['Perro']]=$resultado;
 			// generamos lista de guias y los perros que tiene cada uno
