@@ -1,3 +1,8 @@
+Version 4.8.0 20250626_0000
+    - Handle session with cookies
+    - Remove range slider for start order
+    - Fix issues with PreAgility dogs: do not register them in other rounds, fix height
+    - Tablet: switch dog with single click
 Version 4.7.6 20240316_0000
     - Restructure competition page
     - Print proper Fed categories in data entry sheets and tablet
