@@ -126,6 +126,92 @@ function clearTempDir(){
     });
 }
 
+function importCompetition() {
+    if (ac_authInfo.Perms > access_level.PERMS_OPERATOR) {
+        $.messager.alert('<?php _e("Error"); ?>', '<?php _e("Must log in with operator or admin access level"); ?>', 'error');
+        return;
+    }
+    var fileInput = document.getElementById('tools-importFile');
+    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+        $.messager.alert('<?php _e("Import"); ?>', '<?php _e("Please select a .json file first"); ?>', 'error');
+        return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var content = e.target.result;
+        try { JSON.parse(content); } catch(ex) {
+            $.messager.alert('<?php _e("Import"); ?>', '<?php _e("Invalid JSON file"); ?>: ' + ex.message, 'error');
+            return;
+        }
+        $('#tools-importProgress').html('<?php _e("Importing..."); ?>');
+        $.ajax({
+            type: 'POST',
+            url: '../ajax/importFunctions.php',
+            dataType: 'json',
+            data: { Operation: 'import', Data: content },
+            success: function(res) {
+                $('#tools-importProgress').html('');
+                if (res.errorMsg) {
+                    $.messager.alert('<?php _e("Import Error"); ?>', res.errorMsg, 'error');
+                    return;
+                }
+                var lines = [];
+                var r = res.report || {};
+
+                function listSection(title, created, matched) {
+                    lines.push(title);
+                    lines.push('  <?php _e("Created"); ?> (' + created.length + '):');
+                    if (created.length === 0) {
+                        lines.push('    (<?php _e("none"); ?>)');
+                    } else {
+                        created.forEach(function(n) { lines.push('    - ' + n); });
+                    }
+                    lines.push('  <?php _e("Existing"); ?> (' + matched.length + '):');
+                    if (matched.length === 0) {
+                        lines.push('    (<?php _e("none"); ?>)');
+                    } else {
+                        matched.forEach(function(e) {
+                            var line = '    - ' + e.name;
+                            if (e.changes && e.changes.length > 0) line += ' (' + e.changes.join(', ') + ')';
+                            lines.push(line);
+                        });
+                    }
+                    lines.push('');
+                }
+
+                listSection('<?php _e("Handlers"); ?>:', r.handlers_created || [], r.handlers_matched || []);
+                listSection('<?php _e("Dogs"); ?>:', r.dogs_created || [], r.dogs_matched || []);
+
+                if (res.warnings && res.warnings.length > 0) {
+                    lines.push('<?php _e("Warnings"); ?>:');
+                    res.warnings.forEach(function(w) { lines.push('  ' + w); });
+                }
+
+                var text = lines.join('\n');
+                var dlgDiv = $('<div style="padding:0;overflow:hidden"/>').appendTo('body');
+                $('<textarea readonly style="width:100%;height:100%;font-family:monospace;font-size:12px;resize:none;overflow-y:scroll;border:none;padding:6px;box-sizing:border-box"/>').val(text).appendTo(dlgDiv);
+                dlgDiv.dialog({
+                    title: '<?php _e("Import Competition"); ?>',
+                    width: 840,
+                    height: 460,
+                    resizable: true,
+                    modal: true,
+                    buttons: [{
+                        text: '<?php _e("OK"); ?>',
+                        iconCls: 'icon-ok',
+                        handler: function() { dlgDiv.dialog('destroy'); dlgDiv.remove(); }
+                    }]
+                });
+            },
+            error: function(xhr, status, err) {
+                $('#tools-importProgress').html('');
+                $.messager.alert('<?php _e("Import Error"); ?>', 'HTTP error: ' + status + ' ' + err, 'error');
+            }
+        });
+    };
+    reader.readAsText(fileInput.files[0]);
+}
+
 function backupDatabase(){
     $.fileDownload(
         '../ajax/adminFunctions.php',

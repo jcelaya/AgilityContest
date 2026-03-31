@@ -395,7 +395,7 @@ function parseHandlerCat($cat) {
     $cats =array(
     'I' => array('i','ch','child','children','infantil','infantiles'),
     'J' => array('j','jr','junior','juvenil','juveniles','young'),
-    'A' => array('a','adult','adults','adulto','adultos','absolut','absoluta'),
+    'A' => array('a','adult','adults','adulto','adultos','máster','master','absolut','absoluta'),
     'S' => array('s','sr','senior','seniors','veterans','veterano','veteranos'),
     'R' => array('r','ret','retired','retirado','retirados','baja'),
     'P' => array('p','pa','par','para','paraagility','para-agility')

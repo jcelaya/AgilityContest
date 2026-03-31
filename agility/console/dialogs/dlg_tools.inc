@@ -7,13 +7,21 @@
     	<a id="tools-backupBtn" href="#" class="easyui-linkbutton" style="width:85px"
 	   		data-options="iconCls:'icon-db_backup'" onclick="backupDatabase()"><?php _e('Backup'); ?></a>
 	</p>
-	<p> 
+	<p>
 		<span style="display:inline-block;width:350px"><?php _e('Restore database backup'); ?></span>
     	<a id="tools-restoreBtn" href="#" class="easyui-linkbutton" style="width:85px"
 			data-options="iconCls:'icon-db_restore'" onclick="restoreDatabase(true)"><?php _e('Restore'); ?></a>
 		<input type="file" class="icon_button icon-search" id="tools-restoreFile"
                name="restoreFile" accept="application/sql,application/gzip,.sql.gz" required="required">
         <span id="tools-restoreProgress"></span>
+	</p>
+	<p>
+		<span style="display:inline-block;width:350px"><?php _e('Import competition from JSON'); ?></span>
+		<a id="tools-importBtn" href="#" class="easyui-linkbutton" style="width:85px"
+		   data-options="iconCls:'icon-add'" onclick="importCompetition()"><?php _e('Import'); ?></a>
+		<input type="file" class="icon_button icon-search" id="tools-importFile"
+		       name="importFile" accept="application/json,.json" required="required">
+		<span id="tools-importProgress"></span>
 	</p>
     <p>
         <span style="display:inline-block;width:350px"><?php _e('Update database fom Internet'); ?></span>
@@ -96,6 +104,7 @@
     });
 
 addTooltip($('#tools-backupBtn').linkbutton(),'<?php _e("Create and download a database backup copy"); ?>');
+addTooltip($('#tools-importBtn').linkbutton(),'<?php _e("Import a competition from a JSON description file"); ?>');
 addTooltip($('#tools-restoreBtn').linkbutton(),'<?php _e("Restore database contents from previous backup"); ?>');
 addTooltip($('#tools-resInternetBtn').linkbutton(),'<?php _e("Download and install latest database update from internet"); ?>');
 addTooltip($('#tools-resetBtn').linkbutton(),'<?php _e("Clear EVERY database content for selected federation"); ?>');

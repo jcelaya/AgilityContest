@@ -2281,6 +2281,9 @@ msgstr "M&eacute;todo de cifrado"
 msgid "None"
 msgstr "Ninguno"
 
+msgid "none"
+msgstr "ninguno"
+
 #: console/dialogs/dlg_configuracion.inc:466
 msgid "StartTLS after connection"
 msgstr "StartTLS tras conexi&oacute;n"
@@ -4339,6 +4342,10 @@ msgstr "Copia de seguridad de la BBDD"
 msgid "Restore database backup"
 msgstr "Restaurar base de datos"
 
+#: console/dialogs/dlg_tools.inc:10
+msgid "Import competition from JSON"
+msgstr "Importar competición de web de inscriptiones"
+
 #: console/dialogs/dlg_tools.inc:19
 msgid "Update database fom Internet"
 msgstr "Actualizar BBDD desde internet"
@@ -4402,6 +4409,10 @@ msgstr "Todas las federaciones"
 #: console/dialogs/dlg_tools.inc:98
 msgid "Create and download a database backup copy"
 msgstr "Generar y descargar una copia de seguridad de la base de datos"
+
+#: console/dialogs/dlg_tools.inc:98
+msgid "Import a competition from a JSON description file"
+msgstr "Importar una competición de la web de inscripciones"
 
 #: console/dialogs/dlg_tools.inc:99
 msgid "Restore database contents from previous backup"
@@ -6414,7 +6425,7 @@ msgstr "Gesti&oacute;n de datos de Gu&iacute;as"
 
 #: console/index.php:420
 msgid "Handlers"
-msgstr "Gu&iacute;as"
+msgstr "Guías"
 
 #: console/index.php:426
 msgid "Dogs Database Management"
@@ -7324,6 +7335,14 @@ msgstr "No hay respuesta desde el servidor"
 #: qrcode/qrcode.js.php:69 tablet/tablet.js.php:96
 msgid "Please, check connection"
 msgstr "Por favor, compruebe la conexión"
+
+#: scripts/admin.js.php:39
+msgid "Created"
+msgstr "Creados"
+
+#: scripts/admin.js.php:39
+msgid "Existing"
+msgstr "Existentes"
 
 #: scripts/admin.js.php:39
 msgid "Invalid user"
