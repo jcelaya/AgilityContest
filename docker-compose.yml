@@ -14,7 +14,7 @@ services:
     volumes:
       - ./agility:/var/www/html/agility:z
       - ${CONFIG_DIR:-./config}:/var/www/html/config:z
-      - ${LOGS_DIR:-./logs}:/var/www/html/logs:z
+      - logs:/var/www/html/logs
     links:
       - db
     networks:
@@ -39,3 +39,4 @@ services:
       - db
 volumes:
   persistent:
+  logs:

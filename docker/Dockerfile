@@ -22,7 +22,8 @@ COPY .htaccess /var/www/html/
 RUN sed -i -E 's;__AC_WEBNAME__(.?)/;;' /var/www/html/.htaccess
 
 RUN adduser --uid 1000 --gecos 'My Apache User' --disabled-password agility \
-    && chown -R agility:agility /var/lock/apache2 /var/run/apache2 /var/www/html
+    && mkdir -p /var/www/html/logs /var/www/html/config \
+    && chown -R agility:agility /var/lock/apache2 /var/run/apache2 /var/www/html /var/www/html/logs /var/www/html/config
 
 ENV CONTAINER=true
 ENTRYPOINT [ "/entrypoint.sh" ]
