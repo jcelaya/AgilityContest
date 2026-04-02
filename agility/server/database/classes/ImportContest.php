@@ -479,12 +479,7 @@ class ImportContest extends DBObject {
         list($pruebaId, $isNew) = $this->findOrCreatePrueba(
             $json['name'], $clubId, $federation, $openingReg, $closingReg
         );
-
-        if ($isNew) {
-            $this->updateJourneys($pruebaId, $json['journeys']);
-        } else {
-            $this->myLogger->info("Contest already exists (ID={$pruebaId}); skipping journey update");
-        }
+        $this->updateJourneys($pruebaId, $json['journeys']);
 
         foreach ($json['inscriptions'] as $insc) {
             if (!isset($insc['handler']) || !isset($insc['dog'])) {
