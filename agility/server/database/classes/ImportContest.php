@@ -239,7 +239,7 @@ class ImportContest extends DBObject {
                     $sets[]    = "Categoria='" . $this->conn->real_escape_string($cat) . "'";
                     $changed[] = "Categoria: '{$row['Categoria']}' → '{$cat}'";
                 }
-                if ($clubId !== intval($row['Club'])) {
+                if ($clubId !== 1 && $clubId !== intval($row['Club'])) {
                     $sets[]    = "Club={$clubId}";
                     $changed[] = "Club: {$row['Club']} → {$clubId}";
                 }
@@ -492,7 +492,7 @@ class ImportContest extends DBObject {
             $jIndices    = isset($insc['journeys']) ? $insc['journeys'] : array();
             $this->myLogger->info("Processing inscription: handler='{$handlerData['name']}' dog='{$dogData['name']}'");
 
-            $hClubData   = isset($handlerData['club']) ? $handlerData['club'] : $contestClub;
+            $hClubData   = isset($handlerData['club']) ? $handlerData['club'] : 1;
             $handlerClub = $this->findOrCreateClub($hClubData, $federation);
             $guiaId      = $this->findOrCreateHandler($handlerData, $handlerClub, $federation);
             $dogId       = $this->findOrCreateDog($dogData, $guiaId, $federation);
