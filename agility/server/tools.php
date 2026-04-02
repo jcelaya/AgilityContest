@@ -376,7 +376,7 @@ function parseGrade($grad) {
     $grados = array (
         'Baja' => array("out","baj","baja"),
         'Ret'  => array("ret","retired","retirado"),
-        'Jr'   => array("j","jr","jun","junior"),
+        'Jr'   => array("j","jr","jun","junior","juvenil","infantil"),
         'Sr'   => array("s","sr","sen","senior"),
         'P.A.' => array("p","pa","pre","preagility","0","g0","grado0","grade0","a0","ini","inic","iniciacion"),
         'GI'   => array("g1","grado1","grade1","1","i","a1","ai","gi","gradoi","gradei","pro","promo","promocion"),

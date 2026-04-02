@@ -125,9 +125,7 @@ class ImportContest extends DBObject {
     /**
      * INSERT a new row into perros and return its auto-increment ID.
      */
-    private function insertDog($name, $breed, $chip, $lic, $class, $level, $guiaId, $federation) {
-        $categoria = parseCategory($class, $federation);
-        $grado     = parseGrade($level);
+    private function insertDog($name, $breed, $chip, $lic, $categoria, $grado, $guiaId, $federation) {
         $nameEsc   = $this->conn->real_escape_string($name);
         $breedEsc  = $this->conn->real_escape_string($breed);
         $chipEsc   = $this->conn->real_escape_string($chip);
@@ -284,38 +282,31 @@ class ImportContest extends DBObject {
      * If a chip match belongs to a different handler, a new copy is created for this handler.
      */
     private function findOrCreateDog($dogData, $guiaId, $federation) {
-        $rawLic = isset($dogData['license'])     ? strval($dogData['license'])     : '';
-        $name   = toUpperCaseWords(isset($dogData['name'])       ? strval($dogData['name'])       : '');
-        $breed  = isset($dogData['breed'])        ? strval($dogData['breed'])        : '';
-        $chip   = isset($dogData['chip_number'])  ? strval($dogData['chip_number'])  : '';
-        $class  = isset($dogData['class'])        ? strval($dogData['class'])        : '';
-        $level  = isset($dogData['level'])        ? strval($dogData['level'])        : '';
-        $lic    = normalize_license($rawLic);
+        $rawLic    = isset($dogData['license']) ? strval($dogData['license']) : '';
+        $name      = toUpperCaseWords(isset($dogData['name']) ? strval($dogData['name']) : '');
+        $breed     = isset($dogData['breed']) ? strval($dogData['breed']) : '';
+        $chip      = isset($dogData['chip_number']) ? strval($dogData['chip_number']) : '';
+        $categoria = isset($dogData['class']) ? parseCategory(strval($dogData['class']), $federation) : '';
+        $grado     = isset($dogData['level']) ? parseGrade(strval($dogData['level'])) : '';
+        $lic       = normalize_license($rawLic);
 
         $this->myLogger->debug("Dog search: name='{$name}' chip='{$chip}' guiaId={$guiaId}");
 
-        // 1. Match by chip number
+        // 1. Match by chip number among dogs of the same handler
         if ($chip !== '') {
             $chipEsc = $this->conn->real_escape_string($chip);
-            $row = $this->__selectObject("ID,Nombre,Raza,Licencia,Guia", "perros", "Chip='{$chipEsc}'");
+            $row = $this->__selectObject("ID,Nombre,Raza,Licencia,Categoria,Grado", "perros", "Chip='{$chipEsc}' AND Guia={$guiaId}");
             if ($row) {
-                if (intval($row->Guia) === $guiaId) {
-                    $id = intval($row->ID);
-                    $sets = array(); $changed = array();
-                    $this->diffField($sets, $changed, 'Nombre',   $row->Nombre,   $name);
-                    $this->diffField($sets, $changed, 'Raza',     $row->Raza,     $breed);
-                    $this->diffField($sets, $changed, 'Licencia', $row->Licencia, $lic);
-                    $reportName = ($name !== '' && $row->Nombre !== $name) ? $name : $row->Nombre;
-                    $this->applyUpdates('perros', $id, $sets, $changed, "Dog matched by chip '{$chip}': '{$row->Nombre}'");
-                    $this->report['dogs_matched'][] = array('name' => $reportName, 'changes' => $changed);
-                    return $id;
-                }
-                // Dog exists but belongs to a different handler — create a copy for this handler
-                $this->myLogger->info("Dog chip '{$chip}' ('{$row->Nombre}' ID={$row->ID}) belongs to handler {$row->Guia}, not {$guiaId}; creating copy for new handler");
-                $id = $this->insertDog($name, $breed, $chip, $lic, $class, $level, $guiaId, $federation);
-                $this->created++;
-                $this->myLogger->info("Dog copy created: '{$name}' (ID={$id}) for handler {$guiaId}");
-                $this->report['dogs_created'][] = $name;
+                $id = intval($row->ID);
+                $sets = array(); $changed = array();
+                $this->diffField($sets, $changed, 'Nombre',   $row->Nombre,   $name);
+                $this->diffField($sets, $changed, 'Raza',     $row->Raza,     $breed);
+                $this->diffField($sets, $changed, 'Licencia', $row->Licencia, $lic);
+                $this->diffField($sets, $changed, 'Categoria', $row->Categoria, $categoria);
+                $this->diffField($sets, $changed, 'Grado', $row->Grado, $grado);
+                $reportName = ($name !== '' && $row->Nombre !== $name) ? $name : $row->Nombre;
+                $this->applyUpdates('perros', $id, $sets, $changed, "Dog matched by chip '{$chip}': '{$row->Nombre}'");
+                $this->report['dogs_matched'][] = array('name' => $reportName, 'changes' => $changed);
                 return $id;
             }
             $this->myLogger->debug("Dog chip '{$chip}' not found; trying name match");
@@ -324,16 +315,18 @@ class ImportContest extends DBObject {
         // 2. Fuzzy name match among dogs of the same handler
         $needle = $this->norm($name);
         $this->myLogger->debug("Dog fuzzy name search: input='{$name}' norm='{$needle}' guiaId={$guiaId}");
-        $rs = $this->query("SELECT ID, Nombre, Raza, Chip, Licencia FROM perros WHERE Guia={$guiaId}");
+        $rs = $this->query("SELECT ID, Nombre, Raza, Chip, Licencia, Categoria, Grado FROM perros WHERE Guia={$guiaId}");
         if ($rs) {
             while ($row = $rs->fetch_assoc()) {
                 if ($this->norm($row['Nombre']) !== $needle) continue;
                 $rs->free();
                 $id = intval($row['ID']);
                 $sets = array(); $changed = array();
-                $this->diffField($sets, $changed, 'Raza',     $row['Raza'],     $breed);
-                $this->diffField($sets, $changed, 'Chip',     $row['Chip'],     $chip);
-                $this->diffField($sets, $changed, 'Licencia', $row['Licencia'], $lic);
+                $this->diffField($sets, $changed, 'Raza',      $row['Raza'],      $breed);
+                $this->diffField($sets, $changed, 'Chip',      $row['Chip'],      $chip);
+                $this->diffField($sets, $changed, 'Licencia',  $row['Licencia'],  $lic);
+                $this->diffField($sets, $changed, 'Categoria', $row['Categoria'], $categoria);
+                $this->diffField($sets, $changed, 'Grado',     $row['Grado'],     $grado);
                 $this->applyUpdates('perros', $id, $sets, $changed, "Dog matched by name: '{$row['Nombre']}'");
                 $this->report['dogs_matched'][] = array('name' => $row['Nombre'], 'changes' => $changed);
                 return $id;
@@ -342,8 +335,8 @@ class ImportContest extends DBObject {
         }
 
         // 3. Create new dog
-        $this->myLogger->info("Dog not found; creating '{$name}' breed='{$breed}' lic='{$lic}' guiaId={$guiaId}");
-        $id = $this->insertDog($name, $breed, $chip, $lic, $class, $level, $guiaId, $federation);
+        $this->myLogger->info("Dog not found for guide {$guiaId}; creating '{$name}' breed='{$breed}' lic='{$lic}' guiaId={$guiaId}");
+        $id = $this->insertDog($name, $breed, $chip, $lic, $categoria, $grado, $guiaId, $federation);
         $this->created++;
         $this->myLogger->info("Dog created: '{$name}' (ID={$id})");
         $this->report['dogs_created'][] = $name;
