@@ -97,10 +97,10 @@ $config =Config::getInstance();
 			columns: [[
 				{ field:'ID',			hidden:true},
 				{ field:'Nombre',		width:16, sortable:true,	title: '<?php _e('Name'); ?>',formatter:formatBold},
-				{ field:'Direccion1',	width:10, sortable:true,	title: '<?php _e('Address'); ?>'+' 1' },
+				{ field:'Direccion1',	width:10, sortable:false,	title: '<?php _e('Address'); ?>'+' 1' },
 				{ field:'Direccion2',	width:10, sortable:false,	title: '<?php _e('Address'); ?>'+' 2' },
-				{ field:'Provincia',	width:8, sortable:false,    title: '<?php _e('State'); ?>' , hidden:hp},
-				{ field:'Pais',	        width:3, sortable:false,    align: 'center', title: '<?php _e('Country'); ?>' },
+				{ field:'Provincia',	width:8, sortable:true,    title: '<?php _e('State'); ?>' , hidden:hp},
+				{ field:'Pais',	        width:3, sortable:true,    align: 'center', title: '<?php _e('Country'); ?>' },
 				{ field:'Contacto1',	width:9, sortable:false,   title: '<?php _e('Contact'); ?>'+' 1' },
 				{ field:'Contacto2',	hidden:true, width:0, sortable:true,    title: '<?php _e('Contact'); ?>'+' 2' },
                 { field:'Contacto3',	hidden:true},
