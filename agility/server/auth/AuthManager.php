@@ -348,7 +348,7 @@ class AuthManager {
 			// datos identificativos del evento
 			"ID" => 0, 							// Event ID
 			"Session" => $sid, 		// Session (Ring) ID
-			"TimeStamp" => $user->Timestamp, // TimeStamp - event time
+			"TimeStamp" => $user->TimeStamp, // TimeStamp - event time
 			"Type" => $user->Type, 			 // Event Type
 			"Source" => $user->Source,		// Event Source
 			// datos asociados al contenido del evento
