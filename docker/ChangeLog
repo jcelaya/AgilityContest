@@ -1,3 +1,9 @@
+Version 4.8.2 20260510_0000
+    - XAMPP 7.4 x86_64
+    - Fix printing partial results for X-L-M-ST
+    - Data input: Do not show height in page header if it contains all heights
+    - Add paragility as valid value
+    - Fix typo setting the session
 Version 4.8.1 20260426_0000
     - Import data from CLR website.
 Version 4.8.0 20250626_0000
