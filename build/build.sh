@@ -43,7 +43,7 @@ DOWNLOADS="${BASE_DIR}/extra_pkg"
 EXE_DIR="${BASE_DIR}/build/launcher"
 CONF_DIR="${BASE_DIR}/extras"
 NSIS="${BASE_DIR}/build/AgilityContest.nsi"
-XAMPP=xampp-portable-win32-7.2.6-0-VC15.zip
+XAMPP=xampp-portable-windows-x64-7.4.33-0-VC15.zip
 # TODO Website is no longer available
 # DOC_DIR=/home/jantonio/work/agility/manuals
 
@@ -58,7 +58,7 @@ read -r Version AC_VERSION AC_REVISION <<< "$( head -1 "${BASE_DIR}"/ChangeLog )
 #retrieve xampp from server if not exists
 if [ ! -f "${DOWNLOADS}/${XAMPP}" ]; then
     echo "Download xampp from server ..."
-    if ! wget --no-check-certificate -O "${DOWNLOADS}/${XAMPP}" http://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.2.6/${XAMPP}; then
+    if ! wget --no-check-certificate -O "${DOWNLOADS}/${XAMPP}" http://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.4.33/${XAMPP}; then
         echo "Cannot download xampp. Aborting"
         exit 1
     fi
