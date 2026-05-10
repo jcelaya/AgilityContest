@@ -398,7 +398,7 @@ function parseHandlerCat($cat) {
     'A' => array('a','adult','adults','adulto','adultos','máster','master','absolut','absoluta'),
     'S' => array('s','sr','senior','seniors','veterans','veterano','veteranos'),
     'R' => array('r','ret','retired','retirado','retirados','baja'),
-    'P' => array('p','pa','par','para','paraagility','para-agility')
+    'P' => array('p','pa','par','para','paragility','paraagility','para-agility')
     );
     if (is_null($cat)) return '-';
     $str=preg_replace("/[^A-Za-z0-9]/u", '', strtolower(iconv('UTF-8','ASCII//TRANSLIT',$cat)));
