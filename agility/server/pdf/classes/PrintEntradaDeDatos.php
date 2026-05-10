@@ -74,7 +74,7 @@ class PrintEntradaDeDatos extends PrintCommon {
 		if(array_key_exists(1,$data['mangas'])) $this->manga2=$data['mangas'][1];
 		$this->orden=$data['orden'];
 		$this->numrows=$data['numrows'];
-		$this->categoria="L";
+		$this->categoria="";
 		$this->cellHeader[4]=$this->strClub; // fix country/club text
 		$this->fillData=($data['fill']!=0)?true:false;
         $this->rango= (preg_match('/^\d+-\d+$/',$data['rango']))? $data['rango'] : "1-99999";
@@ -153,7 +153,7 @@ class PrintEntradaDeDatos extends PrintCommon {
                 }
                 // recorridos tipo 0 ( comun ) y 2 ( separados ) no necesitan agrupamiento de categorias
             }
-			if (isMangaPreAgility($this->manga->Tipo)) $this->print_identificacionManga($this->manga, "");
+			if (isMangaPreAgility($this->manga->Tipo) || $cat === "") $this->print_identificacionManga($this->manga, "");
             else $this->print_identificacionManga($this->manga, $this->getCatString($cat, $this->heights));
 		} else {
 			// modo extendido: pinta solo identificacion de la jornada
