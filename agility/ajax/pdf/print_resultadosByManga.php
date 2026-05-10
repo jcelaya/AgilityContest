@@ -110,11 +110,12 @@ try {
                 if ($heights==5) $results[]= $resobj->getResultadosIndividual(12); // XLMS
                 $modes = array(4,8,12);
                 break;
-            case 3: // tres grupos. Xlarge-Large Medium Small-Toy implica $heights==5
-                $results[]=$resobj->getResultadosIndividual(10); // XL
+            case 3: // cuatro grupos. Xlarge Large Medium Small-Toy implica $heights==5
+                $results[]=$resobj->getResultadosIndividual(9); // X
+                $results[]=$resobj->getResultadosIndividual(0); // L
                 $results[]=$resobj->getResultadosIndividual(1); // M
                 $results[]=$resobj->getResultadosIndividual(7); // ST
-                $modes = array(10,1,7);
+                $modes = array(9,0,1,7);
                 break;
         }
         $pdf = new PrintParcialGeneral($idprueba,$idjornada,$manga,$results,$modes,$title);

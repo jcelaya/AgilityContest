@@ -284,7 +284,7 @@ class PrintParcialGeneral extends PrintCommon {
      * Se asume que la manga está configurada como recorridos separados
      * con lo que tenemos 5 alturas con las siguientes posibilidades de agrupacion (indicadas en mergecats:
      * [0],[1],[2],[3],[4] X-L-M-S-T
-     * [0,1],[2],[3,4]     XL-M-ST
+     * [0],[1],[2],[3,4]     X-L-M-ST
      * [0,1],[2,3,4]       XL-MST
      * [0,1,2,3,4]         XLMST
      * @param {array} $mergecats array with cats to be merged
