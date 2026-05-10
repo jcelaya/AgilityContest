@@ -1218,10 +1218,8 @@ function Output($name='', $dest='')
 		case 'D': // Download file
 			$this->_checkoutput();
 			// try to force browser to direct open on new window without download
-            header('Content-Type: application/x-download');
-            // header('Content-Type: application/pdf');
-            header('Content-Disposition: inline; filename="' . $name . '"');
-            // header('Content-Disposition: attachment; filename="'.$name.'"');
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment; filename="'.$name.'"');
             header('Content-Transfer-Encoding: binary');
             header('Content-Length: ' . strlen($this->buffer));
             header('Accept-Ranges: bytes');
