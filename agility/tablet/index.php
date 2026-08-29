@@ -334,7 +334,9 @@ $('#seltablet-Prueba').combogrid({
 		var p=pru.datagrid('getSelected');
 		var j=$('#seltablet-Jornada');
 		if (p===null) return; // no selection
-		setPrueba(p); // retorna jornada, o 0 si la prueba ha cambiado
+		if (parseInt(p.ID) !== workingData.prueba) {
+			setPrueba(p); // retorna jornada, o 0 si la prueba ha cambiado
+		}
 		j.combogrid('clear');
 		j.combogrid('grid').datagrid('load',{Prueba:p.ID});
 	},
