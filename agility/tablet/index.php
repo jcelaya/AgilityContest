@@ -387,6 +387,15 @@ $('#seltablet-Jornada').combogrid({
 		param.AllowClosed=0;
 		param.HideUnassigned=1;
 		return true;
+	},
+	onLoadSuccess: function(data) {
+		// Select journey with today's date
+		today = Math.floor(Date.now() / 86400000) * 86400000;
+		for (journey of data.rows) {
+			if (Date.parse(journey.Fecha) === today) {
+				$('#seltablet-Jornada').combogrid('setValue', journey);
+			}
+		}
 	}
 });
 
