@@ -1,3 +1,6 @@
+Version 4.8.3 20260829_0000
+    - Fix keeping track of current journey
+    - Auto-select today's journey in tablet
 Version 4.8.2 20260510_0000
     - XAMPP 7.4 x86_64
     - Fix printing partial results for X-L-M-ST
