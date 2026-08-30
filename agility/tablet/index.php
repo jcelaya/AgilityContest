@@ -165,6 +165,7 @@ function initialize() {
 		}
 	});
     if (ac_authInfo.ID == 0) {
+		setupLoginDialog();
 		$('#seltablet-dialog').dialog('open');
     }
 }
@@ -306,98 +307,126 @@ $('#seltablet-Sesion').combogrid({
     }
 });
 
-$('#seltablet-Prueba').combogrid({
-	panelWidth: 500,
-	panelHeight: 150,
-	idField: 'ID',
-	textField: 'Nombre',
-	url: '../ajax/database/pruebaFunctions.php?Operation=enumerate',
-	method: 'get',
-	mode: 'remote',
-	required: true,
-	multiple: false,
-	fitColumns: true,
-	singleSelect: true,
-	editable: false,  // to disable tablet keyboard popup
-	selectOnNavigation: true, // let use cursor keys to interactive select
-	columns: [[
-		{field:'ID',			hidden:true},
-		{field:'Nombre',		title:'<?php _e('Name');?>',		width:'50%',	align:'right'},
-		{field:'Club',			hidden:true},
-		{field:'NombreClub',	title:'<?php _e('Club');?>',		width:'30%',	align:'right'},
-		{field:'RSCE',			title:'<?php _e('Fed');?>',			width:'10%',	align:'center', formatter:formatFederation},
-		{field:'Observaciones',	hidden:true},
-        {field:'Inscritos',		hidden:true}
-	]],
-	onChange:function(value){
-		var pru=$('#seltablet-Prueba').combogrid('grid');
-		var p=pru.datagrid('getSelected');
-		var j=$('#seltablet-Jornada');
-		if (p===null) return; // no selection
-		if (parseInt(p.ID) !== workingData.prueba) {
-			setPrueba(p); // retorna jornada, o 0 si la prueba ha cambiado
+function setupLoginDialog() {
+	$('#seltablet-Prueba').combogrid({
+		panelWidth: 500,
+		panelHeight: 150,
+		idField: 'ID',
+		textField: 'Nombre',
+		url: '../ajax/database/pruebaFunctions.php?Operation=enumerate',
+		method: 'get',
+		mode: 'remote',
+		required: true,
+		multiple: false,
+		fitColumns: true,
+		singleSelect: true,
+		editable: false,  // to disable tablet keyboard popup
+		selectOnNavigation: true, // let use cursor keys to interactive select
+		columns: [[
+			{field:'ID',			hidden:true},
+			{field:'Nombre',		title:'<?php _e('Name');?>',		width:'50%',	align:'right'},
+			{field:'Club',			hidden:true},
+			{field:'NombreClub',	title:'<?php _e('Club');?>',		width:'30%',	align:'right'},
+			{field:'RSCE',			title:'<?php _e('Fed');?>',			width:'10%',	align:'center', formatter:formatFederation},
+			{field:'Observaciones',	hidden:true},
+			{field:'Inscritos',		hidden:true}
+		]],
+		onChange:function(value){
+			var pru=$('#seltablet-Prueba').combogrid('grid');
+			var p=pru.datagrid('getSelected');
+			var j=$('#seltablet-Jornada');
+			if (p===null) return; // no selection
+			if (parseInt(p.ID) !== workingData.prueba) {
+				setPrueba(p); // retorna jornada, o 0 si la prueba ha cambiado
+			}
+			j.combogrid('clear');
+			j.combogrid('grid').datagrid('load',{Prueba:p.ID});
+		},
+		onLoadSuccess: function() {
+			$('#seltablet-Prueba').combogrid('grid').datagrid('selectRow', 0);
+			$('#seltablet-Username').textbox('textbox').focus();
 		}
-		j.combogrid('clear');
-		j.combogrid('grid').datagrid('load',{Prueba:p.ID});
-	},
-	onLoadSuccess: function() {
-		$('#seltablet-Prueba').combogrid('grid').datagrid('selectRow', 0);
-		$('#seltablet-Username').textbox('textbox').focus();
-	}
-});
+	});
 
-$('#seltablet-Jornada').combogrid({
-	panelWidth: 550,
-	panelHeight: 150,
-	idField: 'ID',
-	textField: 'Nombre',
-	url: '../ajax/database/jornadaFunctions.php',
-	method: 'get',
-	mode: 'remote',
-	required: true,
-	multiple: false,
-	fitColumns: true,
-	singleSelect: true,
-	editable: false, // to disable tablet keyboard popup
-	columns: [[
-	    { field:'ID',			hidden:true }, // ID de la jornada
-	    { field:'Prueba',		hidden:true }, // ID de la prueba
-	    { field:'Numero',		width:4, sortable:false,	align:'center', title: '#'},
-		{ field:'Nombre',		width:40, sortable:false,   align:'right',  title: '<?php _e('Name/Comment');?>' },
-		{ field:'Fecha',		hidden:true},
-		{ field:'Hora',			hidden:true},
-        { field:'PreAgility',	width:7, sortable:false,	align:'center', title: 'PreAg. ', formatter:formatPreAgility },
-        { field:'Children',	    width:7, sortable:false,	align:'center', title: 'Children', formatter:formatOk },
-        { field:'Junior',	    width:7, sortable:false,	align:'center', title: 'Junior ', formatter:formatOk },
-        { field:'Senior',	    width:7, sortable:false,	align:'center', title: 'Senior ', formatter:formatOk },
-        { field:'ParaAgility',  width:7, sortable:false,	align:'center', title: 'ParaAg.', formatter:formatOk },
-		{ field:'Grado1',		width:7, sortable:false,	align:'center', title: 'G-I    ', formatter:formatGrado1 },
-		{ field:'Grado2',		width:7, sortable:false,	align:'center', title: 'G-II   ', formatter:formatOk },
-		{ field:'Grado3',		width:7, sortable:false,	align:'center', title: 'G-III  ', formatter:formatOk },
-		{ field:'Open',		    width:7, sortable:false,	align:'center', title: 'Open   ', formatter:formatOk },
-		{ field:'Equipos3',		width:11, sortable:false,	align:'center', title: 'Equipos', formatter:formatTeamDogs },
-		{ field:'Equipos4',		hidden:true},
-		{ field:'KO',			width:7, sortable:false,	align:'center', title: 'K.O.   ', formatter:formatOk },
-		{ field:'Especial',		width:6, sortable:false,	align:'center', title: 'Show   ', formatter:formatOk }
-	]],
-	onBeforeLoad: function(param) {
-	    if (typeof(workingData.prueba)=="undefined") return false;
-		param.Operation='enumerate';
-		param.Prueba=workingData.prueba;
-		param.AllowClosed=0;
-		param.HideUnassigned=1;
-		return true;
-	},
-	onLoadSuccess: function(data) {
-		// Select journey with today's date
-		today = Math.floor(Date.now() / 86400000) * 86400000;
-		for (journey of data.rows) {
-			if (Date.parse(journey.Fecha) === today) {
-				$('#seltablet-Jornada').combogrid('setValue', journey);
+	$('#seltablet-Jornada').combogrid({
+		panelWidth: 550,
+		panelHeight: 150,
+		idField: 'ID',
+		textField: 'Nombre',
+		url: '../ajax/database/jornadaFunctions.php',
+		method: 'get',
+		mode: 'remote',
+		required: true,
+		multiple: false,
+		fitColumns: true,
+		singleSelect: true,
+		editable: false, // to disable tablet keyboard popup
+		columns: [[
+			{ field:'ID',			hidden:true }, // ID de la jornada
+			{ field:'Prueba',		hidden:true }, // ID de la prueba
+			{ field:'Numero',		width:4, sortable:false,	align:'center', title: '#'},
+			{ field:'Nombre',		width:40, sortable:false,   align:'right',  title: '<?php _e('Name/Comment');?>' },
+			{ field:'Fecha',		hidden:true},
+			{ field:'Hora',			hidden:true},
+			{ field:'PreAgility',	width:7, sortable:false,	align:'center', title: 'PreAg. ', formatter:formatPreAgility },
+			{ field:'Children',	    width:7, sortable:false,	align:'center', title: 'Children', formatter:formatOk },
+			{ field:'Junior',	    width:7, sortable:false,	align:'center', title: 'Junior ', formatter:formatOk },
+			{ field:'Senior',	    width:7, sortable:false,	align:'center', title: 'Senior ', formatter:formatOk },
+			{ field:'ParaAgility',  width:7, sortable:false,	align:'center', title: 'ParaAg.', formatter:formatOk },
+			{ field:'Grado1',		width:7, sortable:false,	align:'center', title: 'G-I    ', formatter:formatGrado1 },
+			{ field:'Grado2',		width:7, sortable:false,	align:'center', title: 'G-II   ', formatter:formatOk },
+			{ field:'Grado3',		width:7, sortable:false,	align:'center', title: 'G-III  ', formatter:formatOk },
+			{ field:'Open',		    width:7, sortable:false,	align:'center', title: 'Open   ', formatter:formatOk },
+			{ field:'Equipos3',		width:11, sortable:false,	align:'center', title: 'Equipos', formatter:formatTeamDogs },
+			{ field:'Equipos4',		hidden:true},
+			{ field:'KO',			width:7, sortable:false,	align:'center', title: 'K.O.   ', formatter:formatOk },
+			{ field:'Especial',		width:6, sortable:false,	align:'center', title: 'Show   ', formatter:formatOk }
+		]],
+		onBeforeLoad: function(param) {
+			if (typeof(workingData.prueba)=="undefined") return false;
+			param.Operation='enumerate';
+			param.Prueba=workingData.prueba;
+			param.AllowClosed=0;
+			param.HideUnassigned=1;
+			return true;
+		},
+		onLoadSuccess: function(data) {
+			// Select journey with today's date
+			today = Math.floor(Date.now() / 86400000) * 86400000;
+			for (journey of data.rows) {
+				if (Date.parse(journey.Fecha) === today) {
+					$('#seltablet-Jornada').combogrid('setValue', journey);
+				}
 			}
 		}
-	}
-});
+	});
+
+	$('#seltablet-Username').textbox({
+		required:true,
+		value:'<?php echo $cm_user;?>',
+		validType:'length[1,255]',
+		disabled: <?php echo ($cm_user!=="")? 'true':'false';?>,
+		iconCls:'icon-man'
+	}).bind('keypress', function (evt) {
+		//on Enter key on login field focus on password
+		if (evt.keyCode !== 13) return true;
+		$('#seltablet-Password').focus();
+		return false;
+	});
+
+	$('#seltablet-Password').textbox({
+		required:true,
+		value:'<?php echo $cm_password;?>',
+		validType:'length[1,255]',
+		disabled: <?php echo ($cm_password!=="")? 'true':'false';?>,
+		iconCls:'icon-lock'
+	}).bind('keypress', function (evt) {
+	//on Enter key on password field jump to Session selection
+		if (evt.keyCode !== 13) return true;
+		$('#seltablet-Sesion').next().find('input').focus();
+		return false;
+	});
+}
 
 function tablet_acceptSelectJornada() {
 	// si prueba invalida cancelamos operacion
@@ -494,33 +523,6 @@ function tabletLoginSuccessful(data, p, j) {
 		}
 	); // load
 }
-
-$('#seltablet-Username').textbox({
-    required:true,
-    value:'<?php echo $cm_user;?>',
-    validType:'length[1,255]',
-    disabled: <?php echo ($cm_user!=="")? 'true':'false';?>,
-    iconCls:'icon-man'
-}).bind('keypress', function (evt) {
-    //on Enter key on login field focus on password
-    if (evt.keyCode !== 13) return true;
-    $('#seltablet-Password').focus();
-    return false;
-});
-
-$('#seltablet-Password').textbox({
-    required:true,
-    value:'<?php echo $cm_password;?>',
-    validType:'length[1,255]',
-    disabled: <?php echo ($cm_password!=="")? 'true':'false';?>,
-    iconCls:'icon-lock'
-}).bind('keypress', function (evt) {
-//on Enter key on password field jump to Session selection
-    if (evt.keyCode !== 13) return true;
-    $('#seltablet-Sesion').next().find('input').focus();
-    return false;
-});
-
 
 </script>
 </body>
