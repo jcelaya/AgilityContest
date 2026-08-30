@@ -407,7 +407,7 @@ function setupLoginDialog() {
 		validType:'length[1,255]',
 		disabled: <?php echo ($cm_user!=="")? 'true':'false';?>,
 		iconCls:'icon-man'
-	}).bind('keypress', function (evt) {
+	}).textbox('textbox').bind('keypress', function (evt) {
 		//on Enter key on login field focus on password
 		if (evt.keyCode !== 13) return true;
 		$('#seltablet-Password').focus();
@@ -420,10 +420,10 @@ function setupLoginDialog() {
 		validType:'length[1,255]',
 		disabled: <?php echo ($cm_password!=="")? 'true':'false';?>,
 		iconCls:'icon-lock'
-	}).bind('keypress', function (evt) {
-	//on Enter key on password field jump to Session selection
+	}).textbox('textbox').bind('keypress', function (evt) {
+		//on Enter key on password field click on ok button
 		if (evt.keyCode !== 13) return true;
-		$('#seltablet-Sesion').next().find('input').focus();
+    	$('#seltablet-okBtn').click();
 		return false;
 	});
 }
