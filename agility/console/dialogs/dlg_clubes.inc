@@ -50,7 +50,8 @@ if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth F
         <div class="fitem">
             <label for="clubes-Nombre"><?php _e('Name'); ?>:</label>
             <input id="clubes-Nombre" name="Nombre"	type="text" style="width:350px"/>
-            <input id="clubes-ID" name="ID" type="hidden" /> <!-- used to allow operator change club name -->
+            <label for="clubes-ID">ID:</label>
+            <input id="clubes-ID" name="ID" readonly style="border:0"/>
             <input id="clubes-Operation" name="Operation" type="hidden" /> <!-- inser/update/delete -->
         </div>
         <div class="fitem">
