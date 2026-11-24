@@ -144,9 +144,15 @@ $('#ordentandas-datagrid').datagrid({
             { field:'Cerrada',	width:25, sortable:false, align:'center',title:'<?php _e('Private'); ?>',formatter:formatOpenCloseTanda},
       		{ field:'Comentario',width:120, sortable:false, align:'left',title:'<?php _e('Comments'); ?>'},
       		{ field:'Categoria',hidden:true },
+      		{ field:'Participantes',hidden:true },
       		{ field:'Grado',	hidden:true }
     ]],
     rowStyler:myRowStyler,
+    loadFilter: function(data) {
+        data.rows = data.rows.filter((tanda) => tanda.Participantes != "0");
+        data.total = data.rows.length;
+        return data;
+    },
     onDblClickRow: function() { editTanda('#ordentandas-datagrid'); },
     onLoadSuccess: function() { // get focus on datagrid (to bind keystrokes) and enable drag and drop
     	$(this).datagrid('enableDnd');
