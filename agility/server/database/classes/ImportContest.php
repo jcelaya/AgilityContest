@@ -386,8 +386,8 @@ class ImportContest extends DBObject {
         // Create 8 default jornadas + 1 default team each (mirrors Pruebas::insert())
         $today = date("Y-m-d");
         for ($n = 1; $n < 9; $n++) {
-            $sql = "INSERT INTO jornadas (Prueba,Numero,Nombre,Fecha,Hora,Equipos3,Equipos4)
-                    VALUES ({$pruebaId},{$n},'-- Sin asignar --','{$today}','08:30:00',0,0)";
+            $sql = "INSERT INTO jornadas (Prueba,Numero,Nombre,Fecha,Hora,Equipos3,Equipos4,Tipo_Competicion)
+                    VALUES ({$pruebaId},{$n},'-- Sin asignar --','{$today}','08:30:00',0,0,8)";
             if (!$this->query($sql)) {
                 throw new Exception("ImportContest: cannot create jornada {$n}: " . $this->conn->error);
             }
